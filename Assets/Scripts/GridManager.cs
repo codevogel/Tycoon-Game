@@ -19,11 +19,19 @@ public class GridManager : MonoBehaviour
         PopulateGrid();
     }
 
+    #region Grid Population
+    
+    /// <summary>
+    /// Initialize the grid.
+    /// </summary>
     private void CreateGrid()
     {
         grid = new Tile[gridSize.x, gridSize.y];
     }
 
+    /// <summary>
+    /// Populates the grid with Tile objects.
+    /// </summary>
     private void PopulateGrid()
     {
         Vector3 startPosition = Vector3.zero + new Vector3(tileWidth.x / 2, 0, tileWidth.y / 2);
@@ -41,38 +49,58 @@ public class GridManager : MonoBehaviour
             currentPosition.z += tileWidth.y;
         }
     }
+    #endregion
 
+    #region Utilities
+
+    /// <summary>
+    /// Attempts to get the tile indeces from the hovered tile
+    /// </summary>
+    /// <returns>Tuple of (bool exists, Vector2Int)</returns>
+    public (bool exists, Vector2Int indices) GetTileCoordsFromMousePos()
+    {
+        RaycastHit hit;
+        if (GetFloorPointFromMouse(out hit))
+        {
+            return (true, WorldPosToGridIndices(hit.point));
+        }
+        return (false , new Vector2Int(-1, -1));
+    }
+
+    /// <summary>
+    /// Get the current floor point under the hit.
+    /// </summary>
+    /// <param name="hit">The RaycastHit struct to store the hit information in.</param>
+    /// <returns>Whether a floor point was found.</returns>
     public bool GetFloorPointFromMouse(out RaycastHit hit)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Floor"));
     }
 
-    public Vector2Int GetCoordsFromMousePos()
-    {
-        RaycastHit hit;
-        if (GetFloorPointFromMouse(out hit))
-        {
-            return WorldPosToGridCoords(hit.point);
-        }
-        return new Vector2Int(-1, -1);
-    }
-
-    private Vector2Int WorldPosToGridCoords(Vector3 point)
+    /// <summary>
+    /// Convert a world position to the corresponding tile indices.
+    /// </summary>
+    /// <param name="point">The world position point to convert.</param>
+    /// <returns>The corresponding indices.</returns>
+    private Vector2Int WorldPosToGridIndices(Vector3 point)
     {
         return new Vector2Int((int)(point.x / tileWidth.x), (int)(point.z / tileWidth.y));
-
     }
+
+    #endregion
+
+    #region Dev
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
         Tile hoverTile = null;
-        Vector2Int hoverTileIndices = GetCoordsFromMousePos();
-        if (hoverTileIndices.x > -1 && hoverTileIndices.y > -1)
+        (bool exists, Vector2Int indices) hoverTileIndices = GetTileCoordsFromMousePos();
+        if (hoverTileIndices.exists)
         {
-            hoverTile = grid[hoverTileIndices.y, hoverTileIndices.x];
+            hoverTile = grid[hoverTileIndices.indices.y, hoverTileIndices.indices.x];
         }
 
         if (Application.isPlaying)
@@ -91,4 +119,6 @@ public class GridManager : MonoBehaviour
             Gizmos.DrawWireSphere(hit.point, .25f);
         }
     }
+
+    #endregion
 }
