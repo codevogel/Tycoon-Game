@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd59cadd91b00574c90d50c0538d09fb, type: 3}
-  m_Name: Ammo
+  m_Name: Minerals
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 2
   Sprite: {fileID: 0}
   Description: 

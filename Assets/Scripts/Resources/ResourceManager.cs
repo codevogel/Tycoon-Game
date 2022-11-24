@@ -6,28 +6,17 @@ using UnityEngine;
 
 public class ResourceManager : SingletonBehaviour<ResourceManager>
 {
-    [TableList] public ResourceStorage[] resources;
+    public ResourceUI[] uiObjects;
+    [TableList] public Resource[] resources;
 
     [Button]
     public void ResetResources()
     {
-        Resource[] resource = FindAssetsByType<Resource>().ToArray();
-        resources = new ResourceStorage[resource.Length];
-        for (int i = 0; i < resource.Length; i++)
+        uiObjects = FindAssetsByType<ResourceUI>().ToArray();
+        resources = new Resource[uiObjects.Length];
+        for (int i = 0; i < uiObjects.Length; i++)
         {
-            resources[i] = new ResourceStorage(resource[i]);
-        }
-    }
-
-    [Serializable]
-    public class ResourceStorage
-    {
-        public Resource Resource;
-        public int Amount;
-        public ResourceStorage(Resource resource, int amount = 0)
-        {
-            Resource = resource;
-            Amount = amount;
+            resources[i] = new Resource(uiObjects[i].Type);
         }
     }
 
