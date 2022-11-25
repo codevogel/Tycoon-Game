@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class BaseTower : MonoBehaviour
@@ -18,16 +16,16 @@ public class BaseTower : MonoBehaviour
         _ps = GetComponentInChildren<ParticleSystem>();
     }
 
-    void Update()
+    private void Update()
     {
         BarrelBehaviour();
-        setTimer();
+        SetTimer();
     }
 
     /// <summary>
     /// Barrel Aiming Behaviour
     /// </summary>
-    public void BarrelBehaviour()
+    private void BarrelBehaviour()
     {
         if (enemyList.Count > 0)
         {
@@ -48,15 +46,12 @@ public class BaseTower : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (enemyList.Contains(other.gameObject))
-        {
-            if (_timer > cooldown)
-            {
-                enemyList[0].GetComponent<BaseEnemy>().health -= damage;
-                _timer = 0;
-                _ps.Play();
-            }
-        }
+        if (!enemyList.Contains(other.gameObject)) return;
+        if (!(_timer > cooldown)) return;
+        
+        enemyList[0].GetComponent<BaseEnemy>().health -= damage;
+        _timer = 0;
+        _ps.Play();
     }
 
     private void OnTriggerExit(Collider other)
@@ -69,7 +64,7 @@ public class BaseTower : MonoBehaviour
         }
     }
 
-    private void setTimer()
+    private void SetTimer()
     {
         _timer += Time.deltaTime;
     }

@@ -273,7 +273,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b1e29a19652322e47ad246f6afbf83bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -520,10 +520,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3843330220761744687, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
-      propertyPath: CollisionModule.m_Planes.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134274, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_Name
       value: Tower
@@ -534,15 +530,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.99
+      value: -8.6
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.57
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.65
+      value: 16.89
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -765,7 +761,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825683987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.84, y: 0.57, z: 0}
+  m_LocalPosition: {x: -2.97, y: 0.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1148,8 +1144,8 @@ Camera:
   m_GameObject: {fileID: 2132317204}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.18659653, g: 0.14978638, b: 0.3207547, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1190,7 +1186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132317204}
   m_LocalRotation: {x: 0.25713277, y: 0, z: 0, w: 0.9663761}
-  m_LocalPosition: {x: 0, y: 4.65, z: -6.52}
+  m_LocalPosition: {x: 0, y: 21.2, z: -18.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1215,15 +1211,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.57
+      value: 2.85
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.65
+      value: 16.71
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_LocalRotation.w

@@ -24,12 +24,17 @@ public class BaseEnemy : MonoBehaviour
     {
         if (activateTarget)
         {
+            _navMeshAgent.isStopped = false;
             SetTarget(target);
+        }
+        else
+        {
+            _navMeshAgent.isStopped = true;
         }
     }
 
-    private void SetTarget(Transform target)
+    private void SetTarget(Transform targetObj)
     {
-        _navMeshAgent.SetDestination(target.position);
+        _navMeshAgent.SetDestination(targetObj.position);
     }
 }
