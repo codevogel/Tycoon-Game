@@ -1,38 +1,57 @@
 using Sirenix.OdinInspector;
-using System;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ResourceManager : SingletonBehaviour<ResourceManager>
 {
     public ResourceUI[] uiObjects;
-    [TableList] public Resource[] resources;
+    [TableList, SerializeField] private Resource[] resources;
+
+    public void AddResource(Resource resource)
+    {
+        resources[(int)resource.Type].Amount += resource.Amount;
+        if (resource.Type == ResourceType.People) resources[(int)ResourceType.AvailablePeople].Amount += resource.Amount;
+    }
+
+    public void AddResource(Resource[] resources)
+    {
+        for (int i = 0; i < resources.Length; i++)
+        {
+            AddResource(resources[i]);
+        }
+    }
+
+    public void RemoveResource(Resource resource)
+    {
+        resources[(int)resource.Type].Amount -= resource.Amount;
+        if (resource.Type == ResourceType.People) resources[(int)ResourceType.AvailablePeople].Amount -= resource.Amount;
+    }
+
+    public void RemoveResource(Resource[] resources)
+    {
+        for (int i = 0; i < resources.Length; i++)
+        {
+            RemoveResource(resources[i]);
+        }
+    }
+
+    public bool CheckEnoughResources(Resource resource)
+    {
+        return Resource.CheckEnoughResources(resources, resource);
+    }
+
+    public bool CheckEnoughResources(Resource[] resources)
+    {
+        return Resource.CheckEnoughResources(this.resources, resources);
+    }
 
     [Button]
     public void ResetResources()
     {
-        uiObjects = FindAssetsByType<ResourceUI>().ToArray();
-        resources = new Resource[uiObjects.Length];
-        for (int i = 0; i < uiObjects.Length; i++)
+        uiObjects = UsefullFunctions.FindAssetsByType<ResourceUI>().ToArray();
+        resources = new Resource[Resource.TypeCount];
+        for (int i = 0; i < Resource.TypeCount; i++)
         {
-            resources[i] = new Resource(uiObjects[i].Type);
+            resources[i] = new Resource((ResourceType)i);
         }
-    }
-
-    public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
-    {
-        List<T> assets = new List<T>();
-        string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
-        for (int i = 0; i < guids.Length; i++)
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-            T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            if (asset != null)
-            {
-                assets.Add(asset);
-            }
-        }
-        return assets;
     }
 }
