@@ -9,19 +9,23 @@ public class BaseEnemy : MonoBehaviour
     public int health = 100;
 
     [SerializeField] private Transform target;
+    [SerializeField] private bool activateTarget;
 
     private NavMeshAgent _navMeshAgent;
+    private Action<BaseEnemy> _killAction;
 
-    [SerializeField] private bool activateTarget;
+    private Vector3 _startPos;
 
     // Start is called before the first frame update
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _startPos = transform.localPosition;
     }
 
     private void Update()
     {
+        target = EnemySpawner.Instance.currentTarget;
         if (activateTarget)
         {
             _navMeshAgent.isStopped = false;
@@ -30,6 +34,18 @@ public class BaseEnemy : MonoBehaviour
         else
         {
             _navMeshAgent.isStopped = true;
+        }
+
+        CheckHealth();
+    }
+
+
+    private void CheckHealth()
+    {
+        if (health <= 0)
+        {
+            EnemySpawner.Instance.KillEnemy(gameObject);
+            transform.localPosition = _startPos;
         }
     }
 

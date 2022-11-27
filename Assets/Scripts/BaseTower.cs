@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class BaseTower : MonoBehaviour
     [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
     private ParticleSystem _ps;
     private float _timer;
+    private GameObject[] hej = new GameObject[3];
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class BaseTower : MonoBehaviour
     {
         BarrelBehaviour();
         SetTimer();
+        CheckInactive();
     }
 
     /// <summary>
@@ -48,7 +51,7 @@ public class BaseTower : MonoBehaviour
     {
         if (!enemyList.Contains(other.gameObject)) return;
         if (!(_timer > cooldown)) return;
-        
+
         enemyList[0].GetComponent<BaseEnemy>().health -= damage;
         _timer = 0;
         _ps.Play();
@@ -63,6 +66,15 @@ public class BaseTower : MonoBehaviour
             enemyList.Remove(other.gameObject);
         }
     }
+
+    private void CheckInactive()
+    {
+        foreach (var enemy in enemyList.ToArray().Where(enemy => !enemy.activeSelf))
+        {
+            enemyList.Remove(enemy);
+        }
+    }
+
 
     private void SetTimer()
     {
