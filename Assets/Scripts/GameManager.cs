@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public int EnemyBaseHealth = 100;
+    public int enemyBaseHealth = 100;
 
     private void Awake()
     {

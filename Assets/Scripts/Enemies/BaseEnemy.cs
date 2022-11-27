@@ -18,7 +18,7 @@ public class BaseEnemy : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        health = GameManager.Instance.EnemyBaseHealth;
+        health = GameManager.Instance.enemyBaseHealth;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _startPos = transform.localPosition;
     }
@@ -36,20 +36,20 @@ public class BaseEnemy : MonoBehaviour
             _navMeshAgent.isStopped = true;
         }
 
-        CheckHealth();
+        OnDeath();
     }
 
 
-    private void CheckHealth()
+    private void OnDeath()
     {
         if (health > 0) return;
         transform.localPosition = _startPos;
         EnemySpawner.Instance.KillEnemy(gameObject);
-        health = GameManager.Instance.EnemyBaseHealth;
+        health = GameManager.Instance.enemyBaseHealth;
     }
 
     private void SetTarget(Transform targetObj)
     {
-        _navMeshAgent.SetDestination(targetObj.position);
+        _navMeshAgent.SetDestination(targetObj.position);//sets navmesh target
     }
 }

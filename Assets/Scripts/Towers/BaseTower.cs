@@ -11,7 +11,6 @@ public class BaseTower : MonoBehaviour
     [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
     private ParticleSystem _ps;
     private float _timer;
-    private GameObject[] hej = new GameObject[3];
 
     private void Awake()
     {
@@ -67,6 +66,9 @@ public class BaseTower : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check if gameobject in list is inactive
+    /// </summary>
     private void CheckInactive()
     {
         foreach (var enemy in enemyList.ToArray().Where(enemy => !enemy.activeSelf))
@@ -74,7 +76,6 @@ public class BaseTower : MonoBehaviour
             enemyList.Remove(enemy);
         }
     }
-
 
     private void SetTimer()
     {
