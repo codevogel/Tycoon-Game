@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -8,9 +9,12 @@ public class EnemySpawner : MonoBehaviour
     public Transform currentTarget;
 
     [SerializeField] private GameObject enemyPrefab;
+
     [SerializeField] private int spawnCount;
 
     private ObjectPool<GameObject> _enemyPool;
+
+    public static int BaseHealth = 100;
 
     private void Awake()
     {
@@ -28,13 +32,8 @@ public class EnemySpawner : MonoBehaviour
     {
         CreateEnemyPool();
         Spawn();
-        // Update is called once per frameRespawn()
     }
 
-    private void Update()
-    {
-        Respawn();
-    }
 
     private void CreateEnemyPool()
     {
@@ -45,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
             Destroy, true, 10, 20);
     }
 
+    [Button("spawn dude")]
     private void Spawn()
     {
         for (var i = 0; i < spawnCount; i++)
@@ -54,17 +54,16 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    [Button("spawn enemy")]
     private void Respawn()
     {
-        if (_enemyPool.CountActive <= 5)
-        {
-            _enemyPool.Get();
-        }
+        _enemyPool.Get();
     }
 
     public void KillEnemy(GameObject obj)
     {
         _enemyPool.Release(obj);
+        
         obj.transform.localPosition = transform.localPosition;
     }
 }

@@ -6,19 +6,19 @@ using UnityEngine.AI;
 
 public class BaseEnemy : MonoBehaviour
 {
-    public int health = 100;
+    public int health;
 
     [SerializeField] private Transform target;
     [SerializeField] private bool activateTarget;
 
     private NavMeshAgent _navMeshAgent;
-    private Action<BaseEnemy> _killAction;
 
     private Vector3 _startPos;
 
     // Start is called before the first frame update
     private void Awake()
     {
+        health = GameManager.Instance.EnemyBaseHealth;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _startPos = transform.localPosition;
     }
@@ -42,11 +42,10 @@ public class BaseEnemy : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (health <= 0)
-        {
-            EnemySpawner.Instance.KillEnemy(gameObject);
-            transform.localPosition = _startPos;
-        }
+        if (health > 0) return;
+        transform.localPosition = _startPos;
+        EnemySpawner.Instance.KillEnemy(gameObject);
+        health = GameManager.Instance.EnemyBaseHealth;
     }
 
     private void SetTarget(Transform targetObj)
