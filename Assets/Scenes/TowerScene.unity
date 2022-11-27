@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2e3c7ee3c072f4ea3506cf51652182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyBaseHealth: 100
+  enemyBaseHealth: 100
 --- !u!4 &1018145769
 Transform:
   m_ObjectHideFlags: 0
@@ -565,13 +565,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3843330220761744687, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134274, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_Name
       value: Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 5922035846820134276, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
-      propertyPath: m_Radius
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5922035846820134329, guid: 7cc4b82b739f4e0478506f735d84f21f, type: 3}
       propertyPath: m_RootOrder
@@ -651,7 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 738113778}
   enemyPrefab: {fileID: 8543467033000699885, guid: 42d8677dd96295f4b91bb83ea5244f55, type: 3}
-  spawnCount: 10
+  spawnCount: 5
 --- !u!4 &1496026361
 Transform:
   m_ObjectHideFlags: 0

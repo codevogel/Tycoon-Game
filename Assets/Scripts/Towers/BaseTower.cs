@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Enemies;
@@ -28,6 +29,18 @@ namespace Towers
         }
 
         /// <summary>
+        /// Do damage to an enemy gameObject
+        /// </summary>
+        /// <param name="obj">enemy gameObject</param>
+        public void DoDamage(GameObject obj)
+        {
+            if (enemyList.Contains(obj))
+            {
+                obj.GetComponent<BaseEnemy>().health -= damage;
+            }
+        }
+
+        /// <summary>
         /// Barrel Aiming Behaviour
         /// </summary>
         private void BarrelBehaviour()
@@ -49,12 +62,11 @@ namespace Towers
             }
         }
 
+
         private void OnTriggerStay(Collider other)
         {
             if (!enemyList.Contains(other.gameObject)) return;
             if (!(_timer > cooldown)) return;
-
-            enemyList[0].GetComponent<BaseEnemy>().health -= damage;
             _timer = 0;
             _ps.Play();
         }
