@@ -10,12 +10,14 @@ namespace Towers
 {
     public class BaseTower : MonoBehaviour
     {
-        public int ammo = 100;
-        [SerializeField] private TextMeshPro ammoText;
+        [BoxGroup("ammo")] public int ammo = 100;
+
+        [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
         [SerializeField] private GameObject barrel;
         [SerializeField] private int damage = 10;
         [SerializeField] private float cooldown = 1f;
         [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
+
         private ParticleSystem _ps;
         private float _timer;
 
@@ -39,9 +41,9 @@ namespace Towers
         /// <param name="obj">enemy gameObject</param>
         public void DoDamage(GameObject obj)
         {
-            if (enemyList.Contains(obj))
+            if (obj.TryGetComponent(out BaseEnemy enemy))
             {
-                obj.GetComponent<BaseEnemy>().health -= damage;
+                enemy.health -= damage;
             }
         }
 
