@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Enemies;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 namespace Towers
 {
     public class BaseTower : MonoBehaviour
     {
+        public int ammo = 100;
+        [SerializeField] private TextMeshPro ammoText;
         [SerializeField] private GameObject barrel;
         [SerializeField] private int damage = 10;
         [SerializeField] private float cooldown = 1f;
         [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
         private ParticleSystem _ps;
         private float _timer;
+
 
         private void Awake()
         {
@@ -26,6 +30,7 @@ namespace Towers
             BarrelBehaviour();
             SetTimer();
             CheckInactive();
+            setText();
         }
 
         /// <summary>
@@ -66,8 +71,9 @@ namespace Towers
         private void OnTriggerStay(Collider other)
         {
             if (!enemyList.Contains(other.gameObject)) return;
-            if (!(_timer > cooldown)) return;
+            if (!(_timer > cooldown) && ammo > 0) return;
             _timer = 0;
+            ammo--;
             _ps.Play();
         }
 
@@ -95,6 +101,11 @@ namespace Towers
         private void SetTimer()
         {
             _timer += Time.deltaTime;
+        }
+
+        private void setText()
+        {
+            ammoText.text = ammo.ToString();
         }
     }
 }
