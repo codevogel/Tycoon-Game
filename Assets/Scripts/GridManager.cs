@@ -6,11 +6,18 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
 
+    public static GridManager instance;
+
     public GameObject tilePrefab;
     public Vector2Int gridSize;
     public Vector2 tileWidth;
 
-    public Tile[,] grid;
+    private Tile[,] grid;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +34,11 @@ public class GridManager : MonoBehaviour
     private void CreateGrid()
     {
         grid = new Tile[gridSize.x, gridSize.y];
+    }
+
+    internal Tile GetTileAt(Vector2Int coords)
+    {
+        return grid[coords.y, coords.x];
     }
 
     /// <summary>
@@ -51,21 +63,25 @@ public class GridManager : MonoBehaviour
     }
     #endregion
 
-    #region Utilities
-
+    #region Public Getters
     /// <summary>
     /// Attempts to get the tile indeces from the hovered tile
     /// </summary>
     /// <returns>Tuple of (bool exists, Vector2Int)</returns>
-    public (bool exists, Vector2Int indices) GetTileCoordsFromMousePos()
+    public TileCoordinates GetTileCoordsFromMousePos()
     {
         RaycastHit hit;
         if (GetFloorPointFromMouse(out hit))
         {
-            return (true, WorldPosToGridIndices(hit.point));
+            return new TileCoordinates(true, WorldPosToGridIndices(hit.point));
         }
-        return (false , new Vector2Int(-1, -1));
+        return new TileCoordinates(false, new Vector2Int(-1, -1));
     }
+    #endregion
+
+    #region Utilities
+
+
 
     /// <summary>
     /// Get the current floor point under the hit.
@@ -97,8 +113,8 @@ public class GridManager : MonoBehaviour
         Gizmos.color = Color.green;
 
         Tile hoverTile = null;
-        (bool exists, Vector2Int indices) hoverTileIndices = GetTileCoordsFromMousePos();
-        if (hoverTileIndices.exists)
+        TileCoordinates hoverTileIndices = GetTileCoordsFromMousePos();
+        if (hoverTileIndices.inBounds)
         {
             hoverTile = grid[hoverTileIndices.indices.y, hoverTileIndices.indices.x];
         }
@@ -108,7 +124,7 @@ public class GridManager : MonoBehaviour
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.go.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.TileObject.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 
@@ -121,4 +137,16 @@ public class GridManager : MonoBehaviour
     }
 
     #endregion
+
+    public struct TileCoordinates
+    {
+        public bool inBounds;
+        public Vector2Int indices;
+
+        public TileCoordinates(bool exist, Vector2Int indices)
+        {
+            this.inBounds = exist;
+            this.indices = indices;
+        }
+    }
 }
