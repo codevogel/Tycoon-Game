@@ -3,21 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class GridManager : SingletonBehaviour<GridManager>
 {
-
-    public static GridManager instance;
 
     public GameObject tilePrefab;
     public Vector2Int gridSize;
     public Vector2 tileWidth;
 
     private Tile[,] grid;
-
-    private void Awake()
-    {
-        instance = this;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +29,18 @@ public class GridManager : MonoBehaviour
         grid = new Tile[gridSize.x, gridSize.y];
     }
 
+    /// <summary>
+    /// Gets the tile at coords.
+    /// </summary>
+    /// <param name="coords">The coordinates for the tile</param>
+    /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
     internal Tile GetTileAt(Vector2Int coords)
     {
-        return grid[coords.y, coords.x];
+        if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
+        {
+            return grid[coords.y, coords.x];
+        }
+        return null;
     }
 
     /// <summary>
@@ -67,7 +69,7 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Attempts to get the tile indeces from the hovered tile
     /// </summary>
-    /// <returns>Tuple of (bool exists, Vector2Int)</returns>
+    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
     public TileCoordinates GetTileCoordsFromMousePos()
     {
         RaycastHit hit;
@@ -107,11 +109,11 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region Dev
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
+        // Get tile under mouse
         Tile hoverTile = null;
         TileCoordinates hoverTileIndices = GetTileCoordsFromMousePos();
         if (hoverTileIndices.inBounds)
@@ -121,6 +123,7 @@ public class GridManager : MonoBehaviour
 
         if (Application.isPlaying)
         {
+            // Draw tile gizmos
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
@@ -128,6 +131,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        // Draw point on floor below mouse
         RaycastHit hit;
         if (GetFloorPointFromMouse(out hit))
         {
@@ -138,9 +142,19 @@ public class GridManager : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Struct that stores grid coordinates along with
+    /// whether they are in bounds
+    /// </summary>
     public struct TileCoordinates
     {
+        /// <summary>
+        /// Whether the coordinates are in bounds of the grid
+        /// </summary>
         public bool inBounds;
+        /// <summary>
+        /// The index coordinates
+        /// </summary>
         public Vector2Int indices;
 
         public TileCoordinates(bool exist, Vector2Int indices)

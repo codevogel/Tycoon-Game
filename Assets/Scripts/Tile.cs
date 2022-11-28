@@ -8,11 +8,17 @@ public class Tile
     private MeshRenderer meshRenderer;
     private Transform buildingHolder;
 
+    /// <summary>
+    /// Gets the gameobject for this Tile.
+    /// </summary>
     public GameObject TileObject
     {
         get { return tileObject; }
     }
 
+    /// <summary>
+    /// Gets or sets the building on this tile.
+    /// </summary>
     public GameObject Building
     {
         get
@@ -25,11 +31,18 @@ public class Tile
         }
     }
 
+    /// <summary>
+    /// Get the building holder (the parent transform of a building).
+    /// </summary>
     public Transform BuildingHolder
     {
         get { return buildingHolder; }
     }
 
+    /// <summary>
+    /// Constructor for a Tile object
+    /// </summary>
+    /// <param name="go">The gameobject linked to this Tile.</param>
     public Tile(GameObject go)
     {
         this.tileObject = go;
