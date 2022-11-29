@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Enemies;
@@ -13,7 +12,8 @@ namespace Towers
         [BoxGroup("ammo")] public int ammo = 100;
 
         [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
-        [SerializeField] private GameObject barrel;
+
+        //  [SerializeField] private GameObject barrel;
         [SerializeField] private int damage = 10;
         [SerializeField] private float cooldown = 1f;
         [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
@@ -32,7 +32,7 @@ namespace Towers
             BarrelBehaviour();
             SetTimer();
             CheckInactive();
-            setText();
+            SetText();
         }
 
         /// <summary>
@@ -47,6 +47,14 @@ namespace Towers
             }
         }
 
+        private void OnParticleCollision(GameObject other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                DoDamage(other);
+            }
+        }
+
         /// <summary>
         /// Barrel Aiming Behaviour
         /// </summary>
@@ -55,39 +63,29 @@ namespace Towers
             if (enemyList.Count > 0)
             {
                 //aim at first enemy in list
-                barrel.transform.LookAt(enemyList?[0].transform);
+                transform.LookAt(enemyList?[0].transform);
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void AddEnemyToList(GameObject enemy)
         {
-            if (!other.CompareTag("Enemy")) return;
-            if (enemyList.Contains(other.gameObject) == false)
-            {
-                //add Enemy to list when colliding
-                enemyList.Add(other.gameObject);
-            }
+            enemyList.Add(enemy);
         }
 
-
-        private void OnTriggerStay(Collider other)
+        public void RemoveEnemyFromList(GameObject enemy)
         {
-            if (!enemyList.Contains(other.gameObject)) return;
-            if (!(_timer > cooldown) && ammo > 0) return;
+            enemyList.Remove(enemy);
+        }
+
+        public void EnemyInTrigger(GameObject enemy)
+        {
+            if (enemyList.Count <= 0) return;
+            if (!(_timer > cooldown) || ammo <= 0) return;
             _timer = 0;
             ammo--;
             _ps.Play();
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!other.CompareTag("Enemy")) return;
-            if (enemyList.Contains(other.gameObject))
-            {
-                //remove Enemy from list when exiting collider
-                enemyList.Remove(other.gameObject);
-            }
-        }
 
         /// <summary>
         /// Check if gameobject in list is inactive
@@ -105,7 +103,7 @@ namespace Towers
             _timer += Time.deltaTime;
         }
 
-        private void setText()
+        private void SetText()
         {
             ammoText.text = ammo.ToString();
         }

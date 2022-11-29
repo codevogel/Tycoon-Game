@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 5922035846245626294}
   - component: {fileID: 3843330220761744687}
   - component: {fileID: 5251865191186320749}
-  - component: {fileID: 1956314444778968110}
+  - component: {fileID: 4443259996412747260}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -2607,7 +2607,7 @@ ParticleSystem:
     randomizePerFrame: 0
   ExternalForcesModule:
     serializedVersion: 2
-    enabled: 1
+    enabled: 0
     multiplierCurve:
       serializedVersion: 2
       minMaxState: 0
@@ -5072,7 +5072,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &1956314444778968110
+--- !u!114 &4443259996412747260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5081,10 +5081,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5922035846245626295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddcfc5b86503daf4781a1cf47840fc58, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b93c389c9908ae4c83a03f121bb6c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseTower: {fileID: 5922035846820134277}
+  ammo: 100
+  ammoText: {fileID: 8282912712511951828}
+  damage: 10
+  cooldown: 1
+  enemyList: []
 --- !u!1 &5922035846820134274
 GameObject:
   m_ObjectHideFlags: 0
@@ -5097,13 +5101,13 @@ GameObject:
   - component: {fileID: 5922035846820134278}
   - component: {fileID: 5922035846820134279}
   - component: {fileID: 5922035846820134276}
-  - component: {fileID: 5922035846820134277}
+  - component: {fileID: 7976574414506438618}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5922035846820134329
 Transform:
@@ -5186,7 +5190,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5922035846820134277
+--- !u!114 &7976574414506438618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5195,12 +5199,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5922035846820134274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b93c389c9908ae4c83a03f121bb6c89, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb31e2391169b4cb7fc518c2624561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: 100
-  ammoText: {fileID: 8282912712511951828}
-  barrel: {fileID: 5922035846245626295}
-  damage: 10
-  cooldown: 1
-  enemyList: []
+  baseTower: {fileID: 4443259996412747260}
