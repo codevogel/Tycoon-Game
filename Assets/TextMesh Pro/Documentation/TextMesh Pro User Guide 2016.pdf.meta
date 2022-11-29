@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/TextMesh Pro/Fonts.meta
+guid: 6ab70aee4d56447429c680537fbf93ed
+folderAsset: yes
+=======
 guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+>>>>>>> Dev-Branch:Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

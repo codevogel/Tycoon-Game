@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GridManager;
@@ -7,18 +5,28 @@ using static GridManager;
 public class BuildingController : MonoBehaviour
 {
 
-    private GridManager gridManager;
+    /// <summary>
+    /// Reference to the static gridManager;
+    /// </summary>
+    private static GridManager gridManager;
 
+    [Header("Placeable Buildings")]
     public List<GameObject> placeableBuildings;
 
+    [Tooltip("Index of building being placed")]
     public int currentBuildingIndex = 0;
+    [Tooltip("Current rotation offset of the placed buildings")]
     public int currentRotation = 0;
+
+    // Amount of degrees to turn buildings each step.
+    private int rotationStep = 90;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        gridManager = GridManager.instance;
+        // Get reference after instance creation in Awake
+        gridManager = GridManager.Instance;
     }
 
     // Update is called once per frame
@@ -47,9 +55,12 @@ public class BuildingController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Attempts to place a building at the tile under the mouse.
+    /// </summary>
     private void AttemptToPlaceBuilding()
     {
+        // Get hovered tile coords
         TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
         if (coords.inBounds)
         {
@@ -65,6 +76,9 @@ public class BuildingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Attempts to remove a building at the tile under the mouse.
+    /// </summary>
     private void AttemptToRemoveBuilding()
     {
         TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
@@ -82,18 +96,26 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-
-
+    /// <summary>
+    /// Rotates the current building angle by rotationStep.
+    /// </summary>
     private void IncrementBuildingPlacementRotation()
     {
-        currentRotation = (currentRotation + 90) % 360;
+        currentRotation = (currentRotation + rotationStep) % 360;
     }
 
+    /// <summary>
+    /// Increments (and rolls-over) the currentBuildingIndex.
+    /// </summary>
     private void SelectNextBuilding()
     {
         currentBuildingIndex = (currentBuildingIndex + 1) % placeableBuildings.Count;
     }
 
+    /// <summary>
+    /// Places the currently selected building at targetTile.
+    /// </summary>
+    /// <param name="targetTile">The tile to place the building on.</param>
     private void PlaceBuildingAt(Tile targetTile)
     {
         Transform newBuilding = Instantiate(placeableBuildings[currentBuildingIndex], targetTile.BuildingHolder).transform;
@@ -101,6 +123,10 @@ public class BuildingController : MonoBehaviour
         targetTile.Building = newBuilding.gameObject;
     }
 
+    /// <summary>
+    /// Removes the building at targetTile.
+    /// </summary>
+    /// <param name="targetTile">The tile to remove the building on.</param>
     private void RemoveBuildingAt(Tile targetTile)
     {
         Destroy(targetTile.BuildingHolder.GetChild(0).gameObject);
