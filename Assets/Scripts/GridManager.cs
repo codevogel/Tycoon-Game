@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class GridManager : SingletonBehaviour<GridManager>
 {
 
     public GameObject tilePrefab;
     public Vector2Int gridSize;
     public Vector2 tileWidth;
 
-    public Tile[,] grid;
+    private Tile[,] grid;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,20 @@ public class GridManager : MonoBehaviour
     private void CreateGrid()
     {
         grid = new Tile[gridSize.x, gridSize.y];
+    }
+
+    /// <summary>
+    /// Gets the tile at coords.
+    /// </summary>
+    /// <param name="coords">The coordinates for the tile</param>
+    /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
+    internal Tile GetTileAt(Vector2Int coords)
+    {
+        if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
+        {
+            return grid[coords.y, coords.x];
+        }
+        return null;
     }
 
     /// <summary>
@@ -51,21 +65,25 @@ public class GridManager : MonoBehaviour
     }
     #endregion
 
-    #region Utilities
-
+    #region Public Getters
     /// <summary>
     /// Attempts to get the tile indeces from the hovered tile
     /// </summary>
-    /// <returns>Tuple of (bool exists, Vector2Int)</returns>
-    public (bool exists, Vector2Int indices) GetTileCoordsFromMousePos()
+    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
+    public TileCoordinates GetTileCoordsFromMousePos()
     {
         RaycastHit hit;
         if (GetFloorPointFromMouse(out hit))
         {
-            return (true, WorldPosToGridIndices(hit.point));
+            return new TileCoordinates(true, WorldPosToGridIndices(hit.point));
         }
-        return (false , new Vector2Int(-1, -1));
+        return new TileCoordinates(false, new Vector2Int(-1, -1));
     }
+    #endregion
+
+    #region Utilities
+
+
 
     /// <summary>
     /// Get the current floor point under the hit.
@@ -91,27 +109,29 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region Dev
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
+        // Get tile under mouse
         Tile hoverTile = null;
-        (bool exists, Vector2Int indices) hoverTileIndices = GetTileCoordsFromMousePos();
-        if (hoverTileIndices.exists)
+        TileCoordinates hoverTileIndices = GetTileCoordsFromMousePos();
+        if (hoverTileIndices.inBounds)
         {
             hoverTile = grid[hoverTileIndices.indices.y, hoverTileIndices.indices.x];
         }
 
         if (Application.isPlaying)
         {
+            // Draw tile gizmos
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.go.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.TileObject.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 
+        // Draw point on floor below mouse
         RaycastHit hit;
         if (GetFloorPointFromMouse(out hit))
         {
@@ -121,4 +141,26 @@ public class GridManager : MonoBehaviour
     }
 
     #endregion
+
+    /// <summary>
+    /// Struct that stores grid coordinates along with
+    /// whether they are in bounds
+    /// </summary>
+    public struct TileCoordinates
+    {
+        /// <summary>
+        /// Whether the coordinates are in bounds of the grid
+        /// </summary>
+        public bool inBounds;
+        /// <summary>
+        /// The index coordinates
+        /// </summary>
+        public Vector2Int indices;
+
+        public TileCoordinates(bool exist, Vector2Int indices)
+        {
+            this.inBounds = exist;
+            this.indices = indices;
+        }
+    }
 }
