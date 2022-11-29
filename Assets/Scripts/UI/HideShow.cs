@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum HideDirection{
     Up,
@@ -12,55 +13,68 @@ public class HideShow : MonoBehaviour
 {
     [SerializeField] private GameObject targetToHide;
     public RectTransform targetRect;
-    [SerializeReference] private HideDirection _direction;
-    private bool isHidden;
+    [SerializeReference] private HideDirection direction;
+    private bool _isHidden;
+    public float hideSpeed;
+    public bool _isMoving;
     private void Start()
     {
         targetRect = (RectTransform)targetToHide.transform;
-        isHidden = false;
+        _isHidden = false;
+        _isMoving = false;
     }
 
     public void HideObject(HideShow direction)
     {
-        switch (direction._direction)
+        if(_isMoving) return;
+        
+        switch (direction.direction)
         {
             case HideDirection.Up:
-                if (!isHidden) HideObjectUpwards();
+                if (!_isHidden) MoveObjectUpwards(true);
+                else MoveObjectDownwards(false);
                 return;
             case HideDirection.Down:
-                if (!isHidden) HideObjectDownwards();
+                if (!_isHidden) MoveObjectDownwards(true);
+                else MoveObjectUpwards(false);
                 return;
             case HideDirection.Left:
-                if (!isHidden) HideObjectLeftwards();
+                if (!_isHidden) MoveObjectLeftwards(true);
+                else MoveObjectRightwards(false);
                 return;
             case HideDirection.Right:
-                if (!isHidden) HideObjectRightwards();
+                if (!_isHidden) MoveObjectRightwards(true);
+                else MoveObjectLeftwards(false);
                 return;
         }
     }
 
-    private void HideObjectUpwards()
+    private void MoveObjectUpwards(bool isHidingObject)
     {
         Vector3 targetPosition = targetToHide.transform.position + new Vector3(0, targetRect.rect.height, 0);
-        StartCoroutine(LerpPosition(targetPosition, 2f));
+        _isHidden = isHidingObject;
+        StartCoroutine(LerpPosition(targetPosition, hideSpeed));
     }
     
-    private void HideObjectDownwards()
+    private void MoveObjectDownwards(bool isHidingObject)
     {
         Vector3 targetPosition = targetToHide.transform.position - new Vector3(0, targetRect.rect.height, 0);
-        StartCoroutine(LerpPosition(targetPosition, 2f));
+        _isHidden = isHidingObject;
+        StartCoroutine(LerpPosition(targetPosition, hideSpeed));
     }
     
-    private void HideObjectLeftwards()
+    private void MoveObjectLeftwards(bool isHidingObject)
     {
         Vector3 targetPosition = targetToHide.transform.position - new Vector3(targetRect.rect.width, 0, 0);
-        StartCoroutine(LerpPosition(targetPosition, 2f));
+        _isHidden = isHidingObject;
+        StartCoroutine(LerpPosition(targetPosition, hideSpeed));
     }
     
-    private void HideObjectRightwards()
+    private void MoveObjectRightwards(bool isHidingObject)
     {
         Vector3 targetPosition = targetToHide.transform.position + new Vector3(targetRect.rect.width, 0, 0);
-        StartCoroutine(LerpPosition(targetPosition, 2f));
+        _isHidden = isHidingObject;
+        StartCoroutine(LerpPosition(targetPosition, hideSpeed));
     }
     
     IEnumerator LerpPosition(Vector3 targetPosition, float duration)
@@ -69,11 +83,13 @@ public class HideShow : MonoBehaviour
         Vector3 startPosition = transform.position;
         while (time < duration)
         {
+            _isMoving = true;
             targetToHide.transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
-            isHidden = true;
             yield return null;
         }
         transform.position = targetPosition;
+        
+        _isMoving = false;
     }
 }
