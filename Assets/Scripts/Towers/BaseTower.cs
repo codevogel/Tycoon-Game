@@ -16,7 +16,7 @@ namespace Towers
         [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
 
         [BoxGroup("ammo")] [SerializeField] [Range(.75f, 1)]
-        private float ammoEfficiency;
+        private float efficiencyMultiplier;
 
         [BoxGroup("Shooting Behaviour")] [SerializeField]
         private int damage = 10;
@@ -77,7 +77,7 @@ namespace Towers
             transform.LookAt(_enemyList?[0].transform); //barrel looks at detected enemy
             if (!(_timer > cooldown) || ammo <= 0) return;
             _timer = 0;
-            ammo -= ammoEfficiency;
+            ammo -= efficiencyMultiplier; //ammo depletes based on ammo efficiency
             _bulletParticleSys.Play(); //play/shoot bullets/particles
         }
 

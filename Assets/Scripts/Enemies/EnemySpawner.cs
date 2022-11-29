@@ -57,7 +57,6 @@ namespace Enemies
         /// Spawn multiple enemies
         /// </summary>
         /// <param name="spawnAmount">amount to spawn</param>
-        [Button("spawn dude")]
         private void SpawnMultiple(int spawnAmount)
         {
             for (var i = 0; i < spawnAmount; i++)

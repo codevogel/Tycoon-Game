@@ -3,10 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe7580a-480a-4ad2-bc2c-c7c92f0a5b09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tycoon/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tycoon/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Tower.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tower.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TowerScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TowerScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemySpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemySpawner.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Towers/BaseTower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Towers/BaseTower.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Towers/EnemyDetection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Towers/EnemyDetection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,15 +29,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Discover.Launch.Via.Unity": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.14f1\Editor\Unity.exe" />
@@ -73,7 +76,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669709407254</updated>
-      <workItem from="1669709422485" duration="9201000" />
+      <workItem from="1669709422485" duration="9255000" />
+      <workItem from="1669721631557" duration="1334000" />
     </task>
     <servers />
   </component>

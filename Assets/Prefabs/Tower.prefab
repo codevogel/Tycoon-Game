@@ -5088,7 +5088,7 @@ MonoBehaviour:
   ammo: 100
   baseAmmo: 100
   ammoText: {fileID: 8282912712511951828}
-  ammoEffeciency: 1
+  efficiencyMultiplier: 1
   damage: 1
   cooldown: 1
 --- !u!1 &5922035846820134274

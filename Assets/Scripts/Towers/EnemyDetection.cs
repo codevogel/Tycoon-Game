@@ -6,7 +6,6 @@ namespace Towers
     {
         [SerializeField] private BaseTower baseTower;
 
-
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Enemy")) return;
