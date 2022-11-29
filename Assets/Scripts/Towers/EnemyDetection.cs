@@ -21,7 +21,7 @@ namespace Towers
 
         private void OnTriggerStay(Collider other)
         {
-            baseTower.EnemyInTrigger(other.gameObject);
+            baseTower.EnemyInTrigger();
         }
     }
 }

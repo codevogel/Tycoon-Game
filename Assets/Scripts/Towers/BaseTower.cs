@@ -9,42 +9,37 @@ namespace Towers
 {
     public class BaseTower : MonoBehaviour
     {
-        [BoxGroup("ammo")] public int ammo = 100;
+        [BoxGroup("ammo")] [ReadOnly] [SerializeField]
+        private float ammo = 100;
 
+        [BoxGroup("ammo")] [SerializeField] private int baseAmmo = 100;
         [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
 
-        //  [SerializeField] private GameObject barrel;
-        [SerializeField] private int damage = 10;
-        [SerializeField] private float cooldown = 1f;
-        [ReadOnly] [SerializeField] private List<GameObject> enemyList = new();
+        [BoxGroup("ammo")] [SerializeField] [Range(.75f, 1)]
+        private float ammoEfficiency;
 
-        private ParticleSystem _ps;
+        [BoxGroup("Shooting Behaviour")] [SerializeField]
+        private int damage = 10;
+
+        [BoxGroup("Shooting Behaviour")] [SerializeField]
+        private float cooldown = 1f;
+
+        private List<GameObject> _enemyList = new();
+        private ParticleSystem _bulletParticleSys;
         private float _timer;
 
 
         private void Awake()
         {
-            _ps = GetComponentInChildren<ParticleSystem>();
+            _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
+            ammo = baseAmmo;
         }
 
         private void Update()
         {
-            BarrelBehaviour();
             SetTimer();
             CheckInactive();
             SetText();
-        }
-
-        /// <summary>
-        /// Do damage to an enemy gameObject
-        /// </summary>
-        /// <param name="obj">enemy gameObject</param>
-        public void DoDamage(GameObject obj)
-        {
-            if (obj.TryGetComponent(out BaseEnemy enemy))
-            {
-                enemy.health -= damage;
-            }
         }
 
         private void OnParticleCollision(GameObject other)
@@ -56,45 +51,56 @@ namespace Towers
         }
 
         /// <summary>
-        /// Barrel Aiming Behaviour
+        /// add enemies to the detected list
         /// </summary>
-        private void BarrelBehaviour()
+        /// <param name="enemy">enemy to add to list</param>
+        public void AddEnemyToList(GameObject enemy)
         {
-            if (enemyList.Count > 0)
+            _enemyList.Add(enemy);
+        }
+
+        /// <summary>
+        /// remove enemies from the detected list
+        /// </summary>
+        /// <param name="enemy">enemy to remove to list</param>
+        public void RemoveEnemyFromList(GameObject enemy)
+        {
+            _enemyList.Remove(enemy);
+        }
+
+        /// <summary>
+        /// behaviour when an enemy enters/stays in radius
+        /// </summary>
+        public void EnemyInTrigger()
+        {
+            if (_enemyList.Count <= 0) return;
+            transform.LookAt(_enemyList?[0].transform); //barrel looks at detected enemy
+            if (!(_timer > cooldown) || ammo <= 0) return;
+            _timer = 0;
+            ammo -= ammoEfficiency;
+            _bulletParticleSys.Play(); //play/shoot bullets/particles
+        }
+
+        /// <summary>
+        /// Do damage to an enemy gameObject
+        /// </summary>
+        /// <param name="obj">enemy gameObject</param>
+        private void DoDamage(GameObject obj)
+        {
+            if (obj.TryGetComponent(out BaseEnemy enemy))
             {
-                //aim at first enemy in list
-                transform.LookAt(enemyList?[0].transform);
+                enemy.health -= damage;
             }
         }
 
-        public void AddEnemyToList(GameObject enemy)
-        {
-            enemyList.Add(enemy);
-        }
-
-        public void RemoveEnemyFromList(GameObject enemy)
-        {
-            enemyList.Remove(enemy);
-        }
-
-        public void EnemyInTrigger(GameObject enemy)
-        {
-            if (enemyList.Count <= 0) return;
-            if (!(_timer > cooldown) || ammo <= 0) return;
-            _timer = 0;
-            ammo--;
-            _ps.Play();
-        }
-
-
         /// <summary>
-        /// Check if gameobject in list is inactive
+        /// Check if gameObject in list is inactive
         /// </summary>
         private void CheckInactive()
         {
-            foreach (var enemy in enemyList.ToArray().Where(enemy => !enemy.activeSelf))
+            foreach (var enemy in _enemyList.ToArray().Where(enemy => !enemy.activeSelf))
             {
-                enemyList.Remove(enemy);
+                _enemyList.Remove(enemy); //remove gameObject from list if inactive
             }
         }
 
@@ -105,7 +111,7 @@ namespace Towers
 
         private void SetText()
         {
-            ammoText.text = ammo.ToString();
+            ammoText.text = Mathf.RoundToInt(ammo).ToString();
         }
     }
 }
