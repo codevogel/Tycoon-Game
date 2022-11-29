@@ -11,11 +11,17 @@ public class ToolTipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltip.SetActive(true);
+        StartCoroutine(OnHoverToolTip());
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         tooltip.SetActive(false);
+    }
+
+    IEnumerator OnHoverToolTip()
+    {
+        yield return new WaitForSeconds(0.5f);
+        tooltip.SetActive(true);
     }
 }
