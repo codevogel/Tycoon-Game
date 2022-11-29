@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,12 +6,12 @@ namespace Enemies
     public class BaseEnemy : MonoBehaviour
     {
         public int health;
+        public int damage;
 
         [SerializeField] private Transform target;
         [SerializeField] private bool activateTarget;
 
         private NavMeshAgent _navMeshAgent;
-
         private Vector3 _startPos;
 
         // Start is called before the first frame update
@@ -24,10 +23,9 @@ namespace Enemies
         }
 
 
-
         private void Update()
         {
-            target = EnemySpawner.Instance.currentTarget;
+            target = GameManager.Instance.currentEnemyTarget.transform;
             if (activateTarget)
             {
                 _navMeshAgent.isStopped = false;
@@ -41,6 +39,16 @@ namespace Enemies
             OnDeath();
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log("emotional damage");
+            if (!collision.collider.CompareTag("Target")) return;
+            Debug.Log("physical damage");
+            if (collision.collider.TryGetComponent(out TargetBehaviour targetbhvr))
+            {
+                targetbhvr.DoDamage(damage);
+            }
+        }
 
         private void OnDeath()
         {
@@ -52,7 +60,7 @@ namespace Enemies
 
         private void SetTarget(Transform targetObj)
         {
-            _navMeshAgent.SetDestination(targetObj.position);//sets navmesh target
+            _navMeshAgent.SetDestination(targetObj.position); //sets navmesh target
         }
     }
 }
