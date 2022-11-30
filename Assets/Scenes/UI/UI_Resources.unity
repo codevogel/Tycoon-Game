@@ -552,7 +552,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToHide: {fileID: 621410566}
   targetRect: {fileID: 0}
-  _direction: 0
+  direction: 0
+  hideSpeed: 0.5
+  isMoving: 0
 --- !u!1 &660623002
 GameObject:
   m_ObjectHideFlags: 0
