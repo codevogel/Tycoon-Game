@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,6 +22,8 @@ namespace Enemies
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _startPos = transform.localPosition;
         }
+
+
 
         private void Update()
         {
