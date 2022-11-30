@@ -15,9 +15,11 @@ MonoBehaviour:
   Model: {fileID: 5315592947578495999, guid: d4f1c702b6e8f0140a834147d45f36c1, type: 3}
   BuildCost:
   - Type: 1
-    Amount: 0
+    Amount: 2
   InitialProduction: []
   Upkeep: []
-  Production: []
-  UpkeepStorageSize: 0
-  ProductionStorageSize: 0
+  Production:
+  - Type: 3
+    Amount: 5
+  UpkeepStorageSize: 10
+  ProductionStorageSize: 10

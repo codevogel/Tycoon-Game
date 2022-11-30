@@ -4,6 +4,7 @@ public enum ResourceType
 {
     People,
     AvailablePeople,
+    Money,
     Food,
     Minerals,
     Ammo
