@@ -13,6 +13,7 @@ namespace Enemies
 
         private NavMeshAgent _navMeshAgent;
         private Vector3 _startPos;
+        private float _timer;
 
         // Start is called before the first frame update
         private void Awake()
@@ -25,6 +26,7 @@ namespace Enemies
 
         private void Update()
         {
+            SetTimer();
             target = GameManager.Instance.currentEnemyTarget.transform;
             if (activateTarget)
             {
@@ -39,15 +41,19 @@ namespace Enemies
             OnDeath();
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
-            Debug.Log("emotional damage");
             if (!collision.collider.CompareTag("Target")) return;
-            Debug.Log("physical damage");
-            if (collision.collider.TryGetComponent(out TargetBehaviour targetbhvr))
-            {
-                targetbhvr.DoDamage(damage);
-            }
+            if (!collision.collider.TryGetComponent(out TargetBehaviour targetBehaviour)) return;
+            if (!(_timer > targetBehaviour.armor)) return;
+
+            targetBehaviour.DoDamage(damage);
+            _timer = 0;
+        }
+
+        private void SetTimer()
+        {
+            _timer += Time.deltaTime;
         }
 
         private void OnDeath()
