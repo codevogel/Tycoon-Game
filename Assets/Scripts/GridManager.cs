@@ -7,10 +7,21 @@ public class GridManager : SingletonBehaviour<GridManager>
 {
 
     public GameObject tilePrefab;
-    public Vector2Int gridSize;
-    public Vector2 tileWidth;
+
+    [SerializeField]
+    private Vector2Int gridSize = new Vector2Int(5, 5);
+    [SerializeField]
+    private Vector2 tileWidth = new Vector2Int(1,1);
 
     private Tile[,] grid;
+
+    public Vector2Int Bounds
+    {
+        get
+        {
+            return new Vector2Int(gridSize.x,gridSize.y);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +47,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
     internal Tile GetTileAt(Vector2Int coords)
     {
+        Debug.Log("getting tile at " + coords);
         if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
         {
             return grid[coords.y, coords.x];
@@ -55,7 +67,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             for (int indexX = 0; indexX < gridSize.x; indexX++)
             {
-                Tile newTile = new Tile(Instantiate(tilePrefab, currentPosition, Quaternion.identity, this.transform));
+                Tile newTile = new Tile(Instantiate(tilePrefab, currentPosition, Quaternion.identity, this.transform), new Vector2Int(indexX, indexZ));
                 grid[indexZ, indexX] = newTile;
                 currentPosition.x += tileWidth.x;
             }
@@ -79,6 +91,55 @@ public class GridManager : SingletonBehaviour<GridManager>
         }
         return new TileCoordinates(false, new Vector2Int(-1, -1));
     }
+
+    public Neighbour[] GetNeighboursFor(Tile tile)
+    {
+        List<Neighbour> neighbours = new List<Neighbour>();
+        foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+        {
+            if (NeighbourDirectionIsAllowed(tile.Indices, direction))
+            {
+                neighbours.Add(GetNeighbourInDirection(tile.Indices, direction));
+            }
+        }
+        return neighbours.ToArray();
+    }
+
+    private Neighbour GetNeighbourInDirection(Vector2Int indices, Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.NORTH:
+                return new Neighbour(GetTileAt(new Vector2Int(indices.x, indices.y + 1)), direction);
+            case Direction.EAST:
+                return new Neighbour(GetTileAt(new Vector2Int(indices.x + 1, indices.y)), direction);
+            case Direction.SOUTH:
+                return new Neighbour(GetTileAt(new Vector2Int(indices.x, indices.y - 1)), direction);
+            case Direction.WEST:
+                return new Neighbour(GetTileAt(new Vector2Int(indices.x - 1, indices.y)), direction);
+            default:
+                throw new ArgumentException("Unsupported direction was passed to this function.");
+        }
+    }
+
+    private bool NeighbourDirectionIsAllowed(Vector2Int currentIndices, Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.NORTH:
+                return currentIndices.y + 1 < gridSize.y;
+            case Direction.EAST:
+                return currentIndices.x + 1 < gridSize.x;
+            case Direction.SOUTH:
+                return currentIndices.y - 1 >= 0;
+            case Direction.WEST:
+                return currentIndices.x - 1 >= 0;
+            default:
+                throw new ArgumentException("Unsupported direction was passed to this function.");
+        }
+    }
+
+
     #endregion
 
     #region Utilities
@@ -162,5 +223,21 @@ public class GridManager : SingletonBehaviour<GridManager>
             this.inBounds = exist;
             this.indices = indices;
         }
+    }
+    public struct Neighbour
+    {
+        public Tile tile;
+        public Direction direction;
+
+        public Neighbour(Tile tile, Direction direction)
+        {
+            this.tile = tile;
+            this.direction = direction;
+        }
+    }
+
+    public enum Direction
+    {
+        NORTH = 1, EAST = 2, SOUTH = 4, WEST = 8
     }
 }

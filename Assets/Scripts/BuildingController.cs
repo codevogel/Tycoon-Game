@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static GridManager;
@@ -21,6 +22,11 @@ public class BuildingController : MonoBehaviour
     // Amount of degrees to turn buildings each step.
     private int rotationStep = 90;
 
+    public bool placingRoads;
+
+    [Header("Road Prefabs")]
+    [SerializeField]
+    private List<GameObject> roadPrefabs;
 
     // Start is called before the first frame update
     void Start()
@@ -34,11 +40,11 @@ public class BuildingController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            AttemptToPlaceBuilding();
+            AttemptToPlaceObject();
         }
         if (Input.GetMouseButtonDown(1))
         {
-            AttemptToRemoveBuilding();
+            AttemptToRemoveObject();
         }
 
 
@@ -58,20 +64,20 @@ public class BuildingController : MonoBehaviour
     /// <summary>
     /// Attempts to place a building at the tile under the mouse.
     /// </summary>
-    private void AttemptToPlaceBuilding()
+    private void AttemptToPlaceObject()
     {
         // Get hovered tile coords
         TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
         if (coords.inBounds)
         {
             Tile targetTile = gridManager.GetTileAt(coords.indices);
-            if (targetTile.Building == null)
+            if (targetTile.Object == null)
             {
-                PlaceBuildingAt(targetTile);
+                PlaceObjectAt(targetTile);
             }
             else
             {
-                Debug.Log("Selected building: " + targetTile.Building.name);
+                Debug.Log("Selected building: " + targetTile.Object.name);
             }
         }
     }
@@ -79,19 +85,19 @@ public class BuildingController : MonoBehaviour
     /// <summary>
     /// Attempts to remove a building at the tile under the mouse.
     /// </summary>
-    private void AttemptToRemoveBuilding()
+    private void AttemptToRemoveObject()
     {
         TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
         if (coords.inBounds)
         {
             Tile targetTile = gridManager.GetTileAt(coords.indices);
-            if (targetTile.Building == null)
+            if (targetTile.Object == null)
             {
                 Debug.Log("Tried removing a building that did not exist");
             }
             else
             {
-                RemoveBuildingAt(targetTile);
+                RemoveObjectAt(targetTile);
             }
         }
     }
@@ -116,20 +122,66 @@ public class BuildingController : MonoBehaviour
     /// Places the currently selected building at targetTile.
     /// </summary>
     /// <param name="targetTile">The tile to place the building on.</param>
+    private void PlaceObjectAt(Tile targetTile)
+    {
+        if (placingRoads)
+        {
+            PlaceRoadAt(targetTile);
+        }
+        else
+        {
+            PlaceBuildingAt(targetTile);
+        }
+    }
+
+    private void PlaceRoadAt(Tile targetTile)
+    {
+        GameObject fittingRoadPiece = FindFittingPieceAndUpdateNeighbours(targetTile);
+
+        //Transform newRoad = Instantiate(fittingRoadPiece, targetTile.ObjectHolder).transform;
+        //newRoad.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
+        //targetTile.Object = newRoad.gameObject;
+    }
+
+    private GameObject FindFittingPieceAndUpdateNeighbours(Tile targetTile)
+    {
+        Neighbour[] neighbours = gridManager.GetNeighboursFor(targetTile);
+
+        // Set bitwise flag for connected neighbouring roads using enum values
+        int roadConnectionFlag = GetRoadConnectionFlag(neighbours);
+        Debug.Log(Convert.ToString(roadConnectionFlag, 2));
+        return null;
+    }
+
+    private int GetRoadConnectionFlag(Neighbour[] neighbours)
+    {
+        int bitwiseFlag = 0;
+        foreach (Neighbour neighbour in neighbours)
+        {
+            bitwiseFlag += (int)neighbour.direction;
+
+            //if (neighbour.tile.Object.CompareTag("Road"))
+            //{
+            //    bitwiseFlag += (int)neighbour.direction;
+            //}
+        }
+        return bitwiseFlag;
+    }
+
     private void PlaceBuildingAt(Tile targetTile)
     {
-        Transform newBuilding = Instantiate(placeableBuildings[currentBuildingIndex], targetTile.BuildingHolder).transform;
+        Transform newBuilding = Instantiate(placeableBuildings[currentBuildingIndex], targetTile.ObjectHolder).transform;
         newBuilding.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
-        targetTile.Building = newBuilding.gameObject;
+        targetTile.Object = newBuilding.gameObject;
     }
 
     /// <summary>
     /// Removes the building at targetTile.
     /// </summary>
     /// <param name="targetTile">The tile to remove the building on.</param>
-    private void RemoveBuildingAt(Tile targetTile)
+    private void RemoveObjectAt(Tile targetTile)
     {
-        Destroy(targetTile.BuildingHolder.GetChild(0).gameObject);
-        targetTile.Building = null;
+        Destroy(targetTile.ObjectHolder.GetChild(0).gameObject);
+        targetTile.Object = null;
     }
 }

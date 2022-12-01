@@ -397,3 +397,5 @@ MonoBehaviour:
   - {fileID: 1782190089080895598, guid: eed7d2c1f9f1cdd44b3a4604814c392b, type: 3}
   currentBuildingIndex: 0
   currentRotation: 0
+  placingRoads: 1
+  roadPrefabs: []
