@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: 
   Type: 2
-  Sprite: {fileID: 0}
-  Description: People need it to live.
+  Sprite: {fileID: 21300000, guid: be73373b48f5cf3468c2fc8257fd3a01, type: 3}
+  Description: Food is needed for people to live.

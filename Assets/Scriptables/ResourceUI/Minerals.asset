@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Minerals
   m_EditorClassIdentifier: 
   Type: 3
-  Sprite: {fileID: 0}
-  Description: 
+  Sprite: {fileID: 21300000, guid: 99c12a95072047e48981879d415df750, type: 3}
+  Description: Minerals are needed to create amunition

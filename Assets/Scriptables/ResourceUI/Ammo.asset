@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Ammo
   m_EditorClassIdentifier: 
   Type: 4
-  Sprite: {fileID: 0}
-  Description: 
+  Sprite: {fileID: 21300000, guid: b55e8dee782313f4a957d83e2e099f0c, type: 3}
+  Description: Ammunition is needed for turrets to fire at the enemies
