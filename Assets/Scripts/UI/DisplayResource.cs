@@ -10,19 +10,21 @@ public class DisplayResource : MonoBehaviour
 {
     [SerializeField] private ResourceUI resourceUI;
     [SerializeField] private Image resourceSprite;
+    [SerializeField] private TMP_Text resourceAmount;
     [SerializeField] private TMP_Text resourceDescription;
 
     private void Start()
     {
         resourceSprite.sprite = resourceUI.Sprite;
         resourceDescription.text = resourceUI.Description;
+        UpdateResourceAmount();
 
         StartCoroutine(UpdateValues());
     }
 
     public void UpdateResourceAmount()
     {
-        // TODO: Update resource values from a manager
+        resourceAmount.text = ResourceManager.Instance.Resources[(int)resourceUI.Type].Amount.ToString();
     }
     
     /// <summary>

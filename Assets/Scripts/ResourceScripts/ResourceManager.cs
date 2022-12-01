@@ -5,6 +5,7 @@ public class ResourceManager : SingletonBehaviour<ResourceManager>
 {
     public ResourceUI[] uiObjects;
     [TableList, SerializeField] private Resource[] resources;
+    public Resource[] Resources { get => resources; }
 
     /// <summary> Adds the resource to resources. If the resource is the same as People it also adds AvailablePeople</summary>
     public void AddResource(Resource resource)

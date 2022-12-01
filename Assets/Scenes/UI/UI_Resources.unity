@@ -367,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6104868827318919358, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_Name
-      value: ResourceContainer
+      value: Mineral
       objectReference: {fileID: 0}
     - target: {fileID: 6471466155795817967, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 289378905}
   - component: {fileID: 289378904}
   - component: {fileID: 289378903}
+  - component: {fileID: 289378906}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -460,6 +461,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289378906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289378902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73a388b1be4cfa41ba1cc17be3c14c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObjects:
+  - {fileID: 11400000, guid: 01c745c2010febb48a0fae5ceb96035e, type: 2}
+  - {fileID: 11400000, guid: 32b028ef7f3feed4fb472909a9f9e651, type: 2}
+  - {fileID: 11400000, guid: a3e2522eb757b4b4aa5c7503c8885f1d, type: 2}
+  - {fileID: 11400000, guid: 70fc4f433d00a374092f1a87e504b6bf, type: 2}
+  resources:
+  - Type: 0
+    Amount: 1
+  - Type: 1
+    Amount: 2
+  - Type: 2
+    Amount: 3
+  - Type: 3
+    Amount: 4
+  - Type: 4
+    Amount: 5
+  - Type: 5
+    Amount: 6
 --- !u!1 &621410566
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6104868827318919358, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_Name
-      value: ResourceContainer (2)
+      value: Ammo
       objectReference: {fileID: 0}
     - target: {fileID: 6471466155795817967, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1096,7 +1127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6104868827318919358, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_Name
-      value: ResourceContainer (1)
+      value: Food
       objectReference: {fileID: 0}
     - target: {fileID: 6471466155795817967, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1578,7 +1609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6104868827318919358, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_Name
-      value: ResourceContainer (3)
+      value: People
       objectReference: {fileID: 0}
     - target: {fileID: 6471466155795817967, guid: 62b29ada466e31146ba60dc62559bd02, type: 3}
       propertyPath: m_AnchorMax.y

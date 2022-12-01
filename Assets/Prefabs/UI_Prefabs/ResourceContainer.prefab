@@ -420,6 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceUI: {fileID: 0}
   resourceSprite: {fileID: 6882552303443538120}
+  resourceAmount: {fileID: 6052271110654765135}
   resourceDescription: {fileID: 3954701136700064062}
 --- !u!1 &7756980478454292197
 GameObject:
