@@ -62,7 +62,7 @@ IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerEnterHandl
 
   #endregion
 
-  void Update()
+  private void Update()
   {
     #region WASD Input
     _movementInput.x = Input.GetAxisRaw("Horizontal");
@@ -95,7 +95,7 @@ IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerEnterHandl
     #endregion
   }
 
-  void FixedUpdate()
+  private void FixedUpdate()
   {
     #region WASD movement
     sceneCamera.transform.position += new Vector3(_moveDirection.x, 0f, _moveDirection.z);
