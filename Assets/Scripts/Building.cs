@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building
+public class Building : Placeable
 {
     public BuildingPreset Preset;
     public Resource[] UpkeepStorage;
@@ -17,12 +17,12 @@ public class Building
 
     public bool Build()
     {
-        if (ResourceManager.Instance.CheckEnoughResources(Preset.BuildCost))
-        {
-            ResourceManager.Instance.RemoveResource(Preset.BuildCost);
-            ResourceManager.Instance.AddResource(Preset.InitialProduction);
-            return true;
-        }
+        //if (ResourceManager.Instance.CheckEnoughResources(Preset.BuildCost))
+        //{
+        //    ResourceManager.Instance.RemoveResource(Preset.BuildCost);
+        //    ResourceManager.Instance.AddResource(Preset.InitialProduction);
+        //    return true;
+        //}
         return false;
     }
 

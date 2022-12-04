@@ -67,7 +67,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             for (int indexX = 0; indexX < gridSize.x; indexX++)
             {
-                Tile newTile = new Tile(Instantiate(tilePrefab, currentPosition, Quaternion.identity, this.transform), new Vector2Int(indexX, indexZ));
+                Tile newTile = new Tile(Instantiate(tilePrefab, currentPosition, Quaternion.identity, this.transform).transform, new Vector2Int(indexX, indexZ));
                 grid[indexZ, indexX] = newTile;
                 currentPosition.x += tileWidth.x;
             }
@@ -188,7 +188,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.TileObject.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.Root.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 
@@ -227,12 +227,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     public struct Neighbour
     {
         public Tile tile;
-        public Direction direction;
+        public Direction inDirection;
 
-        public Neighbour(Tile tile, Direction direction)
+        public Neighbour(Tile tile, Direction inDirection)
         {
             this.tile = tile;
-            this.direction = direction;
+            this.inDirection = inDirection;
         }
     }
 

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static BuildRequest;
 using static GridManager;
+using static Road;
 
 public class BuildingController : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class BuildingController : MonoBehaviour
     private static GridManager gridManager;
 
     [Header("Placeable Buildings")]
-    public List<GameObject> placeableBuildings;
+    public List<ScriptableObject> placeableBuildings;
 
     [Tooltip("Index of building being placed")]
     public int currentBuildingIndex = 0;
@@ -71,13 +73,13 @@ public class BuildingController : MonoBehaviour
         if (coords.inBounds)
         {
             Tile targetTile = gridManager.GetTileAt(coords.indices);
-            if (targetTile.Object == null)
+            if (targetTile.Content == null)
             {
                 PlaceObjectAt(targetTile);
             }
             else
             {
-                Debug.Log("Selected building: " + targetTile.Object.name);
+                Debug.Log("Selected building: " + targetTile.Root.name);
             }
         }
     }
@@ -91,7 +93,7 @@ public class BuildingController : MonoBehaviour
         if (coords.inBounds)
         {
             Tile targetTile = gridManager.GetTileAt(coords.indices);
-            if (targetTile.Object == null)
+            if (targetTile.Content == null)
             {
                 Debug.Log("Tried removing a building that did not exist");
             }
@@ -134,23 +136,24 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    private void PlaceRoadAt(Tile targetTile)
+    private void PlaceBuildingAt(Tile targetTile)
     {
-        GameObject fittingRoadPiece = FindFittingPieceAndUpdateNeighbours(targetTile);
-
-        //Transform newRoad = Instantiate(fittingRoadPiece, targetTile.ObjectHolder).transform;
-        //newRoad.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
-        //targetTile.Object = newRoad.gameObject;
+        targetTile.Build(new BuildRequest(placeableBuildings[currentBuildingIndex], currentRotation));
     }
 
-    private GameObject FindFittingPieceAndUpdateNeighbours(Tile targetTile)
+    private void PlaceRoadAt(Tile targetTile)
     {
         Neighbour[] neighbours = gridManager.GetNeighboursFor(targetTile);
 
-        // Set bitwise flag for connected neighbouring roads using enum values
-        int roadConnectionFlag = GetRoadConnectionFlag(neighbours);
-        Debug.Log(Convert.ToString(roadConnectionFlag, 2));
-        return null;
+        (Road road, int rotation) fittingPiece = GetFittingPiece(GetRoadConnectionFlag(neighbours));
+        targetTile.Build(new BuildRequest(fittingPiece.road, fittingPiece.rotation));
+
+        foreach (Neighbour neighbour in neighbours)
+        {
+            Neighbour[] theirNeighbours = gridManager.GetNeighboursFor(neighbour.tile);
+            (Road road, int rotation) theirFittingPiece = GetFittingPiece(GetRoadConnectionFlag(theirNeighbours));
+            neighbour.tile.Build(new BuildRequest(theirFittingPiece.road, theirFittingPiece.rotation));
+        }
     }
 
     private int GetRoadConnectionFlag(Neighbour[] neighbours)
@@ -158,30 +161,32 @@ public class BuildingController : MonoBehaviour
         int bitwiseFlag = 0;
         foreach (Neighbour neighbour in neighbours)
         {
-            bitwiseFlag += (int)neighbour.direction;
-
-            //if (neighbour.tile.Object.CompareTag("Road"))
-            //{
-            //    bitwiseFlag += (int)neighbour.direction;
-            //}
+            bitwiseFlag += (int)neighbour.inDirection;
         }
         return bitwiseFlag;
     }
 
-    private void PlaceBuildingAt(Tile targetTile)
+    private (Road road, int rotation) GetFittingPiece(int roadConnectionFlag) => roadConnectionFlag switch
     {
-        Transform newBuilding = Instantiate(placeableBuildings[currentBuildingIndex], targetTile.ObjectHolder).transform;
-        newBuilding.transform.localEulerAngles = new Vector3(0, currentRotation, 0);
-        targetTile.Object = newBuilding.gameObject;
-    }
+        0b00000000 => (new Road(RoadType.CROSS), 0),
+        0b00000001 => (new Road(RoadType.END), 0),
+        0b00000010 => (new Road(RoadType.END), 1),
+        0b00000011 => (new Road(RoadType.CORNER), 0),
+        0b00000100 => (new Road(RoadType.END), 2),
+        0b00000101 => (new Road(RoadType.STRAIGHT), 0),
+        0b00000111 => (new Road(RoadType.TJUNC), 0),
+        0b00001000 => (new Road(RoadType.END), 3),
+        0b00001001 => (new Road(RoadType.CORNER), 3),
+        0b00001010 => (new Road(RoadType.STRAIGHT), 1),
+        0b00001011 => (new Road(RoadType.TJUNC), 3),
+        0b00001100 => (new Road(RoadType.CORNER), 2),
+        0b00001101 => (new Road(RoadType.TJUNC), 2),
+        0b00001110 => (new Road(RoadType.TJUNC), 1),
+        0b00001111 => (new Road(RoadType.CROSS), 0),
+        _ => throw new NotImplementedException("Invalid road connection flag: " + roadConnectionFlag)
+    };
 
-    /// <summary>
-    /// Removes the building at targetTile.
-    /// </summary>
-    /// <param name="targetTile">The tile to remove the building on.</param>
     private void RemoveObjectAt(Tile targetTile)
     {
-        Destroy(targetTile.ObjectHolder.GetChild(0).gameObject);
-        targetTile.Object = null;
     }
 }

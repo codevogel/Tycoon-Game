@@ -1,59 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile
 {
     private Vector2Int indices;
-
-    private GameObject tileObject;
-    private GameObject building;
-
-    private MeshRenderer meshRenderer;
-    private Transform buildingHolder;
-
     public Vector2Int Indices { get { return indices; } }
 
-    /// <summary>
-    /// Gets the gameobject for this Tile.
-    /// </summary>
-    public GameObject TileObject
-    {
-        get { return tileObject; }
-    }
+    private Transform root;
+    private Transform modelHolder;
+    private MeshFilter modelMeshFilter;
+    private Placeable content;
 
-    /// <summary>
-    /// Gets or sets the built object on this tile.
-    /// </summary>
-    public GameObject Object
-    {
-        get
-        {
-            return building;
-        }
-        set
-        {
-            building = value;
-        }
-    }
+    public Transform Root { get { return root; } }
+    public Placeable Content { get { return content; } }
 
-    /// <summary>
-    /// Get the object holder (the parent transform of the object placed on this tile).
-    /// </summary>
-    public Transform ObjectHolder
-    {
-        get { return buildingHolder; }
-    }
+    public Transform ModelHolder {  get { return modelHolder; } }
 
     /// <summary>
     /// Constructor for a Tile object
     /// </summary>
     /// <param name="go">The gameobject linked to this Tile.</param>
-    public Tile(GameObject go, Vector2Int indices)
+    public Tile(Transform root, Vector2Int indicesOfThisTile)
     {
-        this.tileObject = go;
-        this.indices = indices;
-        meshRenderer = go.GetComponentInChildren<MeshRenderer>();
-        meshRenderer.material.color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
-        buildingHolder = go.transform.Find("Building Offset").Find("Building Holder");
+        this.root = root;
+        this.indices = indicesOfThisTile;
+        modelHolder = root.Find("Model");
+        modelMeshFilter = modelHolder.GetChild(0).GetComponent<MeshFilter>();
+    }
+
+    public void Build(BuildRequest request)
+    {
+        switch (request.Placeable)
+        {
+            case Building building:
+                UpdateModel(building.Preset.Mesh);
+                RotateModel(request.Rotation);
+                break;
+            case Road road:
+                UpdateModel(road.Preset.Mesh);
+                RotateModel(request.Rotation);
+                break;
+        }
+    }
+
+    private void RotateModel(int rotation)
+    {
+        ModelHolder.localEulerAngles = new Vector3(0, 0, rotation * 90);
+    }
+
+    private void UpdateModel(Mesh newMesh) 
+    {
+        modelMeshFilter.mesh = newMesh;
     }
 }
