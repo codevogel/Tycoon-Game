@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 1)]
+[CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Buildings/Base", order = 1)]
 public class BuildingPreset : ScriptableObject
 {
     /// <summary>The visual for the building</summary>
