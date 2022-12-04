@@ -35,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8543467033000699880
 MeshFilter:
@@ -135,8 +135,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  damage: 100
   target: {fileID: 0}
-  activateTarget: 0
+  activateTarget: 1
 --- !u!54 &8543467033000699876
 Rigidbody:
   m_ObjectHideFlags: 0

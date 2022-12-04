@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UsefullFunctions
 {
+    /// <summary>Looks through all the files in assets to find the assets with the same type as is given in T</summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>A list of all the objects it found</returns>
     public static List<T> FindAssetsByType<T>() where T : Object
     {
         List<T> assets = new List<T>();

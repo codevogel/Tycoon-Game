@@ -4,6 +4,7 @@ public enum ResourceType
 {
     People,
     AvailablePeople,
+    Money,
     Food,
     Minerals,
     Ammo
@@ -31,12 +32,20 @@ public class Resource
     }
 
     //Logic for resourceArrays
+    /// <summary> Adds the resource to the resourceArray.</summary>
     public static void AddResource(Resource[] resourceCollectionToAddTo, Resource resourceToAdd)
     {
-        resourceCollectionToAddTo[(int)resourceToAdd.Type].Amount += resourceToAdd.Amount;
-        if (resourceToAdd.Type == ResourceType.People) resourceCollectionToAddTo[(int)ResourceType.AvailablePeople].Amount += resourceToAdd.Amount;
+        for (int i = 0; i < resourceCollectionToAddTo.Length; i++)
+        {
+            if (resourceCollectionToAddTo[i].Type == resourceToAdd.Type)
+            {
+                resourceCollectionToAddTo[i].Amount += resourceToAdd.Amount;
+                return;
+            }
+        }
     }
 
+    /// <summary> Adds the resources to the resourceArray.</summary>
     public static void AddResource(Resource[] resourceCollectionToAddTo, Resource[] resourcesToAdd)
     {
         for (int i = 0; i < resourcesToAdd.Length; i++)
@@ -45,12 +54,20 @@ public class Resource
         }
     }
 
+    /// <summary> Removes the resource from the resourceArray.</summary>
     public static void RemoveResource(Resource[] resourceCollectionToRemoveFrom, Resource resourceToRemove)
     {
-        resourceCollectionToRemoveFrom[(int)resourceToRemove.Type].Amount -= resourceToRemove.Amount;
-        if (resourceToRemove.Type == ResourceType.People) resourceCollectionToRemoveFrom[(int)ResourceType.AvailablePeople].Amount -= resourceToRemove.Amount;
+        for (int i = 0; i < resourceCollectionToRemoveFrom.Length; i++)
+        {
+            if (resourceCollectionToRemoveFrom[i].Type == resourceToRemove.Type)
+            {
+                resourceCollectionToRemoveFrom[i].Amount -= resourceToRemove.Amount;
+                return;
+            }
+        }
     }
 
+    /// <summary> Removes the resources from the resourceArray.</summary>
     public static void RemoveResource(Resource[] resourceCollectionToRemoveFrom, Resource[] resourcesToRemove)
     {
         for (int i = 0; i < resourcesToRemove.Length; i++)
@@ -59,11 +76,22 @@ public class Resource
         }
     }
 
+    /// <summary>Checks to see if there are more or equal resources to the amount of resources that is given</summary>
+    /// <returns>True if there are enough resources, false if there are not</returns>
     public static bool CheckEnoughResources(Resource[] resourceCollectionToCheck, Resource resourceToCheck)
     {
-        return resourceCollectionToCheck[(int)resourceToCheck.Type].Amount >= resourceToCheck.Amount;
+        for (int i = 0; i < resourceCollectionToCheck.Length; i++)
+        {
+            if (resourceCollectionToCheck[i].Type == resourceToCheck.Type)
+            {
+                return resourceCollectionToCheck[i].Amount >= resourceToCheck.Amount;
+            }
+        }
+        return false;
     }
 
+    /// <summary>Checks to see if there are more or equal resources to the amount of resources that is given</summary>
+    /// <returns>True if there are enough resources</returns>
     public static bool CheckEnoughResources(Resource[] resourceCollectionToCheck, Resource[] resourcesToCheck)
     {
         for (int i = 0; i < resourcesToCheck.Length; i++)

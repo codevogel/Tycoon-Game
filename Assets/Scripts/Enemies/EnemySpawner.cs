@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -7,7 +8,6 @@ namespace Enemies
     public class EnemySpawner : MonoBehaviour
     {
         public static EnemySpawner Instance;
-        public Transform currentTarget;
 
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private int spawnCount;
@@ -31,6 +31,7 @@ namespace Enemies
             CreateEnemyPool();
             SpawnMultiple(spawnCount);
         }
+
 
         /// <summary>
         /// return gameObject to pool
@@ -57,7 +58,6 @@ namespace Enemies
         /// Spawn multiple enemies
         /// </summary>
         /// <param name="spawnAmount">amount to spawn</param>
-        [Button("spawn dude")]
         private void SpawnMultiple(int spawnAmount)
         {
             for (var i = 0; i < spawnAmount; i++)

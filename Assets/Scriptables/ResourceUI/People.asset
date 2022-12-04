@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd59cadd91b00574c90d50c0538d09fb, type: 3}
-  m_Name: Food
+  m_Name: People
   m_EditorClassIdentifier: 
-  Type: 1
-  Sprite: {fileID: 0}
-  Description: People need it to live.
+  Type: 0
+  Sprite: {fileID: 21300000, guid: 8c6c97ed51766e042965b5f938d572cf, type: 3}
+  Description: People are needed to work jobs
