@@ -22,6 +22,7 @@ public class Resource
         Amount = amount;
     }
 
+    /// <summary>Returns the amount of different resources</summary>
     public static int TypeCount
     {
         get

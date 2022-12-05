@@ -4,6 +4,7 @@ using UnityEngine;
 public class WarehousePreset : BuildingPreset
 {
     public float CollectionRange;
+    public int CollectionCapasity;
     
     public void Collect(Building[] buildingsInRange)
     {
