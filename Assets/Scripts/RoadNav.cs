@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoadNav : MonoBehaviour
 {
+   // private NavMeshSurface[] ffff;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,7 +14,7 @@ public class RoadNav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-           
+  
     }
 }
 
