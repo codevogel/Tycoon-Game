@@ -4,53 +4,33 @@ using UnityEngine;
 
 public class Tile
 {
-    private Vector2Int indices;
-    public Vector2Int Indices { get { return indices; } }
+    #region fields
+    [SerializeField]
+    private GameObject _tilePrefab;
 
-    private Transform root;
-    private Transform modelHolder;
-    private MeshFilter modelMeshFilter;
-    private Placeable content;
+    #endregion
+    #region Properties
+    public Vector2Int Indices { get; private set; }
 
-    public Transform Root { get { return root; } }
-    public Placeable Content { get { return content; } }
+    public Transform Root { get;  private set; }
+    
+    public Placeable Content { get; private set; }
 
-    public Transform ModelHolder {  get { return modelHolder; } }
+    private MeshFilter ModelMeshFilter { get; set; }
+    #endregion
 
-    /// <summary>
-    /// Constructor for a Tile object
-    /// </summary>
-    /// <param name="go">The gameobject linked to this Tile.</param>
-    public Tile(Transform root, Vector2Int indicesOfThisTile)
+    public Tile(Vector3 position, Vector2Int indices)
     {
-        this.root = root;
-        this.indices = indicesOfThisTile;
-        modelHolder = root.Find("Model");
-        modelMeshFilter = modelHolder.GetChild(0).GetComponent<MeshFilter>();
+        Root = GameObject.Instantiate(_tilePrefab, position, Quaternion.identity).transform;
+        Indices = indices;
+        ModelMeshFilter = Root.Find("Model Offset").Find("Model").GetComponent<MeshFilter>();
     }
 
-    public void Build(BuildRequest request)
+    #region Methods 
+    public void UpdateModel()
     {
-        switch (request.Placeable)
-        {
-            case Building building:
-                UpdateModel(building.Preset.Mesh);
-                RotateModel(request.Rotation);
-                break;
-            case Road road:
-                UpdateModel(road.Preset.Mesh);
-                RotateModel(request.Rotation);
-                break;
-        }
+        ModelMeshFilter.mesh = Content.Preset.Mesh;
     }
+    #endregion
 
-    private void RotateModel(int rotation)
-    {
-        ModelHolder.localEulerAngles = new Vector3(0, 0, rotation * 90);
-    }
-
-    private void UpdateModel(Mesh newMesh) 
-    {
-        modelMeshFilter.mesh = newMesh;
-    }
 }

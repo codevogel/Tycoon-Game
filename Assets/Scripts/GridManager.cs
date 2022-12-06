@@ -67,7 +67,8 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             for (int indexX = 0; indexX < gridSize.x; indexX++)
             {
-                Tile newTile = new Tile(Instantiate(tilePrefab, currentPosition, Quaternion.identity, this.transform).transform, new Vector2Int(indexX, indexZ));
+                Tile newTile = new Tile(currentPosition, new Vector2Int(indexX, indexZ));
+                newTile.Root.parent = this.transform;
                 grid[indexZ, indexX] = newTile;
                 currentPosition.x += tileWidth.x;
             }

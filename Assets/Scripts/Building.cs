@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Building : Placeable
 {
-    public BuildingPreset Preset;
     public Resource[] UpkeepStorage;
     public Resource[] ProductionStorage;
 

@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2158181405167646073}
   m_Layer: 0
-  m_Name: GFX Offset
+  m_Name: Model Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,9 +121,8 @@ GameObject:
   - component: {fileID: 8187663599374592314}
   - component: {fileID: 3303172488963370286}
   - component: {fileID: 5059471147873021046}
-  - component: {fileID: 8990047589560134221}
   m_Layer: 0
-  m_Name: GFX
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,20 +193,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8990047589560134221
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4136883960753589930}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4412614505582519150
 GameObject:
   m_ObjectHideFlags: 0

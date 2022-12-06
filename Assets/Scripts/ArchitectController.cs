@@ -5,7 +5,7 @@ using static BuildRequest;
 using static GridManager;
 using static Road;
 
-public class BuildingController : MonoBehaviour
+public class ArchitectController : MonoBehaviour
 {
 
     /// <summary>
