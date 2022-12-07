@@ -146,7 +146,7 @@ MonoBehaviour:
   m_OverrideArea: 1
   m_Area: 4
   m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 
 --- !u!1 &2676807069127032351
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,4 +260,4 @@ MonoBehaviour:
   m_OverrideArea: 1
   m_Area: 3
   m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 

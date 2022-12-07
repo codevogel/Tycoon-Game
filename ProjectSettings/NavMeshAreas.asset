@@ -11,13 +11,13 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: One Way
+  - name: Road
     cost: 1
-  - name: Other Way
+  - name: Road Other
     cost: 1
-  - name: 
+  - name: Water
     cost: 1
-  - name: 
+  - name: Water Other
     cost: 1
   - name: 
     cost: 1
