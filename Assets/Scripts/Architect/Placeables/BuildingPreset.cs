@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 1)]
-public class BuildingPreset : ScriptableObject
+public class BuildingPreset : PlaceablePreset
 {
-    /// <summary>The visual for the building</summary>
-    public GameObject Model;
-    /// <summary>The resources that are removed when it is placed</summary>
-    [TableList] public Resource[] BuildCost;
     /// <summary>The resources that are made when it is placed</summary>
     [TableList] public Resource[] InitialProduction;
     /// <summary>These resources are removed from its upkeep storage</summary>
