@@ -6,10 +6,12 @@ public class Building : Placeable
 {
     public Resource[] UpkeepStorage;
     public Resource[] ProductionStorage;
+    private BuildingPreset LocalPreset { get; set; }
 
     public Building(BuildingPreset preset)
     {
         Preset = preset;
+        LocalPreset = preset;
         UpkeepStorage = new Resource[preset.Upkeep.Length];
         ProductionStorage = new Resource[preset.Production.Length];
     }
@@ -27,15 +29,15 @@ public class Building : Placeable
 
     public bool DoUpkeep()
     {
-        if (Resource.CheckEnoughResources(UpkeepStorage, Preset.Upkeep))
+        if (Resource.CheckEnoughResources(UpkeepStorage, LocalPreset.Upkeep))
         {
-            Resource.RemoveResource(UpkeepStorage, Preset.Upkeep);
+            Resource.RemoveResource(UpkeepStorage, LocalPreset.Upkeep);
         }
         return false;
     }
 
     public void Produce()
     {
-        Resource.AddResource(ProductionStorage, Preset.Production);
+        Resource.AddResource(ProductionStorage, LocalPreset.Production);
     }
 }

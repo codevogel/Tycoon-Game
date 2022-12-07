@@ -5,37 +5,26 @@ using static BuildRequest;
 using static GridManager;
 using static Road;
 
-public class ArchitectController : MonoBehaviour
+public class ArchitectController : SingletonBehaviour<ArchitectController>
 {
-
-    /// <summary>
-    /// Reference to the static gridManager;
-    /// </summary>
-    private static GridManager gridManager;
-
-    [Header("Placeable Buildings")]
-    public List<ScriptableObject> placeableBuildings;
+    [field: SerializeField]
+    public List<BuildingPreset> PlaceableBuildings { get; set; }
 
     [Tooltip("Index of building being placed")]
-    public int currentBuildingIndex = 0;
+    [field: SerializeField]
+    private int CurrentBuildingIndex { get; set; }
+
     [Tooltip("Current rotation offset of the placed buildings")]
-    public int currentRotation = 0;
+    private int CurrentRotation { get; set; }
 
     // Amount of degrees to turn buildings each step.
-    private int rotationStep = 90;
+    private int RotationStep { get; set; } = 90;
 
-    public bool placingRoads;
+    [field: SerializeField]
+    public PlaceableType CurrentlyPlacing { get; private set; }
 
-    [Header("Road Prefabs")]
-    [SerializeField]
-    private List<GameObject> roadPrefabs;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Get reference after instance creation in Awake
-        gridManager = GridManager.Instance;
-    }
+    [field: SerializeField]
+    public List<RoadPreset> Roads;
 
     // Update is called once per frame
     void Update()
@@ -69,19 +58,34 @@ public class ArchitectController : MonoBehaviour
     private void AttemptToPlaceObject()
     {
         // Get hovered tile coords
-        TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
+        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
         if (coords.inBounds)
         {
-            Tile targetTile = gridManager.GetTileAt(coords.indices);
-            if (targetTile.Content == null)
-            {
-                PlaceObjectAt(targetTile);
-            }
-            else
+            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
+            if (targetTile.HasContent)
             {
                 Debug.Log("Selected building: " + targetTile.Root.name);
             }
+            else
+            {
+                PlaceObjectAt(targetTile);
+            }
         }
+    }
+
+    private void PlaceObjectAt(Tile targetTile)
+    {
+        targetTile.PlaceContent(GetCurrentPlaceable(), rotation: CurrentRotation);
+    }
+
+    private Placeable GetCurrentPlaceable()
+    {
+        return CurrentlyPlacing switch
+        {
+            PlaceableType.BUILDING => new Building(PlaceableBuildings[CurrentBuildingIndex]),
+            PlaceableType.ROAD => new Road(),
+            _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
+        };
     }
 
     /// <summary>
@@ -89,10 +93,10 @@ public class ArchitectController : MonoBehaviour
     /// </summary>
     private void AttemptToRemoveObject()
     {
-        TileCoordinates coords = gridManager.GetTileCoordsFromMousePos();
+        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
         if (coords.inBounds)
         {
-            Tile targetTile = gridManager.GetTileAt(coords.indices);
+            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
             if (targetTile.Content == null)
             {
                 Debug.Log("Tried removing a building that did not exist");
@@ -109,7 +113,7 @@ public class ArchitectController : MonoBehaviour
     /// </summary>
     private void IncrementBuildingPlacementRotation()
     {
-        currentRotation = (currentRotation + rotationStep) % 360;
+        CurrentRotation = (CurrentRotation + RotationStep) % 360;
     }
 
     /// <summary>
@@ -117,74 +121,10 @@ public class ArchitectController : MonoBehaviour
     /// </summary>
     private void SelectNextBuilding()
     {
-        currentBuildingIndex = (currentBuildingIndex + 1) % placeableBuildings.Count;
+        CurrentBuildingIndex = (CurrentBuildingIndex + 1) % PlaceableBuildings.Count;
     }
 
-    /// <summary>
-    /// Places the currently selected building at targetTile.
-    /// </summary>
-    /// <param name="targetTile">The tile to place the building on.</param>
-    private void PlaceObjectAt(Tile targetTile)
-    {
-        if (placingRoads)
-        {
-            PlaceRoadAt(targetTile);
-        }
-        else
-        {
-            PlaceBuildingAt(targetTile);
-        }
-    }
 
-    private void PlaceBuildingAt(Tile targetTile)
-    {
-        targetTile.Build(new BuildRequest(placeableBuildings[currentBuildingIndex], currentRotation));
-    }
-
-    private void PlaceRoadAt(Tile targetTile)
-    {
-        Neighbour[] neighbours = gridManager.GetNeighboursFor(targetTile);
-
-        (Road road, int rotation) fittingPiece = GetFittingPiece(GetRoadConnectionFlag(neighbours));
-        targetTile.Build(new BuildRequest(fittingPiece.road, fittingPiece.rotation));
-
-        foreach (Neighbour neighbour in neighbours)
-        {
-            Neighbour[] theirNeighbours = gridManager.GetNeighboursFor(neighbour.tile);
-            (Road road, int rotation) theirFittingPiece = GetFittingPiece(GetRoadConnectionFlag(theirNeighbours));
-            neighbour.tile.Build(new BuildRequest(theirFittingPiece.road, theirFittingPiece.rotation));
-        }
-    }
-
-    private int GetRoadConnectionFlag(Neighbour[] neighbours)
-    {
-        int bitwiseFlag = 0;
-        foreach (Neighbour neighbour in neighbours)
-        {
-            bitwiseFlag += (int)neighbour.inDirection;
-        }
-        return bitwiseFlag;
-    }
-
-    private (Road road, int rotation) GetFittingPiece(int roadConnectionFlag) => roadConnectionFlag switch
-    {
-        0b00000000 => (new Road(RoadType.CROSS), 0),
-        0b00000001 => (new Road(RoadType.END), 0),
-        0b00000010 => (new Road(RoadType.END), 1),
-        0b00000011 => (new Road(RoadType.CORNER), 0),
-        0b00000100 => (new Road(RoadType.END), 2),
-        0b00000101 => (new Road(RoadType.STRAIGHT), 0),
-        0b00000111 => (new Road(RoadType.TJUNC), 0),
-        0b00001000 => (new Road(RoadType.END), 3),
-        0b00001001 => (new Road(RoadType.CORNER), 3),
-        0b00001010 => (new Road(RoadType.STRAIGHT), 1),
-        0b00001011 => (new Road(RoadType.TJUNC), 3),
-        0b00001100 => (new Road(RoadType.CORNER), 2),
-        0b00001101 => (new Road(RoadType.TJUNC), 2),
-        0b00001110 => (new Road(RoadType.TJUNC), 1),
-        0b00001111 => (new Road(RoadType.CROSS), 0),
-        _ => throw new NotImplementedException("Invalid road connection flag: " + roadConnectionFlag)
-    };
 
     private void RemoveObjectAt(Tile targetTile)
     {

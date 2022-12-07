@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5738642588976114108, guid: 1e71913b3aed87a478677e4683e4a20f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5738642588976114108, guid: 1e71913b3aed87a478677e4683e4a20f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8660037657256923699, guid: b6cd348d8712e8944be95a992cdecd25, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8660037657256923699, guid: b6cd348d8712e8944be95a992cdecd25, type: 3}
       propertyPath: m_LocalPosition.x
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb425cdd43108034aa3e60cb0c816659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
+  _tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
   gridSize: {x: 5, y: 5}
   tileWidth: {x: 1, y: 1}
 --- !u!4 &553647067
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 1749035085}
   - component: {fileID: 1749035086}
   m_Layer: 0
-  m_Name: BuildingController
+  m_Name: ArchitectController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -620,12 +620,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4224fae619f234747b33274412cca220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeableBuildings:
-  - {fileID: 0}
-  currentBuildingIndex: 0
-  currentRotation: 0
-  placingRoads: 1
-  roadPrefabs: []
+  <PlaceableBuildings>k__BackingField: []
+  <CurrentBuildingIndex>k__BackingField: 0
+  <CurrentlyPlacing>k__BackingField: 0
+  Roads:
+  - {fileID: 11400000, guid: e02d8c79f1a027d41963cc0189f75081, type: 2}
+  - {fileID: 11400000, guid: 3a19b9f2de248e8439e7605366fc59b7, type: 2}
+  - {fileID: 11400000, guid: 220697fc5edf3be44ac35e479363f1b7, type: 2}
+  - {fileID: 11400000, guid: 7ca2d8c3e9831334599780d4aa4626a8, type: 2}
+  - {fileID: 11400000, guid: f3619acf628a3244497d0ad6cd88adbb, type: 2}
 --- !u!1001 &2048874729
 PrefabInstance:
   m_ObjectHideFlags: 0

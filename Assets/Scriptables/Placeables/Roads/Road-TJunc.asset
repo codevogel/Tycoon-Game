@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e08b171477885046a4e66b13fd1f59d, type: 3}
   m_Name: Road-TJunc
   m_EditorClassIdentifier: 
-  Mesh: {fileID: 393516903033573147, guid: 9a939b96977a6434eb50f4f4db972d87, type: 3}
+  <Prefab>k__BackingField: {fileID: 6185157695407823281, guid: cfd34f180e9f51e4092618190f2d96af, type: 3}
   BuildCost: []

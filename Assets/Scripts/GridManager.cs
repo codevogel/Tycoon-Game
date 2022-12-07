@@ -6,7 +6,8 @@ using UnityEngine;
 public class GridManager : SingletonBehaviour<GridManager>
 {
 
-    public GameObject tilePrefab;
+    [field: SerializeField]
+    public GameObject _tilePrefab;
 
     [SerializeField]
     private Vector2Int gridSize = new Vector2Int(5, 5);
@@ -47,7 +48,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
     internal Tile GetTileAt(Vector2Int coords)
     {
-        Debug.Log("getting tile at " + coords);
+        //Debug.Log("getting tile at " + coords);
         if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
         {
             return grid[coords.y, coords.x];
@@ -67,7 +68,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             for (int indexX = 0; indexX < gridSize.x; indexX++)
             {
-                Tile newTile = new Tile(currentPosition, new Vector2Int(indexX, indexZ));
+                Tile newTile = new Tile(_tilePrefab, currentPosition, new Vector2Int(indexX, indexZ));
                 newTile.Root.parent = this.transform;
                 grid[indexZ, indexX] = newTile;
                 currentPosition.x += tileWidth.x;
@@ -189,7 +190,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.Root.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.Root.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 

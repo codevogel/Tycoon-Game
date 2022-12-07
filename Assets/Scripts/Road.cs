@@ -4,23 +4,12 @@ using UnityEngine;
 
 public class Road : Placeable
 {
-    public RoadPreset Preset { get; private set; }
-
-    private RoadType type;
-    public RoadType Type { get { return type; } }
-
-    public Road(RoadType type)
-    {
-        this.type = type;
-        Preset = null;
-    }
-
     public enum RoadType
     {
-        CROSS,
-        CORNER,
-        END,
-        STRAIGHT,
-        TJUNC
+        CROSS = 0,
+        STRAIGHT = 1,
+        CORNER = 2,
+        END = 3,
+        TJUNC = 4
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e08b171477885046a4e66b13fd1f59d, type: 3}
   m_Name: Road-Corner
   m_EditorClassIdentifier: 
-  Mesh: {fileID: 393516903033573147, guid: 9a939b96977a6434eb50f4f4db972d87, type: 3}
+  <Prefab>k__BackingField: {fileID: 5738642588976114111, guid: 1e71913b3aed87a478677e4683e4a20f, type: 3}
   BuildCost: []
