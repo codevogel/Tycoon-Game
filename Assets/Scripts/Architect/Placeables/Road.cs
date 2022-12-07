@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Road : Placeable
 {
+    /// <summary>
+    /// The types of roads that exist.
+    /// </summary>
     public enum RoadType
     {
         CROSS = 0,

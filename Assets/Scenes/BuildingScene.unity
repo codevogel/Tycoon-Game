@@ -396,9 +396,8 @@ MonoBehaviour:
   <PlaceableBuildings>k__BackingField:
   - {fileID: 11400000, guid: 2415fd90399424746a730188188a52ab, type: 2}
   - {fileID: 11400000, guid: 262333f674548bd449aedf755b0b469d, type: 2}
-  <CurrentBuildingIndex>k__BackingField: 0
   <CurrentlyPlacing>k__BackingField: 0
-  Roads:
+  <Roads>k__BackingField:
   - {fileID: 11400000, guid: e02d8c79f1a027d41963cc0189f75081, type: 2}
   - {fileID: 11400000, guid: 3a19b9f2de248e8439e7605366fc59b7, type: 2}
   - {fileID: 11400000, guid: 220697fc5edf3be44ac35e479363f1b7, type: 2}

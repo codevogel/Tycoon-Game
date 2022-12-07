@@ -226,9 +226,17 @@ public class GridManager : SingletonBehaviour<GridManager>
             this.indices = indices;
         }
     }
+
+    /// <summary>
+    /// A struct containing the neighbouring tile and in what
+    /// direction this neighbour is connected to the host tile.
+    /// </summary>
     public struct Neighbour
     {
         public Tile tile;
+        /// <summary>
+        /// The direction in which this neighbour is connected to the host tile.
+        /// </summary>
         public Direction inDirection;
 
         public Neighbour(Tile tile, Direction inDirection)
@@ -238,6 +246,10 @@ public class GridManager : SingletonBehaviour<GridManager>
         }
     }
 
+    /// <summary>
+    /// Represents the directions a tile can attach to other tiles.
+    /// In bitflag order of NESW.
+    /// </summary>
     public enum Direction
     {
         NORTH = 1, EAST = 2, SOUTH = 4, WEST = 8
