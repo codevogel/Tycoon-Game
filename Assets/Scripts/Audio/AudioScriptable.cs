@@ -9,8 +9,6 @@ public class AudioScriptable : ScriptableObject
         Music
     }
 
-
-    protected static AudioSource DefaultAudioSource;
     public AudioClip Clip;
     [Range(-3.0f, 3.0f)]
     public float StartPitch = 1;
@@ -24,24 +22,6 @@ public class AudioScriptable : ScriptableObject
     public AudioType Type;
     private AudioSource _audioSource;
 
-    //Can be used but not recommended
-    public void Play()
-    {
-        if (!_audioSource)
-        {
-            if (!DefaultAudioSource)
-            {
-                GameObject defaultAudioSource = new GameObject();
-                defaultAudioSource.name = "DefaultAudioSource";
-                DontDestroyOnLoad(defaultAudioSource);
-                DefaultAudioSource = defaultAudioSource.AddComponent<AudioSource>();
-                DefaultAudioSource.playOnAwake = false;
-            }
-        }
-        Play(DefaultAudioSource);
-    }
-
-    //Use this
     public void Play(AudioSource audioSource)
     {
         _audioSource = audioSource;
@@ -55,16 +35,6 @@ public class AudioScriptable : ScriptableObject
 
         AudioManager.Instance.OnVolumeChange.RemoveListener(OnVolumeChange);
         AudioManager.Instance.OnVolumeChange.AddListener(OnVolumeChange);
-    }
-
-    //Probably should never be used because getcomponent is slow
-    public void PlayOnThisObject(GameObject gameObject)
-    {
-        if (!gameObject.TryGetComponent(out _audioSource))
-        {
-            _audioSource = gameObject.AddComponent<AudioSource>();
-        }
-        Play(_audioSource);
     }
     
     public void OnVolumeChange()
