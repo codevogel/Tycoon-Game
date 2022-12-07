@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static BuildRequest;
 using static GridManager;
+using static Placeable;
 using static Road;
 
 public class ArchitectController : SingletonBehaviour<ArchitectController>
@@ -128,5 +128,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
 
     private void RemoveObjectAt(Tile targetTile)
     {
+        targetTile.RemoveContent();
     }
 }

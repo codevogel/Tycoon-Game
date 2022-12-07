@@ -38,9 +38,11 @@ public class Tile
             GameObject.Destroy(PlaceableHolder.GetChild(0).gameObject);
             PlaceableHolder.localEulerAngles = new Vector3(90, 0, 0);
         }
-        GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
-        Debug.Log(rotation);
-        PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
+        if (Content != null)
+        {
+            GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
+            PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
+        }
     }
 
     public void PlaceContent(Placeable toBePlaced, int rotation)
@@ -112,6 +114,13 @@ public class Tile
         0b00001111 => (RoadType.CROSS, 0),
         _ => throw new NotImplementedException("Invalid road connection flag: " + Convert.ToString(roadConnectionFlag, 2))
     };
+
+    internal void RemoveContent()
+    {
+        this.Content = null;
+        UpdateModel(0);
+        PickRoadForNeighbours();
+    }
     #endregion
 
 }

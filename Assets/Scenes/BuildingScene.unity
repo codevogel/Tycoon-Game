@@ -393,7 +393,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4224fae619f234747b33274412cca220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PlaceableBuildings>k__BackingField: []
+  <PlaceableBuildings>k__BackingField:
+  - {fileID: 11400000, guid: 2415fd90399424746a730188188a52ab, type: 2}
+  - {fileID: 11400000, guid: 262333f674548bd449aedf755b0b469d, type: 2}
   <CurrentBuildingIndex>k__BackingField: 0
   <CurrentlyPlacing>k__BackingField: 0
   Roads:
