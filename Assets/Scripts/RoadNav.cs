@@ -1,20 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class RoadNav : MonoBehaviour
 {
-   // private NavMeshSurface[] ffff;
-    // Start is called before the first frame update
-    void Start()
+    public NavMeshSurface[] surfaces;
+    public NavMeshModifier[] mods;
+    public Transform[] objectsToRotate;
+
+
+    private void Update()
     {
-        
+        surfaces = GetComponentsInChildren<NavMeshSurface>();
     }
 
-    // Update is called once per frame
-    void Update()
+    [Button]
+    private void BuildNavMeshy()
     {
-  
+        foreach (var t in surfaces)
+        {
+            t.BuildNavMesh();
+        }
     }
 }
 

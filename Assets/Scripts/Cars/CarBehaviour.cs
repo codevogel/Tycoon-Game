@@ -1,6 +1,5 @@
-using System;
+using System.Collections;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,31 +11,28 @@ namespace Cars
 
         [SerializeField] private Transform target;
 
-        [SerializeField] private string areaIndex;
+        [SerializeField] private bool pathActive;
 
         // Start is called before the first frame update
         private void Start()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
-
-
-            //TODO: implement area mask (layer) for cars
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            _navMeshAgent.SetDestination(target.position);
+            if (pathActive)
+            {
+                _navMeshAgent.SetDestination(target.position);
+            }
         }
 
         [Button]
-        private void SetArea(string area)
+        private void SetArea(int area)
         {
-            _navMeshAgent.areaMask = Convert.ToInt32(area)+1;
-            var stuff = Convert.ToByte(NavMesh.GetAreaFromName(area));
-            Debug.Log(stuff);
-                //Oneway = 8
-            //OneWay, Walkable = 9
+            _navMeshAgent.areaMask = area;
+            //89
         }
     }
 }
