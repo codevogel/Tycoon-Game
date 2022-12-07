@@ -1,4 +1,3 @@
-using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -27,12 +26,15 @@ namespace Cars
                 _navMeshAgent.SetDestination(target.position);
             }
         }
-
+        /// <summary>
+        /// Set AreaMask for Agent
+        /// </summary>
+        /// <param name="area"></param>
         [Button]
         private void SetArea(int area)
         {
             _navMeshAgent.areaMask = area;
-            //89
+            //Beware: areaMask uses binary
         }
     }
 }
