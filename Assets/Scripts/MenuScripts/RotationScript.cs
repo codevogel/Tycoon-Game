@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RotationScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    float rotation = 0;
-    
+  // Start is called before the first frame update
+
+ // float rotation = 0;
     void Start()
     {
         
