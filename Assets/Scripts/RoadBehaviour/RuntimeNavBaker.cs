@@ -2,15 +2,16 @@ using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using UnityEngine;
 
-namespace RoadBehviour
+namespace RoadBehaviour
 {
-    public class RoadNav : MonoBehaviour
+    [RequireComponent(typeof(NavMeshSurface))]
+    public class RuntimeNavBaker : MonoBehaviour
     {
         /// <summary>
         /// Build NavMesh-grid
         /// </summary>
         [Button]
-        private void BuildNavSingle()
+        private void BakeNavMesh()
         {
             GetComponent<NavMeshSurface>().BuildNavMesh();
         }
