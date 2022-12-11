@@ -2,11 +2,7 @@ using System;
 
 public enum ResourceType
 {
-    People,
-    AvailablePeople,
-    Money,
-    Food,
-    Minerals,
+    Iron,
     Ammo
 }
 

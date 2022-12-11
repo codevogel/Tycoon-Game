@@ -1,43 +1,99 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Building : Placeable
 {
-    public Resource[] UpkeepStorage;
-    public Resource[] ProductionStorage;
+
+    public enum BuildingType
+    {
+        Factory,
+        Storage,
+        Tower
+    }
+
+    public Storage input;
+    public Storage output;
+    public int productionTime;
+
+    public Resource[] productionCost;
+    public Resource[] produces;
+
     private BuildingPreset LocalPreset { get; set; }
 
     public Building(BuildingPreset preset)
     {
         Preset = preset;
         LocalPreset = preset;
-        UpkeepStorage = new Resource[preset.Upkeep.Length];
-        ProductionStorage = new Resource[preset.Production.Length];
+        input = new Storage(preset.InitialStorage);
+        output = new Storage(Array.Empty<Resource>());
+        productionCost = LocalPreset.ProductionCost;
+        produces = LocalPreset.Produces;
+
+        SubscribeToBuildingController();
     }
 
-    public bool Build()
+    private void SubscribeToBuildingController()
     {
-        //if (ResourceManager.Instance.CheckEnoughResources(Preset.BuildCost))
-        //{
-        //    ResourceManager.Instance.RemoveResource(Preset.BuildCost);
-        //    ResourceManager.Instance.AddResource(Preset.InitialProduction);
-        //    return true;
-        //}
-        return false;
-    }
-
-    public bool DoUpkeep()
-    {
-        if (Resource.CheckEnoughResources(UpkeepStorage, LocalPreset.Upkeep))
+        switch (LocalPreset.buildingType)
         {
-            Resource.RemoveResource(UpkeepStorage, LocalPreset.Upkeep);
+            case BuildingType.Factory:
+                BuildingController.Produce.AddListener(Produce);
+                break;
+            case BuildingType.Storage:
+                break;
+            case BuildingType.Tower:
+                break;
+            default:
+                break;
         }
-        return false;
     }
 
-    public void Produce()
+    private void Produce()
     {
-        Resource.AddResource(ProductionStorage, LocalPreset.Production);
+        if (BuildingController.Tick % productionTime == 0)
+        {
+            Fabricate();
+        }
+    }
+    private void Fabricate()
+    {
+        if (input.HasResourcesRequired(productionCost))
+            return;
+        foreach (Resource resource in productionCost)
+        {
+            input.RemoveItem(resource);
+            output.AddItem(resource);
+        }
+    }
+
+    [Serializable]
+    public class Storage
+    {
+        public Dictionary<ResourceType, int> Contents { get; set; } = new();
+
+        public Storage(Resource[] initialStorage)
+        {
+            foreach (Resource resource in initialStorage)
+            {
+                AddItem(resource);
+            }
+        }
+
+        public bool HasResourcesRequired(Resource[] required)
+        {
+            foreach (Resource resource in required)
+            {
+                if (Contents[resource.Type] - resource.Amount < 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public void AddItem(Resource resource) { Contents[resource.Type] += resource.Amount;}
+
+        public void RemoveItem(Resource resource) { Contents[resource.Type] -= resource.Amount; }
     }
 }
