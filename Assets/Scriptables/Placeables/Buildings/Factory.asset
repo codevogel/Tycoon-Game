@@ -16,7 +16,7 @@ MonoBehaviour:
   BuildCost:
   - Type: 0
     Amount: 50
-  buildingType: 1
+  buildingType: 0
   InitialStorage: []
   Produces:
   - Type: 0
