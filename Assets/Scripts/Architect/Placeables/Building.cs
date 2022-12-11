@@ -65,6 +65,9 @@ public class Building : Placeable
         foreach (Resource resource in productionCost)
         {
             input.RemoveItem(resource);
+        }
+        foreach (Resource resource in produces)
+        {
             output.AddItem(resource);
         }
     }
