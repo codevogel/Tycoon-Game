@@ -163,6 +163,10 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         targetTile.RemoveContent();
     }
     
+    /// <summary>
+    /// This method places a red blocker on a tile that is already populated with an building or road.
+    /// When you move off of a blocked tile the red blocker will be removed
+    /// </summary>
     void GhostObject()
     {
         TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
