@@ -16,7 +16,7 @@ public class Building : Placeable
 
     public Storage input;
     public Storage output;
-    public int productionTime;
+    public int productionTime = 1;
 
     public Resource[] productionCost;
     public Resource[] produces;

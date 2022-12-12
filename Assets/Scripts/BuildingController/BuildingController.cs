@@ -12,11 +12,11 @@ public class BuildingController : MonoBehaviour
     /// <summary>
     /// Event for production cycle
     /// </summary>
-    public static UnityEvent Produce;
+    public static UnityEvent Produce = new();
     /// <summary>
     /// Event for transport cycle
     /// </summary>
-    public static UnityEvent Transport;
+    public static UnityEvent Transport = new();
 
 
     public void FixedUpdate()
