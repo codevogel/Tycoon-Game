@@ -1,25 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using static GridManager;
 using static Road;
 
-public class Tile
+public class Tile : MonoBehaviour
 {
     #region fields
+    /// <summary>
+    /// Parent transform of the Placeable object
+    /// </summary>
+    [SerializeField] private Transform _placeableHolder;
     #endregion
 
     #region Properties
     /// <summary>
     /// Indices of this tile in the grid
     /// </summary>
-    public Vector2Int Indices { get; private set; }
+    public Vector2Int GridPosition { get; set; }
 
     /// <summary>
-    /// Root transform of gameobject assosciated to this tile.
+    /// The scriptable object containing the sprite and the resources in the Tile.
     /// </summary>
-    public Transform Root { get;  private set; }
-    
+    public TilePreset TilePreset { get; set; }
+
     /// <summary>
     /// Reference to the Placeable content this tile hosts.
     /// </summary>
@@ -28,7 +31,7 @@ public class Tile
     /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
-    private Transform PlaceableHolder { get; set; }
+    private Transform PlaceableHolder { get => _placeableHolder; }
     
     /// <summary>
     /// Determines whether the tile hosts content
@@ -41,19 +44,6 @@ public class Tile
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
     #endregion
 
-    /// <summary>
-    /// Constructor for a tile.
-    /// </summary>
-    /// <param name="prefab">The tile object prefab.</param>
-    /// <param name="position">The position to instantiate this tile at.</param>
-    /// <param name="indices">The indices of this tile in the grid.</param>
-    public Tile(GameObject prefab, Vector3 position, Vector2Int indices)
-    {
-        Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
-        Indices = indices;
-        PlaceableHolder = Root.Find("Placeable Holder");
-    }
-
     #region Methods 
     /// <summary>
     /// Updates the model to reflect the Content.
@@ -63,13 +53,13 @@ public class Tile
     {
         if (PlaceableHolder.childCount > 0)
         {
-            GameObject.Destroy(PlaceableHolder.GetChild(0).gameObject);
-            PlaceableHolder.localEulerAngles = new Vector3(90, 0, 0);
+            Destroy(PlaceableHolder.GetChild(0).gameObject);
+            PlaceableHolder.localEulerAngles = new Vector3(0, 0, 0);
         }
         if (Content != null)
         {
-            GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
-            PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
+            Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
+            PlaceableHolder.localEulerAngles = new Vector3(0, rotation * 90, 0);
         }
     }
 
@@ -83,11 +73,11 @@ public class Tile
         Content = toBePlaced;
         switch (Content)
         {
-            case Road road:
+            case Road:
                 PickRoad();
                 PickRoadForNeighbours();
                 break;
-            case Building building:
+            case Building:
                 UpdateModel(rotation);
                 break;
             default:

@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : SingletonBehaviour<GridManager>
 {
-    [field: SerializeField]
-    public GameObject _tilePrefab;
+    public Tile _tilePrefab;
 
     [SerializeField]
     private Vector2Int gridSize = new Vector2Int(5, 5);
@@ -56,8 +54,8 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             for (int x = 0; x < gridSize.x; x++)
             {
-                Tile newTile = new Tile(_tilePrefab, currentPosition, new Vector2Int(x, z));
-                newTile.Root.parent = transform;
+                Tile newTile = Instantiate(_tilePrefab, currentPosition, _tilePrefab.transform.rotation, transform);
+                newTile.GridPosition = new Vector2Int(x, z);
                 grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }
@@ -87,9 +85,9 @@ public class GridManager : SingletonBehaviour<GridManager>
         List<Neighbour> neighbours = new List<Neighbour>();
         foreach (Direction direction in Enum.GetValues(typeof(Direction)))
         {
-            if (NeighbourDirectionIsAllowed(tile.Indices, direction))
+            if (NeighbourDirectionIsAllowed(tile.GridPosition, direction))
             {
-                neighbours.Add(GetNeighbourInDirection(tile.Indices, direction));
+                neighbours.Add(GetNeighbourInDirection(tile.GridPosition, direction));
             }
         }
         return neighbours.ToArray();
@@ -168,7 +166,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.Root.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 

@@ -1,8 +1,6 @@
 using Sirenix.OdinInspector;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static GridManager;
 using static Placeable;
 using static Road;
 
@@ -70,7 +68,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         {
             if (targetTile.HasContent)
             {
-                Debug.Log("Selected building: " + targetTile.Root.name);
+                Debug.Log("Selected building: " + targetTile.name);
             }
             else
             {
