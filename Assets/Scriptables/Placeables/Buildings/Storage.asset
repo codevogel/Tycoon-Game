@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
-  m_Name: Farm
+  m_Name: Storage
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: a38463cc46bbbc747a4b3438b7c3e9dc, type: 3}
+  <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: eed7d2c1f9f1cdd44b3a4604814c392b, type: 3}
   BuildCost:
-  - Type: 1
-    Amount: 2
-  InitialProduction: []
-  Upkeep: []
-  Production:
-  - Type: 3
-    Amount: 5
-  UpkeepStorageSize: 10
-  ProductionStorageSize: 10
+  - Type: 0
+    Amount: 50
+  buildingType: 1
+  InitialStorage: []
+  Produces: []
+  ProductionCost: []
+  ProductionTime: 0

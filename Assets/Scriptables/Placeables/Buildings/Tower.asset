@@ -10,20 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
-  m_Name: House
+  m_Name: Tower
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: eed7d2c1f9f1cdd44b3a4604814c392b, type: 3}
   BuildCost:
-  - Type: 4
-    Amount: 10
-  InitialProduction:
   - Type: 0
-    Amount: 5
-  Upkeep:
-  - Type: 3
-    Amount: 5
-  Production:
-  - Type: 2
-    Amount: 5
-  UpkeepStorageSize: 20
-  ProductionStorageSize: 10
+    Amount: 50
+  buildingType: 2
+  InitialStorage: []
+  Produces: []
+  ProductionCost:
+  - Type: 1
+    Amount: 1
+  ProductionTime: 0
