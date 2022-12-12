@@ -28,7 +28,7 @@ public class Tile
     /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
-    private Transform PlaceableHolder { get; set; }
+    public Transform PlaceableHolder { get; set; }
     
     /// <summary>
     /// Determines whether the tile hosts content
@@ -39,6 +39,10 @@ public class Tile
     /// Gets the neighbours for this tile from the gridmanager.
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
+
+    public Transform greenPreview { get; set; }
+    public Transform redPreview { get; set; }
+    
     #endregion
 
     /// <summary>
@@ -52,6 +56,7 @@ public class Tile
         Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
         Indices = indices;
         PlaceableHolder = Root.Find("Placeable Holder");
+        redPreview = Root.Find("Preview").Find("Red");
     }
 
     #region Methods 

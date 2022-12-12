@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static GridManager;
 using static Placeable;
@@ -13,6 +14,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     [field: SerializeField]
     private List<BuildingPreset> PlaceableBuildings { get; set; }
+
+    private Tile oldTargetTile { get; set; }
+    private bool shouldUndo { get; set; }
 
     /// <summary>
     /// Current index of preset of building to place.
@@ -33,13 +37,19 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     public List<RoadPreset> Roads { get; private set; }
 
+    public GameObject hiddenContent;
+    public GameObject ghostContent;
+
     // Update is called once per frame
     void Update()
     {
+        GhostObject();
+
         if (Input.GetMouseButtonDown(0))
         {
             AttemptToPlaceObject();
         }
+
         if (Input.GetMouseButtonDown(1))
         {
             AttemptToRemoveObject();
@@ -55,7 +65,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         if (Input.GetKeyDown(KeyCode.E))
         {
             SelectNextBuilding();
-        }
+        } 
     }
 
 
@@ -69,11 +79,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         if (coords.inBounds)
         {
             Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-            if (targetTile.HasContent)
-            {
-                Debug.Log("Selected building: " + targetTile.Root.name);
-            }
-            else
+
+            if (!targetTile.HasContent)
             {
                 PlaceObjectAt(targetTile);
             }
@@ -98,12 +105,17 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         return CurrentlyPlacing switch
         {
-            PlaceableType.BUILDING => new Building(PlaceableBuildings[_currentBuildingIndex]),
+            PlaceableType.BUILDING => new Building(GetCurrentBuildingPreset()),
             PlaceableType.ROAD => new Road(),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
     }
 
+    private BuildingPreset GetCurrentBuildingPreset()
+    {
+        return PlaceableBuildings[_currentBuildingIndex];
+    }
+    
     /// <summary>
     /// Attempts to remove a building at the tile under the mouse.
     /// </summary>
@@ -148,5 +160,26 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void RemoveObjectAt(Tile targetTile)
     {
         targetTile.RemoveContent();
+    }
+    
+    void GhostObject()
+    {
+        GridManager.TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
+        Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
+        
+        //TODO Look at old target and activate hidden content and inactive preview
+        
+        if (targetTile != null)
+        {
+            if (targetTile.HasContent)
+            {
+                hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
+                hiddenContent.SetActive(false);
+                targetTile.redPreview.gameObject.SetActive(true);
+            }
+        }
+
+        oldTargetTile = targetTile;
+        Debug.Log(oldTargetTile);
     }
 }
