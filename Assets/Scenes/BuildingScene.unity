@@ -398,7 +398,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 24480001e5388d54fac61a4638fe0b69, type: 2}
   - {fileID: 11400000, guid: 0007f5ad7e661e549930cf1a1773c7d1, type: 2}
   - {fileID: 11400000, guid: f3e3c5a051457ee4282d838e4849edda, type: 2}
-  <CurrentlyPlacing>k__BackingField: 0
+  <CurrentlyPlacing>k__BackingField: 1
   <Roads>k__BackingField:
   - {fileID: 11400000, guid: e02d8c79f1a027d41963cc0189f75081, type: 2}
   - {fileID: 11400000, guid: 3a19b9f2de248e8439e7605366fc59b7, type: 2}

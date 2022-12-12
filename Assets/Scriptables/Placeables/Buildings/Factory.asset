@@ -19,9 +19,9 @@ MonoBehaviour:
   buildingType: 0
   InitialStorage: []
   Produces:
-  - Type: 0
+  - Type: 1
     Amount: 1
   ProductionCost:
-  - Type: 1
+  - Type: 0
     Amount: 1
   ProductionTime: 0

@@ -38,13 +38,24 @@ public class Building : Placeable
         SubscribeToBuildingController();
     }
 
+    /// <summary>
+    /// List of recipients that this building exports to.
+    /// </summary>
     public List<Building> recipients = new();
 
+    /// <summary>
+    /// Add recipient to this building
+    /// </summary>
+    /// <param name="building">the recipient to add.</param>
     public void AddRecipient(Building building)
     {
         recipients.Add(building);
     }
 
+    /// <summary>
+    /// Remove recipient from this building
+    /// </summary>
+    /// <param name="building">the recipient to remove.</param>
     public void RemoveRecipient(Building building)
     {
         recipients.Remove(building);
