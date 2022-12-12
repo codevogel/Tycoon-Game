@@ -18,7 +18,6 @@ public class BuildingController : MonoBehaviour
     /// </summary>
     public static UnityEvent Transport = new();
 
-
     public void FixedUpdate()
     {
         // Increase tick and invoke events

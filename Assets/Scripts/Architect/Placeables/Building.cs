@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 public class Building : Placeable
 {
-
     public enum BuildingType
     {
         Factory,
@@ -37,6 +36,18 @@ public class Building : Placeable
         produces = LocalPreset.Produces;
 
         SubscribeToBuildingController();
+    }
+
+    public List<Building> recipients = new();
+
+    public void AddRecipient(Building building)
+    {
+        recipients.Add(building);
+    }
+
+    public void RemoveRecipient(Building building)
+    {
+        recipients.Remove(building);
     }
 
     /// <summary>
