@@ -22,7 +22,6 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     #region Initialize Grid Population
-    
     /// <summary>
     /// Initialize the grid.
     /// </summary>
@@ -73,14 +72,14 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// Attempts to get the tile indeces from the hovered tile
     /// </summary>
     /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
-    public TileCoordinates GetTileCoordsFromMousePos()
+    public Tile TryGetTileFromMousePos()
     {
         RaycastHit hit;
         if (GetFloorPointFromMouse(out hit))
         {
-            return new TileCoordinates(true, WorldPosToGridIndices(hit.point));
+            return GetTileAt(WorldPosToGridIndices(hit.point));
         }
-        return new TileCoordinates(false, new Vector2Int(-1, -1));
+        return null;
     }
 
     public Neighbour[] GetNeighboursFor(Tile tile)
@@ -129,17 +128,12 @@ public class GridManager : SingletonBehaviour<GridManager>
                 throw new ArgumentException("Unsupported direction was passed to this function.");
         }
     }
-
-
     #endregion
 
     #region Utilities
-
-
-
     /// <summary>
     /// Converts the mouse Screen position to a world position 
-    /// and than casts a ray to find what tile the mouse is hovering over.
+    /// and than casts a ray to find if the mouse is hovering over a tile.
     /// </summary>
     /// <param name="hit">The RaycastHit struct to store the hit information in.</param>
     /// <returns>Whether a floor point was found.</returns>
@@ -158,21 +152,15 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         return new Vector2Int((int)(point.x / tileWidth.x), (int)(point.z / tileWidth.y));
     }
-
     #endregion
 
-    #region Dev
+    #region Gizmos
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
         // Get tile under mouse
-        Tile hoverTile = null;
-        TileCoordinates hoverTileIndices = GetTileCoordsFromMousePos();
-        if (hoverTileIndices.inBounds)
-        {
-            hoverTile = grid[hoverTileIndices.indices.y, hoverTileIndices.indices.x];
-        }
+        Tile hoverTile = TryGetTileFromMousePos();
 
         if (Application.isPlaying)
         {
@@ -192,30 +180,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             Gizmos.DrawWireSphere(hit.point, .25f);
         }
     }
-
     #endregion
-
-    /// <summary>
-    /// Struct that stores grid coordinates along with
-    /// whether they are in bounds
-    /// </summary>
-    public struct TileCoordinates
-    {
-        /// <summary>
-        /// Whether the coordinates are in bounds of the grid
-        /// </summary>
-        public bool inBounds;
-        /// <summary>
-        /// The index coordinates
-        /// </summary>
-        public Vector2Int indices;
-
-        public TileCoordinates(bool exist, Vector2Int indices)
-        {
-            this.inBounds = exist;
-            this.indices = indices;
-        }
-    }
 
     /// <summary>
     /// A struct containing the neighbouring tile and in what

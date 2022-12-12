@@ -65,10 +65,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void AttemptToPlaceObject()
     {
         // Get hovered tile coords
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        if (coords.inBounds)
+        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        if (targetTile != null)
         {
-            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
             if (targetTile.HasContent)
             {
                 Debug.Log("Selected building: " + targetTile.Root.name);
@@ -109,10 +108,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     private void AttemptToRemoveObject()
     {
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        if (coords.inBounds)
+        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        if (targetTile != null)
         {
-            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
             if (targetTile.Content == null)
             {
                 Debug.Log("Tried removing a building that did not exist");
