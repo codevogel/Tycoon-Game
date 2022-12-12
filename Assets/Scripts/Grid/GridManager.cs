@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GridManager : SingletonBehaviour<GridManager>
 {
-
     [field: SerializeField]
     public GameObject _tilePrefab;
 
@@ -16,22 +15,13 @@ public class GridManager : SingletonBehaviour<GridManager>
 
     private Tile[,] grid;
 
-    public Vector2Int Bounds
-    {
-        get
-        {
-            return new Vector2Int(gridSize.x,gridSize.y);
-        }
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
         CreateGrid();
         PopulateGrid();
     }
 
-    #region Grid Population
+    #region Initialize Grid Population
     
     /// <summary>
     /// Initialize the grid.
@@ -42,13 +32,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     /// <summary>
-    /// Gets the tile at coords.
+    /// Gets the tile at coords if it is within the grid.
     /// </summary>
-    /// <param name="coords">The coordinates for the tile</param>
-    /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
+    /// <param name="coords">The coordinates for the tile you want to get</param>
+    /// <returns>The tile that is at the given coords. Null if tile was not found or not within the grid.</returns>
     internal Tile GetTileAt(Vector2Int coords)
     {
-        //Debug.Log("getting tile at " + coords);
         if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
         {
             return grid[coords.y, coords.x];
@@ -57,20 +46,20 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     /// <summary>
-    /// Populates the grid with Tile objects.
+    /// Populates the grid with Tile objects which instantiate a tileGameObject for every position in the Grid.
     /// </summary>
     private void PopulateGrid()
     {
         Vector3 startPosition = Vector3.zero + new Vector3(tileWidth.x / 2, 0, tileWidth.y / 2);
         Vector3 currentPosition = startPosition;
-        // Treat y as z 
-        for (int indexZ = 0; indexZ < gridSize.y; indexZ++)
+        // Treat y as z because in Unity we look along the Y axis to the tiles and the tiles are placed along the x and z axis
+        for (int z = 0; z < gridSize.y; z++)
         {
-            for (int indexX = 0; indexX < gridSize.x; indexX++)
+            for (int x = 0; x < gridSize.x; x++)
             {
-                Tile newTile = new Tile(_tilePrefab, currentPosition, new Vector2Int(indexX, indexZ));
-                newTile.Root.parent = this.transform;
-                grid[indexZ, indexX] = newTile;
+                Tile newTile = new Tile(_tilePrefab, currentPosition, new Vector2Int(x, z));
+                newTile.Root.parent = transform;
+                grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }
             currentPosition.x = startPosition.x;
@@ -149,7 +138,8 @@ public class GridManager : SingletonBehaviour<GridManager>
 
 
     /// <summary>
-    /// Get the current floor point under the hit.
+    /// Converts the mouse Screen position to a world position 
+    /// and than casts a ray to find what tile the mouse is hovering over.
     /// </summary>
     /// <param name="hit">The RaycastHit struct to store the hit information in.</param>
     /// <returns>Whether a floor point was found.</returns>
