@@ -46,13 +46,13 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             IncrementBuildingPlacementRotation();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SelectNextBuilding();
         }
