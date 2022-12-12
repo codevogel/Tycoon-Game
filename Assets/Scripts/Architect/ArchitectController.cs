@@ -15,6 +15,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     private List<BuildingPreset> PlaceableBuildings { get; set; }
 
+    private TileCoordinates oldCords;
     private Tile oldTargetTile { get; set; }
     private bool shouldUndo { get; set; }
 
@@ -44,7 +45,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     void Update()
     {
         GhostObject();
-
+        
         if (Input.GetMouseButtonDown(0))
         {
             AttemptToPlaceObject();
@@ -164,10 +165,20 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     
     void GhostObject()
     {
-        GridManager.TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
+        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
         Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
         
-        //TODO Look at old target and activate hidden content and inactive preview
+        oldTargetTile = GridManager.Instance.GetTileAt(oldCords.indices);
+        
+        if (coords.indices != oldCords.indices && oldTargetTile.PlaceableHolder.childCount > 0)
+        {
+            Debug.Log("Coords have changed");
+            
+            oldTargetTile.redPreview.gameObject.SetActive(false);
+            hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
+            Debug.Log(oldTargetTile.PlaceableHolder.GetChild(0).gameObject);
+            hiddenContent.SetActive(true);
+        }
         
         if (targetTile != null)
         {
@@ -178,8 +189,11 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
                 targetTile.redPreview.gameObject.SetActive(true);
             }
         }
+        else
+        {
+            return;
+        }
 
-        oldTargetTile = targetTile;
-        Debug.Log(oldTargetTile);
+        oldCords.indices = coords.indices;
     }
 }
