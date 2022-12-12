@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
+/// <summary>
+/// Controls the parent "Camera Rig of the main camera. 
+/// Instead of controlling the camera itself.
+/// </summary>
 public class CameraController : MonoBehaviour
 {
   #region WASD variables
@@ -30,6 +35,8 @@ public class CameraController : MonoBehaviour
   #region mouse variables
   public Vector3 dragStartPosition;
   public Vector3 dragCurrentPosition;
+
+  private Vector3 _oldMousePos;
   #endregion
 
   private void Start()
@@ -47,21 +54,6 @@ public class CameraController : MonoBehaviour
     {
       newZoom += Input.mouseScrollDelta.y * zoomAmount;
     }
-
-    //if mouse down do raycast
-    //if (Input.GetMouseButtonDown(0))
-    //{
-    //  Plane plane = new Plane(Vector3.up, Vector3.zero);
-    //  Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //  float entry;
-    //  if (plane.Raycast(ray, out entry))
-    //  {
-    //    dragStartPosition = ray.GetPoint(entry);
-    //    newPos = transform.position + dragStartPosition - dragCurrentPosition;
-    //    dragStartPosition = dragCurrentPosition;
-    //  }
-    //}
-
     #endregion
 
     #region KeyInputs 
