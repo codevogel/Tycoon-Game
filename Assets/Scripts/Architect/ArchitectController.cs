@@ -13,8 +13,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     private List<BuildingPreset> PlaceableBuildings { get; set; }
 
-    private TileCoordinates oldCords;
-    private Tile oldTargetTile { get; set; }
+    private Tile previousTile;
     private bool shouldUndo { get; set; }
 
     /// <summary>
@@ -43,11 +42,11 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     void Update()
     {
         DisplayBuildableTile();
-        
+
         if (Input.GetMouseButtonDown(0))
         {
             AttemptToPlaceObject();
-            
+
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -65,7 +64,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SelectNextBuilding();
-        } 
+        }
     }
 
 
@@ -76,14 +75,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         // Get hovered tile coords
         Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
-        if (targetTile != null)
+        if (targetTile != null && !targetTile.HasContent)
         {
-            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-
-            if (!targetTile.HasContent)
-            {
-                PlaceObjectAt(targetTile);
-            }
+            PlaceObjectAt(targetTile);
         }
     }
 
@@ -94,8 +88,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void PlaceObjectAt(Tile targetTile)
     {
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
-        targetTile.allowContentPlacement.gameObject.SetActive(false);
-        targetTile.blockContentPlacement.gameObject.SetActive(true);
+        targetTile.AllowContentPlacement.gameObject.SetActive(false);
+        targetTile.BlockContentPlacement.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -117,7 +111,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         return PlaceableBuildings[_currentBuildingIndex];
     }
-    
+
     /// <summary>
     /// Attempts to remove a building at the tile under the mouse.
     /// </summary>
@@ -161,44 +155,41 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void RemoveObjectAt(Tile targetTile)
     {
         targetTile.RemoveContent();
-        targetTile.blockContentPlacement.gameObject.SetActive(false);
-        targetTile.allowContentPlacement.gameObject.SetActive(true);
+        targetTile.BlockContentPlacement.gameObject.SetActive(false);
+        targetTile.AllowContentPlacement.gameObject.SetActive(true);
     }
-    
+
     /// <summary>
     /// This method places a red blocker on a tile that is already populated with an building or road.
     /// When you move off of a blocked tile the red blocker will be removed
     /// </summary>
     void DisplayBuildableTile()
     {
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-
-        if (targetTile == null) return;
-        if (coords.indices == oldCords.indices) return;
-
-        oldTargetTile = GridManager.Instance.GetTileAt(oldCords.indices);
-        oldTargetTile.allowContentPlacement.gameObject.SetActive(false);
-
-        if (oldTargetTile.PlaceableHolder.childCount > 0)
+        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        
+        if (previousTile != null && targetTile != previousTile)
         {
-            oldTargetTile.blockContentPlacement.gameObject.SetActive(false);
-            //hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
-            //hiddenContent.SetActive(true);
+            previousTile.AllowContentPlacement.gameObject.SetActive(false);
+
+            if (previousTile.PlaceableHolder.childCount > 0)
+            {
+                previousTile.BlockContentPlacement.gameObject.SetActive(false);
+                //hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
+                //hiddenContent.SetActive(true);
+            }
         }
 
-        if (targetTile.HasContent)
+        if (targetTile != null && targetTile.HasContent)
         {
             //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
             //hiddenContent.SetActive(false);
-            targetTile.blockContentPlacement.gameObject.SetActive(true);
+            targetTile.BlockContentPlacement.gameObject.SetActive(true);
         }
         else
         {
-            targetTile.blockContentPlacement.gameObject.SetActive(false);
-            targetTile.allowContentPlacement.gameObject.SetActive(true);
+            targetTile.BlockContentPlacement.gameObject.SetActive(false);
+            targetTile.AllowContentPlacement.gameObject.SetActive(true);
         }
-
-        oldCords.indices = coords.indices;
+        previousTile = targetTile;
     }
 }

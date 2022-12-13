@@ -7,10 +7,9 @@ using static Road;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private Tile tile;
-
     #region fields
-    /// <summary>
+    public Transform AllowContentPlacement;
+    public Transform BlockContentPlacement;
     /// Parent transform of the Placeable object
     /// </summary>
     [SerializeField] private Transform _placeableHolder;
@@ -36,7 +35,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
-    private Transform PlaceableHolder { get => _placeableHolder; }
+    public Transform PlaceableHolder { get => _placeableHolder; }
     
     /// <summary>
     /// Determines whether the tile hosts content
@@ -50,10 +49,6 @@ public class Tile : MonoBehaviour
     /// Gets the neighbours for this tile from the gridmanager.
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
-
-    public Transform allowContentPlacement { get; set; }
-    public Transform blockContentPlacement { get; set; }
-
     #endregion
 
     #region Methods 
