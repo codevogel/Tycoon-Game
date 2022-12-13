@@ -212,6 +212,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 6203884913808110735, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
+  _tilePresets:
+  - {fileID: 11400000, guid: 25919508403ba634c83a0673ab9d78ce, type: 2}
+  - {fileID: 11400000, guid: 25d85d0896b778b488b99cd497a4fe28, type: 2}
   gridSize: {x: 100, y: 100}
   tileWidth: {x: 5, y: 5}
 --- !u!4 &553647067

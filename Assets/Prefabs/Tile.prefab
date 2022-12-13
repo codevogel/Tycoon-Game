@@ -194,6 +194,7 @@ MonoBehaviour:
   AllowContentPlacement: {fileID: 6313711278113169981}
   BlockContentPlacement: {fileID: 9149801769234510586}
   _placeableHolder: {fileID: 7010959418966345627}
+  _spriteRenderer: {fileID: 1985145397514077898}
 --- !u!1 &4521905526455487253
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GridManager : SingletonBehaviour<GridManager>
 {
     public Tile _tilePrefab;
+    public TilePreset[] _tilePresets;
 
     [SerializeField]
     private Vector2Int gridSize = new Vector2Int(5, 5);
@@ -63,7 +64,8 @@ public class GridManager : SingletonBehaviour<GridManager>
             for (int x = 0; x < gridSize.x; x++)
             {
                 Tile newTile = Instantiate(_tilePrefab, currentPosition, _tilePrefab.transform.rotation, transform);
-                newTile.GridPosition = new Vector2Int(x, z);
+                TilePreset preset = _tilePresets[UnityEngine.Random.Range(0,_tilePresets.Length)];
+                newTile.Initialize(new Vector2Int(x, z), preset);
                 grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }

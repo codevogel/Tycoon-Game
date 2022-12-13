@@ -10,9 +10,12 @@ public class Tile : MonoBehaviour
     #region fields
     public Transform AllowContentPlacement;
     public Transform BlockContentPlacement;
+    /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
     [SerializeField] private Transform _placeableHolder;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private TilePreset _preset;
     #endregion
 
     #region Properties
@@ -51,12 +54,18 @@ public class Tile : MonoBehaviour
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
     #endregion
 
-    #region Methods 
+    #region Methods
+    public void Initialize(Vector2Int pos, TilePreset preset)
+    {
+        GridPosition = pos;
+        _spriteRenderer.sprite = preset.Sprite;
+        _preset = preset;
+    }
     /// <summary>
     /// Updates the model to reflect the Content.
     /// </summary>
     /// <param name="rotation">Rotates by rotation * 90 degrees.</param>
-    public void UpdateModel(int rotation)
+    private void UpdateModel(int rotation)
     {
         if (PlaceableHolder.childCount > 0)
         {
