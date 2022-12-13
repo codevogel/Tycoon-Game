@@ -24,7 +24,8 @@ public class DisplayResource : MonoBehaviour
 
     public void UpdateResourceAmount()
     {
-        resourceAmount.text = ResourceManager.Instance.Resources[(int)resourceUI.Type].Amount.ToString();
+        //TODO: replace
+        //resourceAmount.text = ResourceManager.Instance.Resources[(int)resourceUI.Type].Amount.ToString();
     }
     
     /// <summary>

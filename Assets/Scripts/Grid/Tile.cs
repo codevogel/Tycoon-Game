@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using RoadBehaviour;
 using UnityEngine;
 using static GridManager;
 using static Road;
 
 public class Tile : MonoBehaviour
 {
+    [SerializeField] private Tile tile;
+
     #region fields
     /// <summary>
     /// Parent transform of the Placeable object
@@ -13,6 +17,7 @@ public class Tile : MonoBehaviour
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Indices of this tile in the grid
     /// </summary>
@@ -36,12 +41,19 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// Determines whether the tile hosts content
     /// </summary>
-    public bool HasContent { get => Content != null; }
+    public bool HasContent
+    {
+        get => Content != null;
+    }
 
     /// <summary>
     /// Gets the neighbours for this tile from the gridmanager.
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
+
+    public Transform allowContentPlacement { get; set; }
+    public Transform blockContentPlacement { get; set; }
+
     #endregion
 
     #region Methods 
@@ -56,11 +68,14 @@ public class Tile : MonoBehaviour
             Destroy(PlaceableHolder.GetChild(0).gameObject);
             PlaceableHolder.localEulerAngles = new Vector3(0, 0, 0);
         }
+
         if (Content != null)
         {
             Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
             PlaceableHolder.localEulerAngles = new Vector3(0, rotation * 90, 0);
         }
+
+        RuntimeNavBaker.Instance.DelayedBake();
     }
 
     /// <summary>
@@ -76,6 +91,7 @@ public class Tile : MonoBehaviour
             case Road:
                 PickRoad();
                 PickRoadForNeighbours();
+
                 break;
             case Building:
                 UpdateModel(rotation);
@@ -86,7 +102,7 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
-    /// Picks the right road piece for this tile determined by looking at it's neighbours. 
+    /// Picks the right road piece for this tile determined by looking at it's neighbours.
     /// </summary>
     private void PickRoad()
     {
@@ -98,7 +114,7 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
-    /// Picks the right road piece for the neighbours of this tile. 
+    /// Picks the right road piece for the neighbours of this tile.
     /// </summary>
     private void PickRoadForNeighbours()
     {
@@ -122,9 +138,10 @@ public class Tile : MonoBehaviour
         {
             if (neighbour.tile.HasContent && neighbour.tile.Content is Road)
             {
-                bitwiseFlag += (int)neighbour.inDirection;
+                bitwiseFlag += (int) neighbour.inDirection;
             }
         }
+
         return (byte) bitwiseFlag;
     }
 
@@ -152,7 +169,8 @@ public class Tile : MonoBehaviour
         0b00001101 => (RoadType.TJUNC, 2),
         0b00001110 => (RoadType.TJUNC, 1),
         0b00001111 => (RoadType.CROSS, 0),
-        _ => throw new NotImplementedException("Invalid road connection flag: " + Convert.ToString(roadConnectionFlag, 2))
+        _ => throw new NotImplementedException("Invalid road connection flag: " +
+                                               Convert.ToString(roadConnectionFlag, 2))
     };
 
     /// <summary>
@@ -164,6 +182,6 @@ public class Tile : MonoBehaviour
         UpdateModel(0);
         PickRoadForNeighbours();
     }
-    #endregion
 
+    #endregion
 }
