@@ -112,7 +112,7 @@ NavMeshSettings:
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
-    minRegionArea: 2
+    minRegionArea: 0
     manualCellSize: 0
     cellSize: 0.16666667
     manualTileSize: 0
@@ -279,7 +279,7 @@ Transform:
   m_LocalRotation: {x: 0.6087605, y: -0, z: -0, w: 0.79335415}
   m_LocalPosition: {x: 2.61, y: 4.55, z: 0.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
   gridSize: {x: 100, y: 100}
-  tileWidth: {x: 1, y: 1}
+  tileWidth: {x: 5, y: 5}
 --- !u!4 &553647067
 Transform:
   m_ObjectHideFlags: 0
@@ -327,7 +327,7 @@ Transform:
   m_GameObject: {fileID: 553647065}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2021785724}
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_TileSize: 256
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
+  m_MinRegionArea: 0
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!1 &705507993

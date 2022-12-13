@@ -12,6 +12,7 @@ namespace RoadBehaviour
 
         private void Start()
         {
+            DontDestroyOnLoad(this);
             if (Instance == null)
             {
                 Instance = this;
