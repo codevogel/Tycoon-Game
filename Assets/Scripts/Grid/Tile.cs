@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using RoadBehaviour;
 using UnityEngine;
 using static GridManager;
 using static Road;
 
 public class Tile
 {
+    [SerializeField] private Tile tile;
+
     #region fields
+
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Indices of this tile in the grid
     /// </summary>
@@ -18,8 +23,8 @@ public class Tile
     /// <summary>
     /// Root transform of gameobject assosciated to this tile.
     /// </summary>
-    public Transform Root { get;  private set; }
-    
+    public Transform Root { get; private set; }
+
     /// <summary>
     /// Reference to the Placeable content this tile hosts.
     /// </summary>
@@ -29,11 +34,14 @@ public class Tile
     /// Parent transform of the Placeable object
     /// </summary>
     public Transform PlaceableHolder { get; set; }
-    
+
     /// <summary>
     /// Determines whether the tile hosts content
     /// </summary>
-    public bool HasContent { get => Content != null; }
+    public bool HasContent
+    {
+        get => Content != null;
+    }
 
     /// <summary>
     /// Gets the neighbours for this tile from the gridmanager.
@@ -42,7 +50,7 @@ public class Tile
 
     public Transform allowContentPlacement { get; set; }
     public Transform blockContentPlacement { get; set; }
-    
+
     #endregion
 
     /// <summary>
@@ -60,7 +68,8 @@ public class Tile
         allowContentPlacement = Root.Find("Preview").Find("Green");
     }
 
-    #region Methods 
+    #region Methods
+
     /// <summary>
     /// Updates the model to reflect the Content.
     /// </summary>
@@ -72,11 +81,15 @@ public class Tile
             GameObject.Destroy(PlaceableHolder.GetChild(0).gameObject);
             PlaceableHolder.localEulerAngles = new Vector3(90, 0, 0);
         }
+
         if (Content != null)
         {
-            GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
+            GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity,
+                PlaceableHolder);
             PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
         }
+
+        RuntimeNavBaker.Instance.DelayedBake();
     }
 
     /// <summary>
@@ -92,6 +105,7 @@ public class Tile
             case Road road:
                 PickRoad();
                 PickRoadForNeighbours();
+
                 break;
             case Building building:
                 UpdateModel(rotation);
@@ -102,7 +116,7 @@ public class Tile
     }
 
     /// <summary>
-    /// Picks the right road piece for this tile determined by looking at it's neighbours. 
+    /// Picks the right road piece for this tile determined by looking at it's neighbours.
     /// </summary>
     private void PickRoad()
     {
@@ -114,7 +128,7 @@ public class Tile
     }
 
     /// <summary>
-    /// Picks the right road piece for the neighbours of this tile. 
+    /// Picks the right road piece for the neighbours of this tile.
     /// </summary>
     private void PickRoadForNeighbours()
     {
@@ -138,9 +152,10 @@ public class Tile
         {
             if (neighbour.tile.HasContent && neighbour.tile.Content is Road)
             {
-                bitwiseFlag += (int)neighbour.inDirection;
+                bitwiseFlag += (int) neighbour.inDirection;
             }
         }
+
         return (byte) bitwiseFlag;
     }
 
@@ -168,7 +183,8 @@ public class Tile
         0b00001101 => (RoadType.TJUNC, 2),
         0b00001110 => (RoadType.TJUNC, 1),
         0b00001111 => (RoadType.CROSS, 0),
-        _ => throw new NotImplementedException("Invalid road connection flag: " + Convert.ToString(roadConnectionFlag, 2))
+        _ => throw new NotImplementedException("Invalid road connection flag: " +
+                                               Convert.ToString(roadConnectionFlag, 2))
     };
 
     /// <summary>
@@ -180,6 +196,6 @@ public class Tile
         UpdateModel(0);
         PickRoadForNeighbours();
     }
-    #endregion
 
+    #endregion
 }
