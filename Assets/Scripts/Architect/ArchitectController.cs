@@ -44,7 +44,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     // Update is called once per frame
     void Update()
     {
-        GhostObject();
+        DisplayBuildableTile();
         
         if (Input.GetMouseButtonDown(0))
         {
@@ -96,7 +96,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void PlaceObjectAt(Tile targetTile)
     {
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
-        targetTile.greenPreview.gameObject.SetActive(false);
+        targetTile.allowContentPlacement.gameObject.SetActive(false);
+        targetTile.blockContentPlacement.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -163,31 +164,28 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void RemoveObjectAt(Tile targetTile)
     {
         targetTile.RemoveContent();
-        targetTile.redPreview.gameObject.SetActive(false);
+        targetTile.blockContentPlacement.gameObject.SetActive(false);
+        targetTile.allowContentPlacement.gameObject.SetActive(true);
     }
     
     /// <summary>
     /// This method places a red blocker on a tile that is already populated with an building or road.
     /// When you move off of a blocked tile the red blocker will be removed
     /// </summary>
-    void GhostObject()
+    void DisplayBuildableTile()
     {
         TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
         Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
 
         if (targetTile == null) return;
+        if (coords.indices == oldCords.indices) return;
 
         oldTargetTile = GridManager.Instance.GetTileAt(oldCords.indices);
-        
-        if (coords.indices != oldCords.indices)
+        oldTargetTile.allowContentPlacement.gameObject.SetActive(false);
+
+        if (oldTargetTile.PlaceableHolder.childCount > 0)
         {
-            oldTargetTile.greenPreview.gameObject.SetActive(false);
-            
-        } 
-        
-        if (coords.indices != oldCords.indices && oldTargetTile.PlaceableHolder.childCount > 0)
-        {
-            oldTargetTile.redPreview.gameObject.SetActive(false);
+            oldTargetTile.blockContentPlacement.gameObject.SetActive(false);
             //hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
             //hiddenContent.SetActive(true);
         }
@@ -196,12 +194,12 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         {
             //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
             //hiddenContent.SetActive(false);
-            targetTile.redPreview.gameObject.SetActive(true);
+            targetTile.blockContentPlacement.gameObject.SetActive(true);
         }
         else
         {
-            targetTile.redPreview.gameObject.SetActive(false);
-            targetTile.greenPreview.gameObject.SetActive(true);
+            targetTile.blockContentPlacement.gameObject.SetActive(false);
+            targetTile.allowContentPlacement.gameObject.SetActive(true);
         }
 
         oldCords.indices = coords.indices;

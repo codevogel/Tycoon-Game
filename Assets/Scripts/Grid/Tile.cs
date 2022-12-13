@@ -40,8 +40,8 @@ public class Tile
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
 
-    public Transform greenPreview { get; set; }
-    public Transform redPreview { get; set; }
+    public Transform allowContentPlacement { get; set; }
+    public Transform blockContentPlacement { get; set; }
     
     #endregion
 
@@ -56,8 +56,8 @@ public class Tile
         Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
         Indices = indices;
         PlaceableHolder = Root.Find("Placeable Holder");
-        redPreview = Root.Find("Preview").Find("Red");
-        greenPreview = Root.Find("Preview").Find("Green");
+        blockContentPlacement = Root.Find("Preview").Find("Red");
+        allowContentPlacement = Root.Find("Preview").Find("Green");
     }
 
     #region Methods 
