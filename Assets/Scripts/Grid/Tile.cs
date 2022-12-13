@@ -8,6 +8,7 @@ using static Road;
 public class Tile
 {
     [SerializeField] private Tile tile;
+
     #region fields
 
     #endregion
@@ -85,6 +86,8 @@ public class Tile
                 PlaceableHolder);
             PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
         }
+
+        RuntimeNavBaker.Instance.DelayedBake();
     }
 
     /// <summary>
@@ -100,7 +103,7 @@ public class Tile
             case Road road:
                 PickRoad();
                 PickRoadForNeighbours();
-                RuntimeNavBaker.Instance.BakeNavMesh();
+
                 break;
             case Building building:
                 UpdateModel(rotation);
