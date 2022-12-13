@@ -74,7 +74,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void AttemptToPlaceObject()
     {
         // Get hovered tile coords
-        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        Tile targetTile = GridManager.Instance.HoverTile;
         if (targetTile != null && !targetTile.HasContent)
         {
             PlaceObjectAt(targetTile);
@@ -117,7 +117,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     private void AttemptToRemoveObject()
     {
-        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        Tile targetTile = GridManager.Instance.HoverTile;
         if (targetTile != null)
         {
             if (targetTile.Content == null)
@@ -165,7 +165,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     void DisplayBuildableTile()
     {
-        Tile targetTile = GridManager.Instance.TryGetTileFromMousePos();
+        Tile targetTile = GridManager.Instance.HoverTile;
         
         if (previousTile != null && targetTile != previousTile)
         {

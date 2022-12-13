@@ -12,11 +12,19 @@ public class GridManager : SingletonBehaviour<GridManager>
     private Vector2 tileWidth = new Vector2Int(1,1);
 
     private Tile[,] grid;
+    private Tile _hoverTile;
+
+    public Tile HoverTile { get => _hoverTile; }
 
     void Start()
     {
         CreateGrid();
         PopulateGrid();
+    }
+
+    private void Update()
+    {
+        _hoverTile = TryGetTileFromMousePos();
     }
 
     #region Initialize Grid Population
@@ -66,20 +74,6 @@ public class GridManager : SingletonBehaviour<GridManager>
     #endregion
 
     #region Public Getters
-    /// <summary>
-    /// Attempts to get the tile indeces from the hovered tile
-    /// </summary>
-    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
-    public Tile TryGetTileFromMousePos()
-    {
-        RaycastHit hit;
-        if (GetFloorPointFromMouse(out hit))
-        {
-            return GetTileAt(WorldPosToGridIndices(hit.point));
-        }
-        return null;
-    }
-
     public Neighbour[] GetNeighboursFor(Tile tile)
     {
         List<Neighbour> neighbours = new List<Neighbour>();
@@ -130,12 +124,25 @@ public class GridManager : SingletonBehaviour<GridManager>
 
     #region Utilities
     /// <summary>
+    /// Attempts to get the tile over which the mouse hovers
+    /// </summary>
+    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
+    private Tile TryGetTileFromMousePos()
+    {
+        RaycastHit hit;
+        if (GetFloorPointFromMouse(out hit))
+        {
+            return GetTileAt(WorldPosToGridIndices(hit.point));
+        }
+        return null;
+    }
+    /// <summary>
     /// Converts the mouse Screen position to a world position 
     /// and than casts a ray to find if the mouse is hovering over a tile.
     /// </summary>
     /// <param name="hit">The RaycastHit struct to store the hit information in.</param>
     /// <returns>Whether a floor point was found.</returns>
-    public bool GetFloorPointFromMouse(out RaycastHit hit)
+    private bool GetFloorPointFromMouse(out RaycastHit hit)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Floor"));
@@ -157,15 +164,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         Gizmos.color = Color.green;
 
-        // Get tile under mouse
-        Tile hoverTile = TryGetTileFromMousePos();
-
         if (Application.isPlaying)
         {
             // Draw tile gizmos
             foreach (Tile tile in grid)
             {
-                Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
+                Gizmos.color = tile == _hoverTile ? Color.yellow : Color.green;
                 Gizmos.DrawWireCube(tile.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
