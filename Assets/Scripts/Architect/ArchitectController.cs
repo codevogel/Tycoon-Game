@@ -171,31 +171,26 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
         Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-        
+
+        if (targetTile == null) return;
+
         oldTargetTile = GridManager.Instance.GetTileAt(oldCords.indices);
         
         if (coords.indices != oldCords.indices && oldTargetTile.PlaceableHolder.childCount > 0)
         {
-            Debug.Log("Coords have changed");
-            
             oldTargetTile.redPreview.gameObject.SetActive(false);
-            hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
-            Debug.Log(oldTargetTile.PlaceableHolder.GetChild(0).gameObject);
-            hiddenContent.SetActive(true);
+            //hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
+            //hiddenContent.SetActive(true);
         }
         
         if (targetTile != null)
         {
             if (targetTile.HasContent)
             {
-                hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
-                hiddenContent.SetActive(false);
+                //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
+                //hiddenContent.SetActive(false);
                 targetTile.redPreview.gameObject.SetActive(true);
             }
-        }
-        else
-        {
-            return;
         }
 
         oldCords.indices = coords.indices;
