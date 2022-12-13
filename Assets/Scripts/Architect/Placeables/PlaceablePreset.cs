@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlaceablePreset : ScriptableObject
+[CreateAssetMenu(fileName = "Placeable", menuName = "ScriptableObjects/Placeable", order = 1)]
+public class PlaceablePreset : ScriptableObject
 {
     /// <summary>The visual for the building</summary>
     [field:SerializeField]

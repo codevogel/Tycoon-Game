@@ -60,6 +60,12 @@ public class Tile : MonoBehaviour
         GridPosition = pos;
         _spriteRenderer.sprite = preset.Sprite;
         _preset = preset;
+        if (preset.Obstacle != null)
+        {
+            PlaceContent(new Placeable(preset.Obstacle), 0);
+            AllowContentPlacement.gameObject.SetActive(false);
+            BlockContentPlacement.gameObject.SetActive(true);
+        }
     }
     /// <summary>
     /// Updates the model to reflect the Content.

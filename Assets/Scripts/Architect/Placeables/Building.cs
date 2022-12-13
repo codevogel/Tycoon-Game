@@ -26,9 +26,8 @@ public class Building : Placeable
     /// Creates a new building with a given BuildingPreset.
     /// </summary>
     /// <param name="preset">The preset for this building.</param>
-    public Building(BuildingPreset preset)
+    public Building(BuildingPreset preset) : base(preset)
     {
-        Preset = preset;
         LocalPreset = preset;
         input = new Storage(preset.InitialStorage);
         output = new Storage(Array.Empty<Resource>());

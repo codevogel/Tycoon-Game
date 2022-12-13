@@ -14,7 +14,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private List<BuildingPreset> PlaceableBuildings { get; set; }
 
     private Tile previousTile;
-    private bool shouldUndo { get; set; }
 
     /// <summary>
     /// Current index of preset of building to place.
@@ -102,7 +101,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         return CurrentlyPlacing switch
         {
             PlaceableType.BUILDING => new Building(GetCurrentBuildingPreset()),
-            PlaceableType.ROAD => new Road(),
+            PlaceableType.ROAD => new Road(GetCurrentBuildingPreset()),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
     }
@@ -166,7 +165,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     void DisplayBuildableTile()
     {
         Tile targetTile = GridManager.Instance.HoverTile;
-        
+
         if (previousTile != null && targetTile != previousTile)
         {
             previousTile.AllowContentPlacement.gameObject.SetActive(false);
@@ -178,17 +177,19 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
                 //hiddenContent.SetActive(true);
             }
         }
-
-        if (targetTile != null && targetTile.HasContent)
+        if (targetTile != null)
         {
-            //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
-            //hiddenContent.SetActive(false);
-            targetTile.BlockContentPlacement.gameObject.SetActive(true);
-        }
-        else
-        {
-            targetTile.BlockContentPlacement.gameObject.SetActive(false);
-            targetTile.AllowContentPlacement.gameObject.SetActive(true);
+            if (targetTile.HasContent)
+            {
+                //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
+                //hiddenContent.SetActive(false);
+                targetTile.BlockContentPlacement.gameObject.SetActive(true);
+            }
+            else
+            {
+                targetTile.BlockContentPlacement.gameObject.SetActive(false);
+                targetTile.AllowContentPlacement.gameObject.SetActive(true);
+            }
         }
         previousTile = targetTile;
     }

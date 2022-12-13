@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public abstract class Placeable
+public class Placeable
 {
     /// <summary>
     /// Preset for this Placeable.
@@ -15,5 +15,10 @@ public abstract class Placeable
     {
         ROAD,
         BUILDING
+    }
+
+    public Placeable(PlaceablePreset preset)
+    {
+        Preset = preset;
     }
 }
