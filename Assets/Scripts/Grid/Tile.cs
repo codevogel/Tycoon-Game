@@ -57,6 +57,7 @@ public class Tile
         Indices = indices;
         PlaceableHolder = Root.Find("Placeable Holder");
         redPreview = Root.Find("Preview").Find("Red");
+        greenPreview = Root.Find("Preview").Find("Green");
     }
 
     #region Methods 
