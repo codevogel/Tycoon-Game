@@ -33,7 +33,7 @@ public class Tile
     /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
-    private Transform PlaceableHolder { get; set; }
+    public Transform PlaceableHolder { get; set; }
 
     /// <summary>
     /// Determines whether the tile hosts content
@@ -46,10 +46,10 @@ public class Tile
     /// <summary>
     /// Gets the neighbours for this tile from the gridmanager.
     /// </summary>
-    public Neighbour[] Neighbours
-    {
-        get => GridManager.Instance.GetNeighboursFor(this);
-    }
+    public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
+
+    public Transform allowContentPlacement { get; set; }
+    public Transform blockContentPlacement { get; set; }
 
     #endregion
 
@@ -64,6 +64,8 @@ public class Tile
         Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
         Indices = indices;
         PlaceableHolder = Root.Find("Placeable Holder");
+        blockContentPlacement = Root.Find("Preview").Find("Red");
+        allowContentPlacement = Root.Find("Preview").Find("Green");
     }
 
     #region Methods
@@ -114,7 +116,7 @@ public class Tile
     }
 
     /// <summary>
-    /// Picks the right road piece for this tile determined by looking at it's neighbours. 
+    /// Picks the right road piece for this tile determined by looking at it's neighbours.
     /// </summary>
     private void PickRoad()
     {
@@ -126,7 +128,7 @@ public class Tile
     }
 
     /// <summary>
-    /// Picks the right road piece for the neighbours of this tile. 
+    /// Picks the right road piece for the neighbours of this tile.
     /// </summary>
     private void PickRoadForNeighbours()
     {

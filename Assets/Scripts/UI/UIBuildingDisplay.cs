@@ -17,23 +17,23 @@ public class UIBuildingDisplay : MonoBehaviour
         buildingName.text = buildingInfo.name;
         buildingInformationText.text = null;
 
-        if (buildingInfo.BuildCost.Length != 0)
-        {
-            _buildingInformation.Add("<b>Build Cost:</b> \n");
-            GetText(buildingInfo.BuildCost);
-        }
+        //if (buildingInfo.BuildCost.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Build Cost:</b> \n");
+        //    GetText(buildingInfo.BuildCost);
+        //}
 
-        if (buildingInfo.Production.Length != 0)
-        {
-            _buildingInformation.Add("<b>Building production:</b> \n");
-            GetText(buildingInfo.Production);
-        }
+        //if (buildingInfo.StorageOut.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Building production:</b> \n");
+        //    GetText(buildingInfo.StorageOut);
+        //}
 
-        if (buildingInfo.Upkeep.Length != 0)
-        {
-            _buildingInformation.Add("<b>Building upkeep:</b> \n");
-            GetText(buildingInfo.Upkeep);
-        }
+        //if (buildingInfo.Upkeep.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Building upkeep:</b> \n");
+        //    GetText(buildingInfo.Upkeep);
+        //}
 
         foreach (var informationString in _buildingInformation)
         {
