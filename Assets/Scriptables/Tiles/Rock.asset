@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1430307994, guid: 43f30d581a425754bb10e765461147d8, type: 3}
-  Obstacle: {fileID: 0}
+  Obstacle: {fileID: 11400000, guid: 899f52d9246f7b94c92c0b7aab81464e, type: 2}
   resources: []
