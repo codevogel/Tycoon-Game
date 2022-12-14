@@ -17,7 +17,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
 
     private TileCoordinates oldCords;
     private Tile oldTargetTile { get; set; }
-    private bool shouldUndo { get; set; }
 
     /// <summary>
     /// Current index of preset of building to place.
@@ -38,8 +37,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     public List<RoadPreset> Roads { get; private set; }
 
-    public GameObject hiddenContent;
-    public GameObject ghostContent;
+
 
     // Update is called once per frame
     void Update()
