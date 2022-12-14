@@ -7,9 +7,10 @@ using UnityEngine.EventSystems;
 
 /// <summary>
 /// Controls the parent "Camera Rig of the main camera. 
-/// Instead of controlling the camera itself.
+/// Controls the menu 
+/// Does not control UI
 /// </summary>
-public class CameraController : MonoBehaviour
+public class InputHandler : MonoBehaviour
 {
   #region WASD variables
   public float movementTime;
@@ -37,6 +38,10 @@ public class CameraController : MonoBehaviour
   public Vector3 dragCurrentPosition;
 
   private Vector3 _oldMousePos;
+  #endregion
+
+  #region menu variables 
+  public GameObject popup;
   #endregion
 
   private void Start()
@@ -73,6 +78,14 @@ public class CameraController : MonoBehaviour
 
     if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
     if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
+
+    //if pause menu active close pause menu ,
+    //if popup venster active close popup 
+    //if none of the above open pause menu
+    if (Input.GetKey(KeyCode.Escape))
+    {
+      popup.SetActive(false);
+    }
     #endregion
 
   }
