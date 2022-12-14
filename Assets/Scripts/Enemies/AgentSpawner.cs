@@ -15,7 +15,7 @@ namespace Enemies
 
         private ObjectPool<GameObject> _agentPool;
         [SerializeField] private Transform agentTarget;
-        public List<GameObject> _AgentList;
+        private List<GameObject> agentList;
 
         [SerializeField] private bool activateAgents;
 
@@ -30,18 +30,27 @@ namespace Enemies
                 Destroy(this);
             }
         }
-
+        private void Start()
+        {
+            CreateAgentPool();
+            SpawnMultiple(spawnCount);
+        }
+        
+        
         private void Update()
         {
             setAgentTarget();
         }
 
+        /// <summary>
+        /// sets a transform target for every agent 
+        /// </summary>
         private void setAgentTarget()
         {
-            if (_AgentList != null)
+            if (agentList != null)
             {
                 Debug.Log("doing stuff");
-                foreach (var t in _AgentList)
+                foreach (var t in agentList)
                 {
                     if (t.TryGetComponent(out CarBehaviour nme))
                     {
@@ -51,13 +60,6 @@ namespace Enemies
                     nme.pathActive = activateAgents;
                 }
             }
-        }
-
-
-        private void Start()
-        {
-            CreateAgentPool();
-            SpawnMultiple(spawnCount);
         }
 
         /// <summary>
@@ -97,16 +99,16 @@ namespace Enemies
         private GameObject InstantiateObject()
         {
             var o = Instantiate(agentPrefab, transform);
-            if (_AgentList.Contains(o)) return o;
-            _AgentList.Add(o);
+            if (agentList.Contains(o)) return o;
+            agentList.Add(o);
             return o;
         }
 
         private void OnGet(GameObject agent)
         {
             agent.SetActive(true);
-            if (!_AgentList.Contains(agent)) return;
-            _AgentList.Add(agent);
+            if (!agentList.Contains(agent)) return;
+            agentList.Add(agent);
         }
 
         private void OnRelease(GameObject agent)
