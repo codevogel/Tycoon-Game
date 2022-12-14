@@ -46,6 +46,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   #region Popup vars
   public GameObject popup;
   public TMP_Text popuptext;
+  private Tile _popupTile;
   #endregion
   // Update is called once per frame
   void Update()
@@ -60,7 +61,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
 
     if (Input.GetMouseButtonDown(1))
     {
-      ShowResources();
+      ShowPopup();
       //Move to button on popup
       //AttemptToRemoveObject();
     }
@@ -143,7 +144,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
       }
       else
       {
-        RemoveObjectAt(targetTile);
+        RemoveObjectAt();
       }
     }
   }
@@ -168,12 +169,12 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   /// <summary>
   /// Removes the contents at targetTile.
   /// </summary>
-  /// <param name="targetTile">The tile at which to remove the contents.</param>
-  private void RemoveObjectAt(Tile targetTile)
+  /// <param name="popupTile">The tile at which to remove the contents.</param>
+  public void RemoveObjectAt()
   {
-    targetTile.RemoveContent();
-    targetTile.blockContentPlacement.gameObject.SetActive(false);
-    targetTile.allowContentPlacement.gameObject.SetActive(true);
+    _popupTile.RemoveContent();
+   _popupTile.blockContentPlacement.gameObject.SetActive(false);
+    _popupTile.allowContentPlacement.gameObject.SetActive(true);
   }
 
   /// <summary>
@@ -216,18 +217,18 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   /// <summary>
   /// doet popup
   /// </summary>
-  void ShowResources()
+  void ShowPopup()
   {
     TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-    Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-    if (targetTile == null) return;
-    if (targetTile.HasContent)
+    _popupTile = GridManager.Instance.GetTileAt(coords.indices);
+    if (_popupTile == null) return;
+    if (_popupTile.HasContent)
     {
-      if (targetTile.Content is Building)
+      if (_popupTile.Content is Building)
       {
         string output = "";
         popup.SetActive(true);
-        Building currentBuilding = (Building)targetTile.Content;
+        Building currentBuilding = (Building)_popupTile.Content;
         Debug.Log(currentBuilding.output.Contents.Count);
         foreach (KeyValuePair<ResourceType, int> kvp in currentBuilding.output.Contents)
         {
@@ -238,7 +239,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         popuptext.text = $"{output}";
         Console.WriteLine(output);
       }
-      else if (targetTile.Content is Road)
+      else if (_popupTile.Content is Road)
       {
 
       }    
