@@ -174,6 +174,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   {
     _popupTile.RemoveContent();
    _popupTile.blockContentPlacement.gameObject.SetActive(false);
+    _popupTile.allowContentPlacement.gameObject.SetActive(true);
+    popup.SetActive(false);
   }
 
   /// <summary>
@@ -214,7 +216,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   }
 
   /// <summary>
-  /// doet popup
+  /// doet popup laten zien on right click. 
+  /// popup geeft informatie over de building/road en buttons om te upgraden/destroyen.
   /// </summary>
   void ShowPopup()
   {
