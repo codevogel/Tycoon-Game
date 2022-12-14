@@ -174,7 +174,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   {
     _popupTile.RemoveContent();
    _popupTile.blockContentPlacement.gameObject.SetActive(false);
-    _popupTile.allowContentPlacement.gameObject.SetActive(true);
   }
 
   /// <summary>
