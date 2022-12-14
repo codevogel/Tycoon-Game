@@ -26,6 +26,11 @@ public class Tile
     public Placeable Content { get; private set; }
 
     /// <summary>
+    /// Reference to the collider for this tile.
+    /// </summary>
+    public Collider TileCollider { get; set; }
+
+    /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
     private Transform PlaceableHolder { get; set; }
@@ -52,6 +57,8 @@ public class Tile
         Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
         Indices = indices;
         PlaceableHolder = Root.Find("Placeable Holder");
+        TileCollider = Root.Find("Collider").GetComponent<Collider>();
+        TileCollider.GetComponent<TileReference>().SetReference(this);
     }
 
     #region Methods 
@@ -81,18 +88,23 @@ public class Tile
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
+        Root.name = Content.Preset.name;
         switch (Content)
         {
             case Road road:
+                TileCollider.gameObject.layer = LayerMask.GetMask("Road");
                 PickRoad();
                 PickRoadForNeighbours();
                 break;
             case Building building:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Building");
                 UpdateModel(rotation);
+                building.InitializeAfterInstantiation(this);
                 break;
             default:
                 break;
         }
+
     }
 
     /// <summary>

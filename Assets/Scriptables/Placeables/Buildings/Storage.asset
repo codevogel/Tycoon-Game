@@ -20,4 +20,5 @@ MonoBehaviour:
   InitialStorage: []
   Produces: []
   ProductionCost: []
-  ProductionTime: 0
+  range: 100
+  ProductionTime: 1

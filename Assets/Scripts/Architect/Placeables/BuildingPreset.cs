@@ -11,5 +11,6 @@ public class BuildingPreset : PlaceablePreset
     public Resource[] InitialStorage;
     public Resource[] Produces;
     public Resource[] ProductionCost;
+    public int range;
     public int ProductionTime;
 }

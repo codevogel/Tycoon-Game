@@ -16,11 +16,24 @@ public class Building : Placeable
     public Storage input;
     public Storage output;
     public int productionTime = 1;
+    private int range; 
 
     public Resource[] productionCost;
     public Resource[] produces;
 
-    private BuildingPreset LocalPreset { get; set; }
+    public BuildingPreset LocalPreset { get; private set; }
+
+    public Tile Tile { get; set; }
+
+
+    /// <summary>
+    /// List of providers that this building imports resources from.
+    /// </summary>
+    public List<Building> providers = new();
+    /// <summary>
+    /// List of recipients that this building exports to.
+    /// </summary>
+    public List<Building> recipients = new();
 
     /// <summary>
     /// Creates a new building with a given BuildingPreset.
@@ -34,22 +47,107 @@ public class Building : Placeable
         output = new Storage(Array.Empty<Resource>());
         productionCost = LocalPreset.ProductionCost;
         produces = LocalPreset.Produces;
-
-        SubscribeToBuildingController();
+        range = LocalPreset.range;
     }
 
-    /// <summary>
-    /// List of recipients that this building exports to.
-    /// </summary>
-    public List<Building> recipients = new();
+    public void InitializeAfterInstantiation(Tile hostingTile)
+    {
+        Tile = hostingTile;
+        BuildingController.SubscribeBuilding(this);
+        RefreshRecipients();
+    }
+
+    private void RefreshRecipients()
+    {
+        recipients = new();
+        Building[] buildingsInRange = GetBuildingsInRange();
+        foreach (Building building in buildingsInRange)
+        {
+            EnqueueRecipient(building);
+        }
+        Debug.Log(recipients.Count);
+    }
+
+    private Building GetClosestBuilding()
+    {
+        Building[] buildings = GetBuildingsInRange();
+        float minDistance = float.PositiveInfinity;
+        int maxDistanceIndex = -1;
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            float currentDistance = Vector3.Distance(buildings[i].Tile.Root.transform.position, this.Tile.Root.transform.position);
+            if (currentDistance < minDistance)
+            {
+                minDistance = currentDistance;
+                maxDistanceIndex = i;
+            }
+        }
+        if (maxDistanceIndex < 0)
+        {
+            return null;
+        }
+        return buildings[maxDistanceIndex];
+    }
+
+    private Building[] GetBuildingsInRange()
+    {
+        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.Root.position, range, LayerMask.GetMask("Building"));
+        List<(Building building, float dist)> buildingsByDistance = new();
+        foreach (Collider overlap in overlappedColliders)
+        {
+            Building other = overlap.GetComponent<TileReference>().Tile.Content as Building;
+            if (other == this)
+               continue;
+            // Determine if the other building requires a resource that this building produces, then add it with it's distance.
+            foreach (Resource requiredResource in other.LocalPreset.ProductionCost)
+            {
+                foreach (Resource product in this.LocalPreset.Produces)
+                {
+                    if (requiredResource.Type == product.Type)
+                    {
+                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.Root.transform.position, this.Tile.Root.transform.position)));
+                    }
+                }
+            }
+        }
+        buildingsByDistance.Sort(new BuildingByDistanceComparer());
+
+        Building[] buildings = new Building[buildingsByDistance.Count];
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            buildings[i] = buildingsByDistance[i].building;
+        }
+        return buildings;
+    }
 
     /// <summary>
     /// Add recipient to this building
     /// </summary>
     /// <param name="building">the recipient to add.</param>
-    public void AddRecipient(Building building)
+    public void EnqueueRecipient(Building building)
     {
-        recipients.Add(building);
+        recipients.Insert(0, building);
+    }
+
+    public void AddProvider(Building building)
+    {
+        providers.Add(building);
+    }
+
+    public void RemoveProvider(Building building)
+    {
+        providers.Remove(building);
+    }
+
+    /// <summary>
+    /// Add recipient to this building
+    /// </summary>
+    /// <param name="building">the recipient to add.</param>
+    public Building DequeueRecipient()
+    {
+        Building firstInQueue = recipients[0];
+        recipients.RemoveAt(0);
+        return firstInQueue;
     }
 
     /// <summary>
@@ -64,26 +162,15 @@ public class Building : Placeable
     /// <summary>
     /// Subscribes to building controller cycles.
     /// </summary>
-    private void SubscribeToBuildingController()
+    private void SubscribeToBuildingController(Building building)
     {
-        switch (LocalPreset.buildingType)
-        {
-            case BuildingType.Factory:
-                BuildingController.Produce.AddListener(Produce);
-                break;
-            case BuildingType.Storage:
-                break;
-            case BuildingType.Tower:
-                break;
-            default:
-                break;
-        }
+        
     }
 
     /// <summary>
     /// Production cycle for this building.
     /// </summary>
-    private void Produce()
+    public void Produce()
     {
         if (BuildingController.Tick % productionTime == 0)
         {
@@ -96,15 +183,86 @@ public class Building : Placeable
     /// </summary>
     private void Fabricate()
     {
-        if (input.HasResourcesRequired(productionCost))
+        if (!input.HasResourcesRequired(productionCost))
+        {
+            Debug.Log("Did not have enough resources to produce!");
             return;
-        foreach (Resource resource in productionCost)
-        {
-            input.Remove(resource);
         }
-        foreach (Resource resource in produces)
+        RemoveFromStorage(input, productionCost);
+        AddToStorage(output, produces);
+    }
+
+    public void AddToStorage(Storage storage, Resource[] resources)
+    {
+        foreach (Resource resource in resources)
         {
-            output.Add(resource);
+            storage.Add(resource);
+        }
+    }
+
+    public void RemoveFromStorage(Storage storage, Resource[] resources)
+    {
+        foreach (Resource resource in resources)
+        {
+            storage.Remove(resource);
+        }
+    }
+
+    public void Transport()
+    {
+        if (BuildingController.Tick % productionTime == 0)
+        {
+            TransportToRecipients();
+        }
+    }
+
+    private void TransportToRecipients()
+    {
+        if (recipients.Count > 0)
+        {
+            Building recipient = DequeueRecipient();
+            List<Resource> resourcesToSend = new();
+            // For each requested resource
+            foreach (Resource requestedResource in recipient.productionCost)
+            {
+                // If this building's output contains that requested resource
+                if (output.HasResourceRequired(requestedResource))
+                {
+                    resourcesToSend.Add(requestedResource);
+                }
+                else
+                {
+                    // Did not have that resource
+                }
+            }
+            // Send resources that were requested by recipient
+            Resource[] resourcesToSendArray = resourcesToSend.ToArray();
+            RemoveFromStorage(output, resourcesToSendArray);
+            recipient.AddToStorage(recipient.input, resourcesToSendArray);
+            // Put recipient back into queue
+            EnqueueRecipient(recipient);
+        }
+    }
+
+    public void OnDelete()
+    {
+        BuildingController.UnsubscribeBuilding(this);
+        NotifyProvidersOfRemoval();
+    }
+
+    private void NotifyProvidersOfRemoval()
+    {
+        foreach (Building provider in providers)
+        {
+            provider.RemoveProvider(this);
+        }
+    }
+
+    public class BuildingByDistanceComparer : Comparer<(Building val, float dist)>
+    {
+        public override int Compare((Building val, float dist) a, (Building val, float dist) b)
+        {
+            return (a.dist > b.dist) ? 1 : (a.dist == b.dist) ? 0 : -1;
         }
     }
 
@@ -138,8 +296,24 @@ public class Building : Placeable
         {
             foreach (Resource resource in required)
             {
+                if (!HasResourceRequired(resource))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        internal bool HasResourceRequired(Resource resource)
+        {
+            if (Contents.ContainsKey(resource.Type))
+            {
                 if (Contents[resource.Type] - resource.Amount < 0)
                     return false;
+            }
+            else
+            {
+                return false;
             }
             return true;
         }
@@ -148,7 +322,17 @@ public class Building : Placeable
         /// Adds a resource item to the storage
         /// </summary>
         /// <param name="resource">Adds a resource to the storage.</param>
-        public void Add(Resource resource) { Contents[resource.Type] += resource.Amount;}
+        public void Add(Resource resource)
+        {
+            if (Contents.ContainsKey(resource.Type))
+            {
+                Contents[resource.Type] += resource.Amount;
+            }
+            else
+            {
+                Contents[resource.Type] = resource.Amount;
+            }
+        }
 
         /// <summary>
         /// Removes a resource item from the storage.

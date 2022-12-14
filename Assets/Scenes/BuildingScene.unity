@@ -140,15 +140,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 120
+      value: 37.3
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: -44.9
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60
+      value: 32.8
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
-  gridSize: {x: 100, y: 100}
+  gridSize: {x: 10, y: 10}
   tileWidth: {x: 1, y: 1}
 --- !u!4 &553647067
 Transform:

@@ -24,4 +24,5 @@ MonoBehaviour:
   ProductionCost:
   - Type: 0
     Amount: 1
-  ProductionTime: 0
+  range: 100
+  ProductionTime: 1
