@@ -101,7 +101,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         return CurrentlyPlacing switch
         {
             PlaceableType.BUILDING => new Building(GetCurrentBuildingPreset()),
-            PlaceableType.ROAD => new Road(GetCurrentBuildingPreset()),
+            PlaceableType.ROAD => new Road(),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
     }

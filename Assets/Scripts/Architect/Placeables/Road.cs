@@ -16,7 +16,7 @@ public class Road : Placeable
         TJUNC = 4
     }
 
-    public Road(RoadPreset preset) : base(preset)
+    public Road() : base(null)
     {
 
     }
