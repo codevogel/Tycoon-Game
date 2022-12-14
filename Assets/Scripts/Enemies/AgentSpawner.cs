@@ -15,7 +15,7 @@ namespace Enemies
 
         private ObjectPool<GameObject> _agentPool;
         [SerializeField] private Transform agentTarget;
-        private List<GameObject> agentList;
+        public List<GameObject> agentList;
 
         [SerializeField] private bool activateAgents;
 
@@ -30,13 +30,14 @@ namespace Enemies
                 Destroy(this);
             }
         }
+
         private void Start()
         {
             CreateAgentPool();
             SpawnMultiple(spawnCount);
         }
-        
-        
+
+
         private void Update()
         {
             setAgentTarget();
