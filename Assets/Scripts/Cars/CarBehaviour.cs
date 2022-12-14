@@ -8,7 +8,7 @@ namespace Cars
     {
         private NavMeshAgent _navMeshAgent;
 
-        [SerializeField] private Transform target;
+        public Transform target;
 
         public bool pathActive;
 
