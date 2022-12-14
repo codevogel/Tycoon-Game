@@ -123,66 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &104573806
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 104573808}
-  - component: {fileID: 104573807}
-  m_Layer: 0
-  m_Name: ResourceMaster
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &104573807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104573806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e73a388b1be4cfa41ba1cc17be3c14c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiObjects:
-  - {fileID: 11400000, guid: 01c745c2010febb48a0fae5ceb96035e, type: 2}
-  - {fileID: 11400000, guid: 32b028ef7f3feed4fb472909a9f9e651, type: 2}
-  - {fileID: 11400000, guid: a3e2522eb757b4b4aa5c7503c8885f1d, type: 2}
-  - {fileID: 11400000, guid: 70fc4f433d00a374092f1a87e504b6bf, type: 2}
-  resources:
-  - Type: 0
-    Amount: 0
-  - Type: 1
-    Amount: 0
-  - Type: 2
-    Amount: 0
-  - Type: 3
-    Amount: 0
-  - Type: 4
-    Amount: 0
---- !u!4 &104573808
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104573806}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &128003061
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +310,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1131081951427493453, guid: d4f1c702b6e8f0140a834147d45f36c1, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1131081951427493453, guid: d4f1c702b6e8f0140a834147d45f36c1, type: 3}
       propertyPath: m_LocalPosition.x

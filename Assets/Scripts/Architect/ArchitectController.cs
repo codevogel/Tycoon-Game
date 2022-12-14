@@ -46,13 +46,13 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         DisplayBuildableTile();
         
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             AttemptToPlaceObject();
             
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             AttemptToRemoveObject();
         }
