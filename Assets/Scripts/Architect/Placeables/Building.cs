@@ -6,13 +6,6 @@ using UnityEngine.Events;
 
 public class Building : Placeable
 {
-    public enum BuildingType
-    {
-        Factory,
-        Storage,
-        Tower
-    }
-
     public Storage input;
     public Storage output;
     public int productionTime = 1;
@@ -66,18 +59,8 @@ public class Building : Placeable
     /// </summary>
     private void SubscribeToBuildingController()
     {
-        switch (LocalPreset.buildingType)
-        {
-            case BuildingType.Factory:
-                BuildingController.Produce.AddListener(Produce);
-                break;
-            case BuildingType.Storage:
-                break;
-            case BuildingType.Tower:
-                break;
-            default:
-                break;
-        }
+        if (produces.Length > 0) BuildingController.Produce.AddListener(Produce);
+        if (produces.Length > 0) BuildingController.Transport.AddListener(Transport);
     }
 
     /// <summary>
@@ -106,6 +89,11 @@ public class Building : Placeable
         {
             output.Add(resource);
         }
+    }
+
+    private void Transport()
+    {
+
     }
 
 
@@ -138,7 +126,7 @@ public class Building : Placeable
         {
             foreach (Resource resource in required)
             {
-                if (Contents[resource.Type] - resource.Amount < 0)
+                if (Contents[resource.Type] < resource.Amount)
                     return false;
             }
             return true;
