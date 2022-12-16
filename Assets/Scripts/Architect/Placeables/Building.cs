@@ -6,16 +6,8 @@ using UnityEngine.Events;
 
 public class Building : Placeable
 {
-    public enum BuildingType
-    {
-        Factory,
-        Storage,
-        Tower
-    }
-
     public Storage input;
     public Storage output;
-    public int productionTime = 1;
     private int range; 
 
     public Resource[] productionCost;
@@ -57,15 +49,14 @@ public class Building : Placeable
         RefreshRecipients();
     }
 
-    private void RefreshRecipients()
+    public void RefreshRecipients()
     {
         recipients = new();
         Building[] buildingsInRange = GetBuildingsInRange();
         foreach (Building building in buildingsInRange)
         {
-            EnqueueRecipient(building);
+            InsertAtFrontOfQueue(building);
         }
-        Debug.Log(recipients.Count);
     }
 
     private Building GetClosestBuilding()
@@ -98,18 +89,24 @@ public class Building : Placeable
             Building other = overlap.GetComponent<TileReference>().Tile.Content as Building;
             if (other == this)
                continue;
-            // Determine if the other building requires a resource that this building produces, then add it with it's distance.
-            foreach (Resource requiredResource in other.LocalPreset.ProductionCost)
+
+            bool addedBuildings = false;
+            foreach (Resource needed in other.productionCost)
             {
-                foreach (Resource product in this.LocalPreset.Produces)
+                if (addedBuildings)
+                    break;
+                foreach (Resource resource in produces)
                 {
-                    if (requiredResource.Type == product.Type)
+                    if (needed.Type == resource.Type)
                     {
                         buildingsByDistance.Add((other, Vector3.Distance(other.Tile.Root.transform.position, this.Tile.Root.transform.position)));
+                        addedBuildings = true;
+                        break;
                     }
                 }
             }
         }
+
         buildingsByDistance.Sort(new BuildingByDistanceComparer());
 
         Building[] buildings = new Building[buildingsByDistance.Count];
@@ -124,7 +121,7 @@ public class Building : Placeable
     /// Add recipient to this building
     /// </summary>
     /// <param name="building">the recipient to add.</param>
-    public void EnqueueRecipient(Building building)
+    public void InsertAtFrontOfQueue(Building building)
     {
         recipients.Insert(0, building);
     }
@@ -140,9 +137,17 @@ public class Building : Placeable
     }
 
     /// <summary>
-    /// Add recipient to this building
+    /// Enqueue recipient add end of list
     /// </summary>
     /// <param name="building">the recipient to add.</param>
+    public void EnqueueRecipient(Building recipient)
+    {
+        recipients.Add(recipient);
+    }
+
+    /// <summary>
+    /// Dequeue recipient.
+    /// </summary>
     public Building DequeueRecipient()
     {
         Building firstInQueue = recipients[0];
@@ -150,29 +155,21 @@ public class Building : Placeable
         return firstInQueue;
     }
 
-    /// <summary>
-    /// Remove recipient from this building
-    /// </summary>
-    /// <param name="building">the recipient to remove.</param>
-    public void RemoveRecipient(Building building)
-    {
-        recipients.Remove(building);
-    }
-
-    /// <summary>
-    /// Subscribes to building controller cycles.
-    /// </summary>
-    private void SubscribeToBuildingController(Building building)
-    {
-        
-    }
+    ///// <summary>
+    ///// Remove recipient from this building
+    ///// </summary>
+    ///// <param name="building">the recipient to remove.</param>
+    //public void RemoveRecipient(Building building)
+    //{
+    //    recipients.Remove(building);
+    //}
 
     /// <summary>
     /// Production cycle for this building.
     /// </summary>
     public void Produce()
     {
-        if (BuildingController.Tick % productionTime == 0)
+        if (BuildingController.Tick % LocalPreset.ProductionTime == 0)
         {
             Fabricate();
         }
@@ -210,7 +207,7 @@ public class Building : Placeable
 
     public void Transport()
     {
-        if (BuildingController.Tick % productionTime == 0)
+        if (BuildingController.Tick % LocalPreset.TransportTime == 0)
         {
             TransportToRecipients();
         }
@@ -237,6 +234,12 @@ public class Building : Placeable
             }
             // Send resources that were requested by recipient
             Resource[] resourcesToSendArray = resourcesToSend.ToArray();
+
+            if (resourcesToSendArray.Length == 0)
+            {
+                InsertAtFrontOfQueue(recipient);
+                return;
+            }
             RemoveFromStorage(output, resourcesToSendArray);
             recipient.AddToStorage(recipient.input, resourcesToSendArray);
             // Put recipient back into queue

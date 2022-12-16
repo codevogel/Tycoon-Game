@@ -7,10 +7,10 @@ using static Building;
 [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Building", order = 1)]
 public class BuildingPreset : PlaceablePreset
 {
-    public BuildingType buildingType;
     public Resource[] InitialStorage;
     public Resource[] Produces;
     public Resource[] ProductionCost;
     public int range;
     public int ProductionTime;
+    public int TransportTime;
 }

@@ -19,11 +19,16 @@ public class BuildingController : MonoBehaviour
     /// Event for transport cycle
     /// </summary>
     public static UnityEvent Transport = new();
+    public static UnityEvent Refresh = new();
 
     private static List<Building> _buildings = new();
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Refresh.Invoke();
+        }
     }
 
     public void FixedUpdate()
@@ -37,36 +42,22 @@ public class BuildingController : MonoBehaviour
     internal static void SubscribeBuilding(Building building)
     {
         _buildings.Add(building);
-        switch (building.LocalPreset.buildingType)
+        Refresh.AddListener(building.RefreshRecipients);
+        if (building.produces.Length > 0)
         {
-            case BuildingType.Factory:
-                BuildingController.Produce.AddListener(building.Produce);
-                BuildingController.Transport.AddListener(building.Transport);
-                break;
-            case BuildingType.Storage:
-                break;
-            case BuildingType.Tower:
-                break;
-            default:
-                break;
+            Produce.AddListener(building.Produce);
+            Transport.AddListener(building.Transport);
         }
     }
 
     internal static void UnsubscribeBuilding(Building building)
     {
         _buildings.Remove(building);
-        switch (building.LocalPreset.buildingType)
+        Refresh.RemoveListener(building.RefreshRecipients);
+        if (building.produces.Length > 0)
         {
-            case BuildingType.Factory:
-                BuildingController.Produce.RemoveListener(building.Produce);
-                BuildingController.Transport.RemoveListener(building.Transport);
-                break;
-            case BuildingType.Storage:
-                break;
-            case BuildingType.Tower:
-                break;
-            default:
-                break;
+            Produce.RemoveListener(building.Produce);
+            Transport.RemoveListener(building.Transport);
         }
     }
 }

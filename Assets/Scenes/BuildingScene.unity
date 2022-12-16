@@ -368,8 +368,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlaceableBuildings>k__BackingField:
   - {fileID: 11400000, guid: 5c32ee53206bd284184916801506915b, type: 2}
-  - {fileID: 11400000, guid: 24480001e5388d54fac61a4638fe0b69, type: 2}
-  - {fileID: 11400000, guid: 0007f5ad7e661e549930cf1a1773c7d1, type: 2}
   - {fileID: 11400000, guid: f3e3c5a051457ee4282d838e4849edda, type: 2}
   <CurrentlyPlacing>k__BackingField: 1
   <Roads>k__BackingField:
