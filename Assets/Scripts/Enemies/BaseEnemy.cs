@@ -8,8 +8,8 @@ namespace Enemies
         public int health;
         public int damage;
 
-        [SerializeField] private Transform target;
-        [SerializeField] private bool activateTarget;
+        public Transform target;
+        public bool activateTarget;
 
         private NavMeshAgent _navMeshAgent;
         private Vector3 _startPos;
@@ -60,7 +60,7 @@ namespace Enemies
         {
             if (health > 0) return;
             transform.localPosition = _startPos;
-            EnemySpawner.Instance.KillEnemy(gameObject);
+            AgentSpawner.Instance.KillAgent(gameObject);
             health = GameManager.Instance.enemyBaseHealth;
         }
 

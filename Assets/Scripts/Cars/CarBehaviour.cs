@@ -8,9 +8,9 @@ namespace Cars
     {
         private NavMeshAgent _navMeshAgent;
 
-        [SerializeField] private Transform target;
+        public Transform target;
 
-        [SerializeField] private bool pathActive;
+        public bool pathActive;
 
         // Start is called before the first frame update
         private void Start()
@@ -26,12 +26,13 @@ namespace Cars
                 _navMeshAgent.SetDestination(target.position);
             }
         }
+
         /// <summary>
         /// Set AreaMask for Agent
         /// </summary>
         /// <param name="area"></param>
         [Button]
-        private void SetArea(int area)
+        public void SetArea(int area)
         {
             _navMeshAgent.areaMask = area;
             //Beware: areaMask uses binary
