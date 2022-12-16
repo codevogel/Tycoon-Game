@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using UnityEngine;
 
-namespace RoadBehaviour
+namespace NavMesh
 {
     /// <summary>
     /// Build NavMesh in runtime based on a NavMeshSurface component

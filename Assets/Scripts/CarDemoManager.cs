@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Cars;
+using NavMesh;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,16 +8,16 @@ public class CarDemoManager : MonoBehaviour
 {
     [SerializeField] private bool pathActive;
 
-    private List<CarBehaviour> _cars;
+    private List<AgentBehaviour> _cars;
     private List<NavMeshAgent> _agents;
 
     public Transform cil1, cil2;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _cars = new List<CarBehaviour>();
-        foreach (var car in GetComponentsInChildren<CarBehaviour>())
+        _cars = new List<AgentBehaviour>();
+        foreach (var car in GetComponentsInChildren<AgentBehaviour>())
         {
             _cars.Add(car);
         }
