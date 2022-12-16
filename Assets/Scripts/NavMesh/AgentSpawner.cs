@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace NavMesh
         private void Start()
         {
             CreateAgentPool();
-            SpawnMultiple(spawnCount);
+            StartCoroutine(SpawnMultiple(spawnCount));
         }
 
         /// <summary>
@@ -76,7 +77,6 @@ namespace NavMesh
             if (agentList.Contains(o)) return o;
             agentList.Add(o);
             GetAgentData(o).spawnOrigin = this;
-        //    SetAgentTargets(o, agentTarget);
             return o;
         }
 
@@ -102,18 +102,27 @@ namespace NavMesh
             agent.SetActive(false);
         }
 
+        [Button("spawn multiple")]
+        private void test()
+        {
+            StartCoroutine(SpawnMultiple(spawnCount));
+        }
+
+
         /// <summary>
         /// Spawn multiple enemies
         /// </summary>
         /// <param name="spawnAmount">amount of agents to spawn</param>
-        [Button("spawn multiple")]
-        private void SpawnMultiple(int spawnAmount)
+        private IEnumerator SpawnMultiple(int spawnAmount)
         {
             for (var i = 0; i < spawnAmount; i++)
             {
+                yield return null;
                 var agent = _agentPool.Get();
                 agent.transform.localPosition = new Vector3(i * 2, 0, 0);
             }
+
+            yield return new WaitForEndOfFrame();
         }
     }
 }

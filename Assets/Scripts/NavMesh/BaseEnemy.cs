@@ -10,11 +10,6 @@ namespace NavMesh
         private Vector3 _startPos;
         private float _timer;
 
-        private void Awake()
-        {
-            health = GameManager.Instance.enemyBaseHealth;
-        }
-
         protected override void Update()
         {
             base.Update();

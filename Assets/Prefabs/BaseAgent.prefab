@@ -121,9 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc194751de9f35e468d545b92a294e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetList: []
-  pathActive: 1
   spawnOrigin: {fileID: 0}
+  targetList: []
 --- !u!65 &7532929601914893534
 BoxCollider:
   m_ObjectHideFlags: 0
