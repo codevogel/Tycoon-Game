@@ -216,15 +216,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 120
+      value: 40.3
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: -32.3
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60
+      value: 32.2
       objectReference: {fileID: 0}
     - target: {fileID: 897796187198109863, guid: e98d3940016ec62409479c300ec99d2e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
-  gridSize: {x: 100, y: 100}
+  gridSize: {x: 10, y: 10}
   tileWidth: {x: 5, y: 5}
 --- !u!4 &553647067
 Transform:
@@ -750,7 +750,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371985813
 GameObject:
@@ -1068,8 +1068,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlaceableBuildings>k__BackingField:
   - {fileID: 11400000, guid: 5c32ee53206bd284184916801506915b, type: 2}
-  - {fileID: 11400000, guid: 24480001e5388d54fac61a4638fe0b69, type: 2}
-  - {fileID: 11400000, guid: 0007f5ad7e661e549930cf1a1773c7d1, type: 2}
   - {fileID: 11400000, guid: f3e3c5a051457ee4282d838e4849edda, type: 2}
   <CurrentlyPlacing>k__BackingField: 1
   <Roads>k__BackingField:
@@ -1078,10 +1076,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 220697fc5edf3be44ac35e479363f1b7, type: 2}
   - {fileID: 11400000, guid: 7ca2d8c3e9831334599780d4aa4626a8, type: 2}
   - {fileID: 11400000, guid: f3619acf628a3244497d0ad6cd88adbb, type: 2}
-  hiddenContent: {fileID: 0}
-  ghostContent: {fileID: 0}
-  popup: {fileID: 556780247}
-  popuptext: {fileID: 1371985815}
+  popup: {fileID: 0}
+  popuptext: {fileID: 0}
 --- !u!1 &1923290574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,7 +1339,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2021785723
 GameObject:
