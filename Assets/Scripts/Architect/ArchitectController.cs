@@ -39,9 +39,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
   [field: SerializeField]
   public List<RoadPreset> Roads { get; private set; }
 
-  public GameObject hiddenContent;
-  public GameObject ghostContent;
-
 
   #region Popup vars
   public GameObject popup;
@@ -249,5 +246,22 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
       return;
     }
+  }
+
+  public void SelectBuildingZero()
+  {
+    CurrentlyPlacing = PlaceableType.BUILDING;
+    _currentBuildingIndex = 0;
+  }
+  
+  public void SelectBuildingOne()
+  {
+    CurrentlyPlacing = PlaceableType.BUILDING;
+    _currentBuildingIndex = 1;
+  }
+  
+  public void SelectRoad()
+  {
+    CurrentlyPlacing = PlaceableType.ROAD;
   }
 }
