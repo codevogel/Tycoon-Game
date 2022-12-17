@@ -119,7 +119,7 @@ namespace NavMesh
             {
                 yield return null;
                 var agent = _agentPool.Get();
-                agent.transform.localPosition = new Vector3(i * 2, 0, 0);
+                agent.transform.localPosition = new Vector3(i * 2, -0.3f, 0);
             }
 
             yield return new WaitForEndOfFrame();

@@ -14,6 +14,7 @@ namespace NavMesh
 
         private NavMeshAgent _navMeshAgent;
 
+        [ReadOnly] public bool onMesh;
 
         // Start is called before the first frame update
         protected void Start()
@@ -21,15 +22,23 @@ namespace NavMesh
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
+        [Button]
+        private void ResetPath()
+        {
+            _navMeshAgent.ResetPath();
+            _navMeshAgent.SetDestination(targetList[0].position);
+        }
+
         // Update is called once per frame
         protected virtual void Update()
         {
             SetTarget();
+            onMesh = _navMeshAgent.isOnNavMesh;
         }
 
         private void SetTarget()
         {
-            if (targetList.Count <= 0 || _navMeshAgent.hasPath) return;
+            if (targetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
             _navMeshAgent.SetDestination(targetList[0].position);
         }
 
