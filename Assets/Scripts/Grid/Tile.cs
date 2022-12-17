@@ -107,11 +107,12 @@ public class Tile
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
-        Root.name = Content.Preset.name;
+        Debug.Log(Content);
+        
         switch (Content)
         {
             case Road road:
-                TileCollider.gameObject.layer = LayerMask.GetMask("Road");
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Road");
                 PickRoad();
                 PickRoadForNeighbours();
 
@@ -124,7 +125,8 @@ public class Tile
             default:
                 break;
         }
-
+        
+        Root.name = Content.Preset.name;
     }
 
     /// <summary>
