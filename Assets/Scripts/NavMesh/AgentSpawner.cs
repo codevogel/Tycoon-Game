@@ -10,11 +10,13 @@ namespace NavMesh
     {
         public List<AgentBehaviour> agentList;
 
-        [SerializeField] private AgentBehaviour agentPrefab;
+        [SerializeField] private GameObject agentPrefab;
         [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
 
         private ObjectPool<AgentBehaviour> _agentPool;
+
+        public ObjectPool<AgentBehaviour> AgentPool { get => _agentPool; }
 
         /// <summary>
         /// return agent to pool
@@ -74,18 +76,10 @@ namespace NavMesh
         /// <returns></returns>
         private AgentBehaviour InstantiateAgent()
         {
-            AgentBehaviour agent = Instantiate(agentPrefab, transform);
+            AgentBehaviour agent = Instantiate(agentPrefab, transform).GetComponent<AgentBehaviour>();
             if (agentList.Contains(agent)) return agent;
             agentList.Add(agent);
             agent.spawnOrigin = this;
-            return agent;
-        }
-
-        public AgentBehaviour InstantiateAgent(Resource[] toDeliver, Building target)
-        {
-            AgentBehaviour agent = InstantiateAgent();
-            agent.storage = toDeliver;
-            SetAgentTargets(agent, target);
             return agent;
         }
 
@@ -96,7 +90,7 @@ namespace NavMesh
         private void OnGet(AgentBehaviour agent)
         {
             agent.gameObject.SetActive(true);
-            SetAgentTargets(agent, agentTarget);
+            //SetAgentTargets(agent, agentTarget);
             //   if (!agentList.Contains(agent)) return;
             //  agentList.Add(agent);
         }

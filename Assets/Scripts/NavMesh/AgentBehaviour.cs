@@ -11,7 +11,6 @@ namespace NavMesh
     {
         public AgentSpawner spawnOrigin;
         public List<Building> targetList = new List<Building>();
-        public Resource[] storage;
 
         private NavMeshAgent _navMeshAgent;
 
@@ -47,15 +46,8 @@ namespace NavMesh
         protected void OnReleaseAgent()
         {
             targetList.Clear();
+            transform.position = spawnOrigin.transform.position;
             spawnOrigin.ReleaseAgent(this);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.transform == targetList[0].Tile.TileCollider)
-            {
-                targetList[0].AddToStorage(targetList[0].input, storage);
-            }
         }
     }
 }

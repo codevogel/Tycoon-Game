@@ -244,7 +244,8 @@ public class Building : Placeable
                 return;
             }
             RemoveFromStorage(output, resourcesToSendArray);
-            agentSpawner.InstantiateAgent(resourcesToSendArray, recipient);
+            AgentBehaviour agent = agentSpawner.AgentPool.Get();
+            (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
             // Put recipient back into queue
             EnqueueRecipient(recipient);
         }
