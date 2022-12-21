@@ -149,20 +149,13 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         _currentBuildingIndex = (_currentBuildingIndex + 1) % PlaceableBuildings.Count;
     }
 
-    public void SelectBuildingZero()
+    public void SetPlaceableType(PlaceableType placeableType)
     {
-        CurrentlyPlacing = PlaceableType.BUILDING;
-        _currentBuildingIndex = 0;
+        CurrentlyPlacing = placeableType;
     }
-
-    public void SelectBuildingOne()
+    
+    public void SetBuildingIndex(int index)
     {
-        CurrentlyPlacing = PlaceableType.BUILDING;
-        _currentBuildingIndex = 1;
-    }
-
-    public void SelectRoad()
-    {
-        CurrentlyPlacing = PlaceableType.ROAD;
+        _currentBuildingIndex = index;
     }
 }
