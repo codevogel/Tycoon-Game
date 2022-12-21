@@ -14,6 +14,10 @@ namespace NavMesh
         [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
 
+        [SerializeField] private bool usedTimer;
+        [SerializeField] private float threshold;
+        private float spawnTimer;
+
         private ObjectPool<AgentBehaviour> _agentPool;
 
         public ObjectPool<AgentBehaviour> AgentPool { get => _agentPool; }
@@ -37,6 +41,17 @@ namespace NavMesh
         {
             CreateAgentPool();
             StartCoroutine(SpawnMultiple(spawnCount));
+        }
+
+        private void Update()
+        {
+            spawnTimer += Time.deltaTime;
+
+            if (spawnTimer > threshold && usedTimer)
+            {
+                spawnTimer = 0;
+                SpawnAgent();
+            }
         }
 
         /// <summary>
@@ -105,7 +120,7 @@ namespace NavMesh
         }
 
         [Button("spawn multiple")]
-        private void test()
+        private void SpawnAgent()
         {
             StartCoroutine(SpawnMultiple(spawnCount));
         }
