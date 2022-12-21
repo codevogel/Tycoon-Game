@@ -206,6 +206,7 @@ public class Tile
     /// </summary>
     internal void RemoveContent()
     {
+        Content.OnDestroy();
         this.Content = null;
         UpdateModel(0);
         PickRoadForNeighbours();

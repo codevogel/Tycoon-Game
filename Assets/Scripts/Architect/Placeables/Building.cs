@@ -129,16 +129,6 @@ public class Building : Placeable
         recipients.Insert(0, building);
     }
 
-    public void AddProvider(Building building)
-    {
-        providers.Add(building);
-    }
-
-    public void RemoveProvider(Building building)
-    {
-        providers.Remove(building);
-    }
-
     /// <summary>
     /// Enqueue recipient add end of list
     /// </summary>
@@ -251,19 +241,11 @@ public class Building : Placeable
         }
     }
 
-    public void OnDelete()
+    public override void OnDestroy()
     {
         BuildingController.UnsubscribeBuilding(this);
-        NotifyProvidersOfRemoval();
     }
 
-    private void NotifyProvidersOfRemoval()
-    {
-        foreach (Building provider in providers)
-        {
-            provider.RemoveProvider(this);
-        }
-    }
 
     public class BuildingByDistanceComparer : Comparer<(Building val, float dist)>
     {
