@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1436732793593995988}
+  - component: {fileID: 7422037580094979819}
   m_Layer: 0
   m_Name: building A
   m_TagString: Untagged
@@ -32,6 +33,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7422037580094979819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782190089080895598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e43ab0bdffb07a4490468a5a16c7a3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentList: []
+  agentPrefab: {fileID: 2948315396895682726, guid: d76d617c5543d024881d92021dd0f951, type: 3}
+  spawnCount: 0
 --- !u!1 &5362368529231560081
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +59,6 @@ GameObject:
   - component: {fileID: 866706713600644467}
   - component: {fileID: 7045279024237746797}
   - component: {fileID: 6505635220436666804}
-  - component: {fileID: 1094541951126182755}
   m_Layer: 0
   m_Name: building A
   m_TagString: Untagged
@@ -116,19 +131,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1094541951126182755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362368529231560081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e43ab0bdffb07a4490468a5a16c7a3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentList: []
-  agentPrefab: {fileID: 2948315396895682726, guid: d76d617c5543d024881d92021dd0f951, type: 3}
-  agentTarget: {fileID: 0}
-  spawnCount: 1

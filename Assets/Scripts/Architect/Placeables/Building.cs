@@ -1,3 +1,4 @@
+using NavMesh;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ public class Building : Placeable
     /// List of recipients that this building exports to.
     /// </summary>
     public List<Building> recipients = new();
+    private AgentSpawner agentSpawner;
 
     /// <summary>
     /// Creates a new building with a given BuildingPreset.
@@ -47,6 +49,7 @@ public class Building : Placeable
         Tile = hostingTile;
         BuildingController.SubscribeBuilding(this);
         RefreshRecipients();
+        agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
     }
 
     public void RefreshRecipients()
@@ -241,7 +244,7 @@ public class Building : Placeable
                 return;
             }
             RemoveFromStorage(output, resourcesToSendArray);
-            recipient.AddToStorage(recipient.input, resourcesToSendArray);
+            agentSpawner.InstantiateAgent(resourcesToSendArray, recipient);
             // Put recipient back into queue
             EnqueueRecipient(recipient);
         }

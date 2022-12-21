@@ -10,13 +10,13 @@ namespace NavMesh
     public class AgentBehaviour : MonoBehaviour
     {
         public AgentSpawner spawnOrigin;
-        public List<Transform> targetList;
+        public List<Building> targetList = new List<Building>();
+        public Resource[] storage;
 
         private NavMeshAgent _navMeshAgent;
 
         [ReadOnly] public bool onMesh;
 
-        // Start is called before the first frame update
         protected void Start()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -26,10 +26,9 @@ namespace NavMesh
         private void ResetPath()
         {
             _navMeshAgent.ResetPath();
-            _navMeshAgent.SetDestination(targetList[0].position);
+            _navMeshAgent.SetDestination(targetList[0].Tile.Root.position);
         }
 
-        // Update is called once per frame
         protected virtual void Update()
         {
             SetTarget();
@@ -39,7 +38,7 @@ namespace NavMesh
         private void SetTarget()
         {
             if (targetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
-            _navMeshAgent.SetDestination(targetList[0].position);
+            _navMeshAgent.SetDestination(targetList[0].Tile.Root.position);
         }
 
         /// <summary>
@@ -48,7 +47,15 @@ namespace NavMesh
         protected void OnReleaseAgent()
         {
             targetList.Clear();
-            spawnOrigin.ReleaseAgent(gameObject);
+            spawnOrigin.ReleaseAgent(this);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform == targetList[0].Tile.TileCollider)
+            {
+                targetList[0].AddToStorage(targetList[0].input, storage);
+            }
         }
     }
 }

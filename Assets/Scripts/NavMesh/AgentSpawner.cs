@@ -8,26 +8,27 @@ namespace NavMesh
 {
     public class AgentSpawner : MonoBehaviour
     {
-        public List<GameObject> agentList;
+        public List<AgentBehaviour> agentList;
 
-        [SerializeField] private GameObject agentPrefab;
-        [SerializeField] private Transform agentTarget;
+        [SerializeField] private AgentBehaviour agentPrefab;
+        [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
 
-        private ObjectPool<GameObject> _agentPool;
+        private ObjectPool<AgentBehaviour> _agentPool;
 
         /// <summary>
         /// return agent to pool
         /// </summary>
         /// <param name="agent">agent to return to pool</param>
-        public void ReleaseAgent(GameObject agent)
+        public void ReleaseAgent(AgentBehaviour agent)
         {
             _agentPool.Release(agent);
         }
 
-        private void SetAgentTargets(GameObject agent, Transform target)
+        private void SetAgentTargets(AgentBehaviour agent, Building target)
         {
-            GetAgentData(agent).targetList.Add(target != null ? target : GameManager.Instance.globalTarget.transform);
+            //agent.targetList.Add(target != null ? target : GameManager.Instance.globalTarget.transform);
+            agent.targetList.Add(target);
         }
 
         private void Start()
@@ -41,53 +42,60 @@ namespace NavMesh
         /// </summary>
         private void CreateAgentPool()
         {
-            _agentPool = new ObjectPool<GameObject>(
+            _agentPool = new ObjectPool<AgentBehaviour>(
                 InstantiateAgent,
                 OnGet,
                 OnRelease,
                 Destroy, true, 10, 20);
         }
 
-        /// <summary>
-        /// retrieves the AgentBehaviour class of a given agent
-        /// </summary>
-        /// <param name="agent">agent to retrieve the behaviour class of</param>
-        /// <returns></returns>
-        private AgentBehaviour GetAgentData(GameObject agent)
-        {
-            if (agentList != null)
-            {
-                if (agent.TryGetComponent(out AgentBehaviour agentBehaviour))
-                {
-                    return agentBehaviour;
-                }
-            }
+        ///// <summary>
+        ///// retrieves the AgentBehaviour class of a given agent
+        ///// </summary>
+        ///// <param name="agent">agent to retrieve the behaviour class of</param>
+        ///// <returns></returns>
+        //private AgentBehaviour GetAgentData(AgentBehaviour agent)
+        //{
+        //    if (agentList != null)
+        //    {
+        //        if (agent.TryGetComponent(out AgentBehaviour agentBehaviour))
+        //        {
+        //            return agentBehaviour;
+        //        }
+        //    }
 
-            Debug.Log($"{agentList} list is empty");
-            return null;
-        }
+        //    Debug.Log($"{agentList} list is empty");
+        //    return null;
+        //}
 
         /// <summary>
         /// instantiate
         /// </summary>
         /// <returns></returns>
-        private GameObject InstantiateAgent()
+        private AgentBehaviour InstantiateAgent()
         {
-            var o = Instantiate(agentPrefab, transform);
-            if (agentList.Contains(o)) return o;
-            agentList.Add(o);
-            GetAgentData(o).spawnOrigin = this;
-            return o;
+            AgentBehaviour agent = Instantiate(agentPrefab, transform);
+            if (agentList.Contains(agent)) return agent;
+            agentList.Add(agent);
+            agent.spawnOrigin = this;
+            return agent;
         }
 
+        public AgentBehaviour InstantiateAgent(Resource[] toDeliver, Building target)
+        {
+            AgentBehaviour agent = InstantiateAgent();
+            agent.storage = toDeliver;
+            SetAgentTargets(agent, target);
+            return agent;
+        }
 
         /// <summary>
         /// collection method for OnActionGet in objectPool
         /// </summary>
         /// <param name="agent">agent to perform object pool get function on</param>
-        private void OnGet(GameObject agent)
+        private void OnGet(AgentBehaviour agent)
         {
-            agent.SetActive(true);
+            agent.gameObject.SetActive(true);
             SetAgentTargets(agent, agentTarget);
             //   if (!agentList.Contains(agent)) return;
             //  agentList.Add(agent);
@@ -97,9 +105,9 @@ namespace NavMesh
         /// collection method for OnActionRelease in objectPool
         /// </summary>
         /// <param name="agent">agent to perform object pool release function on</param>
-        private static void OnRelease(GameObject agent)
+        private static void OnRelease(AgentBehaviour agent)
         {
-            agent.SetActive(false);
+            agent.gameObject.SetActive(false);
         }
 
         [Button("spawn multiple")]
