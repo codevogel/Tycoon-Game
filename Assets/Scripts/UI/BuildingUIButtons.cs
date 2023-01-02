@@ -22,4 +22,10 @@ public class BuildingUIButtons : MonoBehaviour
     {
         ArchitectController.Instance.SetPlaceableType(PlaceableType.ROAD);
     }
+    
+    public void SelectTower()
+        {
+            ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
+            ArchitectController.Instance.SetBuildingIndex(2);
+        }
 }
