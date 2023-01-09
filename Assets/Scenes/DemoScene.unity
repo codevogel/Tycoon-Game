@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1512,6 +1512,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: _tilePrefab
+      value: 
+      objectReference: {fileID: 7200039709778253131, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: _tilePresets.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: _tilePresets.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25919508403ba634c83a0673ab9d78ce, type: 2}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: _tilePresets.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25d85d0896b778b488b99cd497a4fe28, type: 2}
     - target: {fileID: 7059909705757930753, guid: bcc60319716f3f0468464182215bff07, type: 3}
       propertyPath: m_RootOrder
       value: 1

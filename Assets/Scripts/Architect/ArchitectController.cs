@@ -16,10 +16,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     private List<BuildingPreset> PlaceableBuildings { get; set; }
 
-    private TileCoordinates oldCords;
-    private Tile oldTargetTile { get; set; }
-    private bool shouldUndo { get; set; }
-
     /// <summary>
     /// Current index of preset of building to place.
     /// </summary>
@@ -70,14 +66,12 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     private void AttemptToPlaceObject()
     {
-        // Get hovered tile coords
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        if (coords.inBounds)
+        Tile targetTile = GridManager.Instance.HoverTile;
+        if (targetTile != null)
         {
-            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
             if (targetTile.HasContent)
             {
-                Debug.Log("Selected building: " + targetTile.Root.name);
+                Debug.Log("Selected building: " + targetTile.Content.Preset.name);
             }
             else
             {
@@ -94,8 +88,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void PlaceObjectAt(Tile targetTile)
     {
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
-        targetTile.allowContentPlacement.gameObject.SetActive(false);
-        targetTile.blockContentPlacement.gameObject.SetActive(true);
+        targetTile.AllowContentPlacement.gameObject.SetActive(false);
+        targetTile.BlockContentPlacement.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -111,26 +105,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
             PlaceableType.ROAD => new Road(),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
-    }
-
-    /// <summary>
-    /// Attempts to remove a building at the tile under the mouse.
-    /// </summary>
-    private void AttemptToRemoveObject()
-    {
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        if (coords.inBounds)
-        {
-            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
-            if (targetTile.Content == null)
-            {
-                Debug.Log("Tried removing a building that did not exist");
-            }
-            else
-            {
-                BuildingController.Refresh.Invoke(); // TODO: not performance friendly
-            }
-        }
     }
 
     /// <summary>

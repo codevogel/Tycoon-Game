@@ -33,8 +33,9 @@ public class Building : Placeable
     /// Creates a new building with a given BuildingPreset.
     /// </summary>
     /// <param name="preset">The preset for this building.</param>
-    public Building(BuildingPreset preset) : base(preset)
+    public Building(BuildingPreset preset)
     {
+        Preset = preset;
         LocalPreset = preset;
         input = new Storage(preset.InitialStorage);
         output = new Storage(Array.Empty<Resource>());
@@ -68,7 +69,7 @@ public class Building : Placeable
         int maxDistanceIndex = -1;
         for (int i = 0; i < buildings.Length; i++)
         {
-            float currentDistance = Vector3.Distance(buildings[i].Tile.Root.transform.position, this.Tile.Root.transform.position);
+            float currentDistance = Vector3.Distance(buildings[i].Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position);
             if (currentDistance < minDistance)
             {
                 minDistance = currentDistance;
@@ -84,11 +85,11 @@ public class Building : Placeable
 
     private Building[] GetBuildingsInRange()
     {
-        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.Root.position, range, LayerMask.GetMask("Building"));
+        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.PlaceableHolder.position, range, LayerMask.GetMask("Building"));
         List<(Building building, float dist)> buildingsByDistance = new();
         foreach (Collider overlap in overlappedColliders)
         {
-            Building other = overlap.GetComponent<TileReference>().Tile.Content as Building;
+            Building other = overlap.GetComponent<Tile>().Content as Building;
             if (other == this)
                continue;
 
@@ -101,7 +102,7 @@ public class Building : Placeable
                 {
                     if (needed.Type == resource.Type)
                     {
-                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.Root.transform.position, this.Tile.Root.transform.position)));
+                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position)));
                         addedBuildings = true;
                         break;
                     }

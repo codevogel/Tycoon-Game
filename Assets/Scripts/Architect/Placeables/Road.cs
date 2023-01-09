@@ -22,7 +22,7 @@ public class Road : Placeable
         TJUNC = 4
     }
 
-    public Road() : base(null)
+    public Road()
     {
 
     }

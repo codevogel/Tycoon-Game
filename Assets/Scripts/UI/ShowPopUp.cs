@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using static GridManager;
 using UnityEngine;
 
 public class ShowPopUp : MonoBehaviour
@@ -28,8 +27,7 @@ public class ShowPopUp : MonoBehaviour
     /// </summary>
     void ShowPopup()
     {
-        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
-        _popupTile = GridManager.Instance.GetTileAt(coords.indices);
+        _popupTile = GridManager.Instance.HoverTile;
         if (_popupTile == null) return;
         if (_popupTile.HasContent)
         {
@@ -66,7 +64,6 @@ public class ShowPopUp : MonoBehaviour
     public void RemoveObjectAt()
     {
         _popupTile.RemoveContent();
-        _popupTile.blockContentPlacement.gameObject.SetActive(false);
         popup.SetActive(false);
     }
 }

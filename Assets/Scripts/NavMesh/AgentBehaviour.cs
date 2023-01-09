@@ -25,7 +25,7 @@ namespace NavMesh
         private void ResetPath()
         {
             _navMeshAgent.ResetPath();
-            _navMeshAgent.SetDestination(targetList[0].Tile.Root.position);
+            _navMeshAgent.SetDestination(targetList[0].Tile.PlaceableHolder.position);
         }
 
         protected virtual void Update()
@@ -37,7 +37,7 @@ namespace NavMesh
         private void SetTarget()
         {
             if (targetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
-            _navMeshAgent.SetDestination(targetList[0].Tile.Root.position);
+            _navMeshAgent.SetDestination(targetList[0].Tile.PlaceableHolder.position);
         }
 
         /// <summary>

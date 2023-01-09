@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
     /// </summary>
     [SerializeField] private Transform _placeableHolder;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Collider _tileCollider;
+    private Vector2Int _gridPosition;
     private TilePreset _preset;
     #endregion
 
@@ -23,12 +25,12 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// Indices of this tile in the grid
     /// </summary>
-    public Vector2Int GridPosition { get; set; }
+    public Vector2Int GridPosition { get => _gridPosition; }
 
     /// <summary>
     /// The scriptable object containing the sprite and the resources in the Tile.
     /// </summary>
-    public TilePreset TilePreset { get; set; }
+    public TilePreset TilePreset { get => _preset; }
 
     /// <summary>
     /// Reference to the Placeable content this tile hosts.
@@ -38,7 +40,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// Reference to the collider for this tile.
     /// </summary>
-    public Collider TileCollider { get; set; }
+    public Collider TileCollider { get => _tileCollider; }
 
     /// <summary>
     /// Parent transform of the Placeable object
@@ -59,35 +61,18 @@ public class Tile : MonoBehaviour
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
     #endregion
 
-    /// <summary>
-    /// Constructor for a tile.
-    /// </summary>
-    /// <param name="prefab">The tile object prefab.</param>
-    /// <param name="position">The position to instantiate this tile at.</param>
-    /// <param name="indices">The indices of this tile in the grid.</param>
-    public Tile(GameObject prefab, Vector3 position, Vector2Int indices)
-    {
-        Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
-        Indices = indices;
-        PlaceableHolder = Root.Find("Placeable Holder");
-        blockContentPlacement = Root.Find("Preview").Find("Red");
-        allowContentPlacement = Root.Find("Preview").Find("Green");
-        TileCollider = Root.Find("Collider").GetComponent<Collider>();
-        TileCollider.GetComponent<TileReference>().SetReference(this);
-    }
-
     #region Methods
     public void Initialize(Vector2Int pos, TilePreset preset)
     {
-        GridPosition = pos;
         _spriteRenderer.sprite = preset.Sprite;
+        _gridPosition = pos;
         _preset = preset;
-        if (preset.Obstacle != null)
-        {
-            PlaceContent(new Placeable(preset.Obstacle), 0);
-            AllowContentPlacement.gameObject.SetActive(false);
-            BlockContentPlacement.gameObject.SetActive(true);
-        }
+        //if (preset.Obstacle != null)
+        //{
+        //    PlaceContent(new Placeable(preset.Obstacle), 0);
+        //    AllowContentPlacement.gameObject.SetActive(false);
+        //    BlockContentPlacement.gameObject.SetActive(true);
+        //}
     }
     /// <summary>
     /// Updates the model to reflect the Content.
@@ -101,7 +86,7 @@ public class Tile : MonoBehaviour
             PlaceableHolder.localEulerAngles = new Vector3(0, 0, 0);
         }
 
-        if (Content != null)
+        if (Content != null && Content.Preset != null)
         {
             Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
             PlaceableHolder.localEulerAngles = new Vector3(0, rotation * 90, 0);
@@ -137,7 +122,7 @@ public class Tile : MonoBehaviour
                 break;
         }
         
-        Root.name = Content.Preset.name;
+        PlaceableHolder.name = Content.Preset.name;
     }
 
     /// <summary>
