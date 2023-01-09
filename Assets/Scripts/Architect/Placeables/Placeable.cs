@@ -1,7 +1,8 @@
 
+using System;
 using UnityEngine;
 
-public class Placeable
+public abstract class Placeable
 {
     /// <summary>
     /// Preset for this Placeable.
@@ -17,8 +18,5 @@ public class Placeable
         BUILDING
     }
 
-    public Placeable(PlaceablePreset preset)
-    {
-        Preset = preset;
-    }
+    public abstract void OnDestroy();
 }

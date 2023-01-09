@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoadBehaviour;
+using NavMesh;
 using UnityEngine;
 using static GridManager;
 using static Road;
@@ -36,6 +36,11 @@ public class Tile : MonoBehaviour
     public Placeable Content { get; private set; }
 
     /// <summary>
+    /// Reference to the collider for this tile.
+    /// </summary>
+    public Collider TileCollider { get; set; }
+
+    /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
     public Transform PlaceableHolder { get => _placeableHolder; }
@@ -53,6 +58,23 @@ public class Tile : MonoBehaviour
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
     #endregion
+
+    /// <summary>
+    /// Constructor for a tile.
+    /// </summary>
+    /// <param name="prefab">The tile object prefab.</param>
+    /// <param name="position">The position to instantiate this tile at.</param>
+    /// <param name="indices">The indices of this tile in the grid.</param>
+    public Tile(GameObject prefab, Vector3 position, Vector2Int indices)
+    {
+        Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
+        Indices = indices;
+        PlaceableHolder = Root.Find("Placeable Holder");
+        blockContentPlacement = Root.Find("Preview").Find("Red");
+        allowContentPlacement = Root.Find("Preview").Find("Green");
+        TileCollider = Root.Find("Collider").GetComponent<Collider>();
+        TileCollider.GetComponent<TileReference>().SetReference(this);
+    }
 
     #region Methods
     public void Initialize(Vector2Int pos, TilePreset preset)
@@ -96,19 +118,26 @@ public class Tile : MonoBehaviour
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
+        Debug.Log(Content);
+        
         switch (Content)
         {
-            case Road:
+            case Road road:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Road");
                 PickRoad();
                 PickRoadForNeighbours();
 
                 break;
-            case Building:
+            case Building building:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Building");
                 UpdateModel(rotation);
+                building.InitializeAfterInstantiation(this);
                 break;
             default:
                 break;
         }
+        
+        Root.name = Content.Preset.name;
     }
 
     /// <summary>
@@ -188,6 +217,7 @@ public class Tile : MonoBehaviour
     /// </summary>
     internal void RemoveContent()
     {
+        Content.OnDestroy();
         this.Content = null;
         UpdateModel(0);
         PickRoadForNeighbours();

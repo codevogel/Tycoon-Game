@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Road : Placeable
 {
+    public override void OnDestroy()
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// The types of roads that exist.
     /// </summary>

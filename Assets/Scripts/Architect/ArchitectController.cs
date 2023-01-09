@@ -1,7 +1,10 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
+using static GridManager;
 using static Placeable;
 using static Road;
 
@@ -13,7 +16,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     private List<BuildingPreset> PlaceableBuildings { get; set; }
 
-    private Tile previousTile;
+    private TileCoordinates oldCords;
+    private Tile oldTargetTile { get; set; }
+    private bool shouldUndo { get; set; }
 
     /// <summary>
     /// Current index of preset of building to place.
@@ -34,26 +39,19 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [field: SerializeField]
     public List<RoadPreset> Roads { get; private set; }
 
-    public GameObject hiddenContent;
-    public GameObject ghostContent;
+    private BuildingPreset CurrentBuildingPreset => PlaceableBuildings[_currentBuildingIndex];
 
     // Update is called once per frame
     void Update()
     {
-        DisplayBuildableTile();
+        //DisplayBuildableTile();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             AttemptToPlaceObject();
-
         }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            AttemptToRemoveObject();
-        }
-
-
+        //alpha key 1 and 2 do not work?
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             IncrementBuildingPlacementRotation();
@@ -73,10 +71,19 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void AttemptToPlaceObject()
     {
         // Get hovered tile coords
-        Tile targetTile = GridManager.Instance.HoverTile;
-        if (targetTile != null && !targetTile.HasContent)
+        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
+        if (coords.inBounds)
         {
-            PlaceObjectAt(targetTile);
+            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
+            if (targetTile.HasContent)
+            {
+                Debug.Log("Selected building: " + targetTile.Root.name);
+            }
+            else
+            {
+                PlaceObjectAt(targetTile);
+                BuildingController.Refresh.Invoke(); // TODO: not performance friendly
+            }
         }
     }
 
@@ -87,8 +94,8 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void PlaceObjectAt(Tile targetTile)
     {
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
-        targetTile.AllowContentPlacement.gameObject.SetActive(false);
-        targetTile.BlockContentPlacement.gameObject.SetActive(true);
+        targetTile.allowContentPlacement.gameObject.SetActive(false);
+        targetTile.blockContentPlacement.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -100,15 +107,10 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         return CurrentlyPlacing switch
         {
-            PlaceableType.BUILDING => new Building(GetCurrentBuildingPreset()),
+            PlaceableType.BUILDING => new Building(CurrentBuildingPreset),
             PlaceableType.ROAD => new Road(),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
-    }
-
-    private BuildingPreset GetCurrentBuildingPreset()
-    {
-        return PlaceableBuildings[_currentBuildingIndex];
     }
 
     /// <summary>
@@ -116,16 +118,17 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     /// </summary>
     private void AttemptToRemoveObject()
     {
-        Tile targetTile = GridManager.Instance.HoverTile;
-        if (targetTile != null)
+        TileCoordinates coords = GridManager.Instance.GetTileCoordsFromMousePos();
+        if (coords.inBounds)
         {
+            Tile targetTile = GridManager.Instance.GetTileAt(coords.indices);
             if (targetTile.Content == null)
             {
                 Debug.Log("Tried removing a building that did not exist");
             }
             else
             {
-                RemoveObjectAt(targetTile);
+                BuildingController.Refresh.Invoke(); // TODO: not performance friendly
             }
         }
     }
@@ -146,51 +149,13 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         _currentBuildingIndex = (_currentBuildingIndex + 1) % PlaceableBuildings.Count;
     }
 
-
-    /// <summary>
-    /// Removes the contents at targetTile.
-    /// </summary>
-    /// <param name="targetTile">The tile at which to remove the contents.</param>
-    private void RemoveObjectAt(Tile targetTile)
+    public void SetPlaceableType(PlaceableType placeableType)
     {
-        targetTile.RemoveContent();
-        targetTile.BlockContentPlacement.gameObject.SetActive(false);
-        targetTile.AllowContentPlacement.gameObject.SetActive(true);
+        CurrentlyPlacing = placeableType;
     }
-
-    /// <summary>
-    /// This method places a red blocker on a tile that is already populated with an building or road.
-    /// When you move off of a blocked tile the red blocker will be removed
-    /// </summary>
-    void DisplayBuildableTile()
+    
+    public void SetBuildingIndex(int index)
     {
-        Tile targetTile = GridManager.Instance.HoverTile;
-
-        if (previousTile != null && targetTile != previousTile)
-        {
-            previousTile.AllowContentPlacement.gameObject.SetActive(false);
-
-            if (previousTile.PlaceableHolder.childCount > 0)
-            {
-                previousTile.BlockContentPlacement.gameObject.SetActive(false);
-                //hiddenContent = oldTargetTile.PlaceableHolder.GetChild(0).gameObject;
-                //hiddenContent.SetActive(true);
-            }
-        }
-        if (targetTile != null)
-        {
-            if (targetTile.HasContent)
-            {
-                //hiddenContent = targetTile.PlaceableHolder.GetChild(0).gameObject;
-                //hiddenContent.SetActive(false);
-                targetTile.BlockContentPlacement.gameObject.SetActive(true);
-            }
-            else
-            {
-                targetTile.BlockContentPlacement.gameObject.SetActive(false);
-                targetTile.AllowContentPlacement.gameObject.SetActive(true);
-            }
-        }
-        previousTile = targetTile;
+        _currentBuildingIndex = index;
     }
 }

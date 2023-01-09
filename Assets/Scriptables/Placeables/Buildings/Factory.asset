@@ -16,7 +16,6 @@ MonoBehaviour:
   BuildCost:
   - Type: 0
     Amount: 50
-  buildingType: 0
   InitialStorage: []
   Produces:
   - Type: 1
@@ -24,4 +23,6 @@ MonoBehaviour:
   ProductionCost:
   - Type: 0
     Amount: 1
-  ProductionTime: 0
+  range: 100
+  ProductionTime: 100
+  TransportTime: 100
