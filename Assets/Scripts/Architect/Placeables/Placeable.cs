@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public abstract class Placeable
@@ -16,4 +17,6 @@ public abstract class Placeable
         ROAD,
         BUILDING
     }
+
+    public abstract void OnDestroy();
 }

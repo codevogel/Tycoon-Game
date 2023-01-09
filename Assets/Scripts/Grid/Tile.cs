@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoadBehaviour;
+using NavMesh;
 using UnityEngine;
 using static GridManager;
 using static Road;
@@ -29,6 +29,11 @@ public class Tile
     /// Reference to the Placeable content this tile hosts.
     /// </summary>
     public Placeable Content { get; private set; }
+
+    /// <summary>
+    /// Reference to the collider for this tile.
+    /// </summary>
+    public Collider TileCollider { get; set; }
 
     /// <summary>
     /// Parent transform of the Placeable object
@@ -66,6 +71,8 @@ public class Tile
         PlaceableHolder = Root.Find("Placeable Holder");
         blockContentPlacement = Root.Find("Preview").Find("Red");
         allowContentPlacement = Root.Find("Preview").Find("Green");
+        TileCollider = Root.Find("Collider").GetComponent<Collider>();
+        TileCollider.GetComponent<TileReference>().SetReference(this);
     }
 
     #region Methods
@@ -100,19 +107,26 @@ public class Tile
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
+        Debug.Log(Content);
+        
         switch (Content)
         {
             case Road road:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Road");
                 PickRoad();
                 PickRoadForNeighbours();
 
                 break;
             case Building building:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Building");
                 UpdateModel(rotation);
+                building.InitializeAfterInstantiation(this);
                 break;
             default:
                 break;
         }
+        
+        Root.name = Content.Preset.name;
     }
 
     /// <summary>
@@ -192,6 +206,7 @@ public class Tile
     /// </summary>
     internal void RemoveContent()
     {
+        Content.OnDestroy();
         this.Content = null;
         UpdateModel(0);
         PickRoadForNeighbours();
