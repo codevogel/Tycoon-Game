@@ -11,7 +11,7 @@ namespace NavMesh
         public int speed;
 
         private Vector3 _startPos;
-        private float _timer;
+        [SerializeField]private float _timer;
 
         [SerializeField] private List<GameObject> targets = new List<GameObject>();
 
@@ -22,7 +22,6 @@ namespace NavMesh
             OnDeath();
             
             var target = GetTarget();
-            Debug.Log(target);
 
             // Move our position a step closer to the target.
             var step =  speed * Time.deltaTime; // calculate distance to move
@@ -31,10 +30,15 @@ namespace NavMesh
 
         private void OnCollisionStay(Collision collision)
         {
+            Debug.Log("Collision");
             if (!collision.collider.CompareTag("Walls")) return;
+            Debug.Log("Wall exist");
             if (!collision.collider.TryGetComponent(out TargetBehaviour targetBehaviour)) return;
+            Debug.Log("Script is real");
             if (!(_timer > targetBehaviour.armor)) return;
+
             targetBehaviour.DoDamage(damage);
+            Debug.Log(targetBehaviour);
             _timer = 0;
         }
 
