@@ -88,8 +88,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     private void PlaceObjectAt(Tile targetTile)
     {
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
-        targetTile.AllowContentPlacement.gameObject.SetActive(false);
-        targetTile.BlockContentPlacement.gameObject.SetActive(true);
     }
 
     /// <summary>

@@ -46,7 +46,7 @@ public class Tile : MonoBehaviour
     /// Parent transform of the Placeable object
     /// </summary>
     public Transform PlaceableHolder { get => _placeableHolder; }
-    
+
     /// <summary>
     /// Determines whether the tile hosts content
     /// </summary>
@@ -88,7 +88,7 @@ public class Tile : MonoBehaviour
 
         if (Content != null && Content.Preset != null)
         {
-            Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
+            Instantiate(Content.Preset.Prefab, PlaceableHolder);
             PlaceableHolder.localEulerAngles = new Vector3(0, rotation * 90, 0);
         }
 
@@ -104,7 +104,7 @@ public class Tile : MonoBehaviour
     {
         Content = toBePlaced;
         Debug.Log(Content);
-        
+
         switch (Content)
         {
             case Road road:
@@ -121,7 +121,7 @@ public class Tile : MonoBehaviour
             default:
                 break;
         }
-        
+
         PlaceableHolder.name = Content.Preset.name;
     }
 
@@ -133,7 +133,7 @@ public class Tile : MonoBehaviour
         byte roadConnectionFlag = GetRoadConnectionFlag();
         //Debug.Log(Convert.ToString(roadConnectionFlag, 2));
         (RoadType type, int rotation) = GetFittingPiece(roadConnectionFlag);
-        Content.Preset = ArchitectController.Instance.Roads[(int) type];
+        Content.Preset = ArchitectController.Instance.Roads[(int)type];
         UpdateModel(rotation);
     }
 
@@ -162,11 +162,11 @@ public class Tile : MonoBehaviour
         {
             if (neighbour.tile.HasContent && neighbour.tile.Content is Road)
             {
-                bitwiseFlag += (int) neighbour.inDirection;
+                bitwiseFlag += (int)neighbour.inDirection;
             }
         }
 
-        return (byte) bitwiseFlag;
+        return (byte)bitwiseFlag;
     }
 
     /// <summary>
