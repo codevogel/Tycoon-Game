@@ -201,6 +201,8 @@ MonoBehaviour:
   agentList: []
   agentPrefab: {fileID: 8543467033000699885, guid: 42d8677dd96295f4b91bb83ea5244f55, type: 3}
   spawnCount: 0
+  usedTimer: 0
+  threshold: 0
 --- !u!4 &160102449
 Transform:
   m_ObjectHideFlags: 0
@@ -451,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2507060671629099711, guid: 2939319af0c22734e8b336cd8a636ff4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 25.816895
+      value: 25.816833
       objectReference: {fileID: 0}
     - target: {fileID: 2507060671629099711, guid: 2939319af0c22734e8b336cd8a636ff4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1404,7 +1406,15 @@ PrefabInstance:
     - target: {fileID: 6531607538359657218, guid: b787348f9b727124aaa8c56c8141094b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1749035086}
+      objectReference: {fileID: 1749035088}
+    - target: {fileID: 6531607538359657218, guid: b787348f9b727124aaa8c56c8141094b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveObjectAt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531607538359657218, guid: b787348f9b727124aaa8c56c8141094b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShowPopUp, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6531607538931120129, guid: b787348f9b727124aaa8c56c8141094b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
