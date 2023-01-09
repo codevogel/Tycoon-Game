@@ -47,6 +47,8 @@ public class ShowPopUp : MonoBehaviour
 
                 popuptext.text = $"{output}";
                 Console.WriteLine(output);
+
+                currentBuilding.RecipientLines.ShowLines(true);
             }
             else if (_popupTile.Content is Road)
             {
@@ -57,6 +59,7 @@ public class ShowPopUp : MonoBehaviour
         {
             return;
         }
+        //TODO: turn off line renderer when popup is clicked off
     }
     
     /// <summary>

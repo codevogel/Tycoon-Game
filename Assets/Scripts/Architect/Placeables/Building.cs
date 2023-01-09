@@ -18,6 +18,8 @@ public class Building : Placeable
 
     public Tile Tile { get; set; }
 
+    public RecipientLines RecipientLines { get; private set; }
+
 
     /// <summary>
     /// List of providers that this building imports resources from.
@@ -48,18 +50,21 @@ public class Building : Placeable
     {
         Tile = hostingTile;
         BuildingController.SubscribeBuilding(this);
-        RefreshRecipients();
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
+        RecipientLines = Tile.Root.Find("Recipient Lines").GetComponent<RecipientLines>();
+        RefreshRecipients();
     }
 
     public void RefreshRecipients()
     {
-        recipients = new();
-        Building[] buildingsInRange = GetBuildingsInRange();
-        foreach (Building building in buildingsInRange)
+        this.recipients = new();
+        Building[] recipients = GetBuildingsInRange();
+        foreach (Building recipient in recipients)
         {
-            InsertAtFrontOfQueue(building);
+            InsertAtFrontOfQueue(recipient);
         }
+
+        RecipientLines.SetRecipients(recipients);
     }
 
     private Building GetClosestBuilding()
