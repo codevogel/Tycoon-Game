@@ -2,28 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GridManager : SingletonBehaviour<GridManager>
 {
+    [field: SerializeField] public GameObject _tilePrefab;
+    [SerializeField] public BuildingPreset wall;
 
-    [field: SerializeField]
-    public GameObject _tilePrefab;
-    [SerializeField]
-    public BuildingPreset wall;
-
-    [SerializeField]
-    private Vector2Int gridSize = new Vector2Int(5, 5);
-    [SerializeField]
-    private Vector2 tileWidth = new Vector2Int(1,1);
+    [SerializeField] private Vector2Int gridSize = new Vector2Int(5, 5);
+    [SerializeField] private Vector2 tileWidth = new Vector2Int(1, 1);
 
     private Tile[,] grid;
 
     public Vector2Int Bounds
     {
-        get
-        {
-            return new Vector2Int(gridSize.x,gridSize.y);
-        }
+        get { return new Vector2Int(gridSize.x, gridSize.y); }
     }
 
     // Start is called before the first frame update
@@ -35,7 +28,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     #region Grid Population
-    
+
     /// <summary>
     /// Initialize the grid.
     /// </summary>
@@ -56,6 +49,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             return grid[coords.y, coords.x];
         }
+
         return null;
     }
 
@@ -76,6 +70,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                 grid[indexZ, indexX] = newTile;
                 currentPosition.x += tileWidth.x;
             }
+
             currentPosition.x = startPosition.x;
             currentPosition.z += tileWidth.y;
         }
@@ -92,9 +87,11 @@ public class GridManager : SingletonBehaviour<GridManager>
             }
         }
     }
+
     #endregion
 
     #region Public Getters
+
     /// <summary>
     /// Attempts to get the tile indeces from the hovered tile
     /// </summary>
@@ -106,6 +103,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             return new TileCoordinates(true, WorldPosToGridIndices(hit.point));
         }
+
         return new TileCoordinates(false, new Vector2Int(-1, -1));
     }
 
@@ -119,6 +117,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                 neighbours.Add(GetNeighbourInDirection(tile.Indices, direction));
             }
         }
+
         return neighbours.ToArray();
     }
 
@@ -156,12 +155,9 @@ public class GridManager : SingletonBehaviour<GridManager>
         }
     }
 
-
     #endregion
 
     #region Utilities
-
-
 
     /// <summary>
     /// Get the current floor point under the hit.
@@ -171,6 +167,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     public bool GetFloorPointFromMouse(out RaycastHit hit)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (EventSystem.current.IsPointerOverGameObject()) //stops casts when over hovering over GUI
+        {
+            hit = default;
+            return false;
+        }
+
         return Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Floor"));
     }
 
@@ -181,12 +183,13 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// <returns>The corresponding indices.</returns>
     private Vector2Int WorldPosToGridIndices(Vector3 point)
     {
-        return new Vector2Int((int)(point.x / tileWidth.x), (int)(point.z / tileWidth.y));
+        return new Vector2Int((int) (point.x / tileWidth.x), (int) (point.z / tileWidth.y));
     }
 
     #endregion
 
     #region Dev
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -205,7 +208,8 @@ public class GridManager : SingletonBehaviour<GridManager>
             foreach (Tile tile in grid)
             {
                 Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.Root.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.DrawWireCube(tile.Root.position + new Vector3(0, tileWidth.y / 2, 0),
+                    new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 
@@ -230,6 +234,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         /// Whether the coordinates are in bounds of the grid
         /// </summary>
         public bool inBounds;
+
         /// <summary>
         /// The index coordinates
         /// </summary>
@@ -249,6 +254,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     public struct Neighbour
     {
         public Tile tile;
+
         /// <summary>
         /// The direction in which this neighbour is connected to the host tile.
         /// </summary>
@@ -267,6 +273,9 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// </summary>
     public enum Direction
     {
-        NORTH = 1, EAST = 2, SOUTH = 4, WEST = 8
+        NORTH = 1,
+        EAST = 2,
+        SOUTH = 4,
+        WEST = 8
     }
 }
