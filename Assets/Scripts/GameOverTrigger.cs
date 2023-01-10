@@ -6,7 +6,10 @@ public class GameOverTrigger : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            GameManager.Instance.GameOver();
+            if (!other.isTrigger)
+            {
+                GameManager.Instance.GameOver();
+            }
         }
     }
 }

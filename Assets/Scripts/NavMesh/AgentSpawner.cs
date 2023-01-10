@@ -13,6 +13,7 @@ namespace NavMesh
         [SerializeField] private GameObject agentPrefab;
         [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
+        [SerializeField] private int spawnMax;
 
         [SerializeField] private bool usedTimer;
         [SerializeField] private float threshold;
@@ -20,7 +21,10 @@ namespace NavMesh
 
         private ObjectPool<AgentBehaviour> _agentPool;
 
-        public ObjectPool<AgentBehaviour> AgentPool { get => _agentPool; }
+        public ObjectPool<AgentBehaviour> AgentPool
+        {
+            get => _agentPool;
+        }
 
         /// <summary>
         /// return agent to pool
@@ -91,11 +95,17 @@ namespace NavMesh
         /// <returns></returns>
         private AgentBehaviour InstantiateAgent()
         {
-            AgentBehaviour agent = Instantiate(agentPrefab, transform).GetComponent<AgentBehaviour>();
-            if (agentList.Contains(agent)) return agent;
-            agentList.Add(agent);
-            agent.spawnOrigin = this;
-            return agent;
+            if (_agentPool.CountAll < spawnMax)
+            {
+                AgentBehaviour agent = Instantiate(agentPrefab, transform).GetComponent<AgentBehaviour>();
+                if (agentList.Contains(agent)) return agent;
+                agentList.Add(agent);
+                agent.spawnOrigin = this;
+                return agent;
+            }
+
+            Debug.LogWarning($"max spawncount reached on {this}");
+            return null;
         }
 
         /// <summary>
