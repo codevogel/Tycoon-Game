@@ -22,7 +22,7 @@ public class Building : Placeable
     /// <summary>
     /// List of providers that this building imports resources from.
     /// </summary>
-    public List<Building> providers = new();
+    public List<Building> providers = new(); //Are we going to use this??
     /// <summary>
     /// List of recipients that this building exports to.
     /// </summary>

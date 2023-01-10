@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
   m_Name: Tower
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 4552842240820491748, guid: b366b4427c0c22e45b62b3748a687d98, type: 3}
+  <Prefab>k__BackingField: {fileID: 8128234632546147273, guid: ad716f29347e324469f932e2a7779a49, type: 3}
   BuildCost: []
   InitialStorage: []
   Produces: []
-  ProductionCost: []
+  ProductionCost:
+  - Type: 1
+    Amount: 1
   range: 100
   ProductionTime: 100
   TransportTime: 100
