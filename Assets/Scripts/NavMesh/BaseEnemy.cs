@@ -20,13 +20,57 @@ namespace NavMesh
             base.Update();
             SetTimer();
             OnDeath();
-            
+            GoToTarget();
+        }
+
+        #region logic
+        private void OnDeath()
+        {
+            if (health > 0) return;
+            transform.localPosition = _startPos;
+            OnReleaseAgent();
+            health = GameManager.Instance.enemyBaseHealth;
+        }
+
+        private void GoToTarget()
+        {
             var target = GetTarget();
 
+            if (target == null) return;
+
             // Move our position a step closer to the target.
-            var step =  speed * Time.deltaTime; // calculate distance to move
+            var step = speed * Time.deltaTime; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
         }
+        
+        private void SetTimer()
+        {
+            _timer += Time.deltaTime;
+        }
+
+        private GameObject GetTarget()
+        {
+            GameObject closestTarget = null;
+            float mDist = Mathf.Infinity; 
+            
+            if (targets == null) return null;
+            
+            foreach (var VARIABLE in targets)
+            {
+                if (closestTarget == null) closestTarget = VARIABLE;
+                
+                var distance = Vector3.Distance(VARIABLE.transform.position, transform.position);
+                if (!(distance < mDist)) continue;
+                
+                mDist = distance;
+                closestTarget = VARIABLE;
+            }
+            
+            return closestTarget;
+        }
+        #endregion
+        
+        #region Collisions and Triggers
 
         private void OnCollisionStay(Collision collision)
         {
@@ -53,38 +97,6 @@ namespace NavMesh
             targets.Remove(other.gameObject);
         }
 
-        private void OnDeath()
-        {
-            if (health > 0) return;
-            transform.localPosition = _startPos;
-            OnReleaseAgent();
-            health = GameManager.Instance.enemyBaseHealth;
-        }
-
-        private void SetTimer()
-        {
-            _timer += Time.deltaTime;
-        }
-
-        private GameObject GetTarget()
-        {
-            GameObject closestTarget = null;
-            float mDist = Mathf.Infinity; 
-            
-            if (targets == null) return null;
-            
-            foreach (var VARIABLE in targets)
-            {
-                if (closestTarget == null) closestTarget = VARIABLE;
-                
-                var distance = Vector3.Distance(VARIABLE.transform.position, transform.position);
-                if (!(distance < mDist)) continue;
-                
-                mDist = distance;
-                closestTarget = VARIABLE;
-            }
-            
-            return closestTarget;
-        }
+        #endregion
     }
 }
