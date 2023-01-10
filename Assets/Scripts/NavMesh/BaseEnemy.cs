@@ -20,39 +20,10 @@ namespace NavMesh
             base.Update();
             SetTimer();
             OnDeath();
-            
-            var target = GetTarget();
-
-            // Move our position a step closer to the target.
-            var step =  speed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
+            GoToTarget();
         }
 
-        private void OnCollisionStay(Collision collision)
-        {
-            Debug.Log("Collision");
-            if (!collision.collider.CompareTag("Walls")) return;
-            Debug.Log("Wall exist");
-            if (!collision.collider.TryGetComponent(out TargetBehaviour targetBehaviour)) return;
-            Debug.Log("Script is real");
-            if (!(_timer > targetBehaviour.armor)) return;
-
-            targetBehaviour.DoDamage(damage);
-            Debug.Log(targetBehaviour);
-            _timer = 0;
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (!other.gameObject.CompareTag("Walls")) return;
-            if (!targets.Contains(other.gameObject)) targets.Add(other.gameObject);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            targets.Remove(other.gameObject);
-        }
-
+        #region logic
         private void OnDeath()
         {
             if (health > 0) return;
@@ -61,6 +32,17 @@ namespace NavMesh
             health = GameManager.Instance.enemyBaseHealth;
         }
 
+        private void GoToTarget()
+        {
+            var target = GetTarget();
+
+            if (target == null) return;
+
+            // Move our position a step closer to the target.
+            var step = speed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
+        }
+        
         private void SetTimer()
         {
             _timer += Time.deltaTime;
@@ -86,5 +68,35 @@ namespace NavMesh
             
             return closestTarget;
         }
+        #endregion
+        
+        #region Collisions and Triggers
+
+        private void OnCollisionStay(Collision collision)
+        {
+            Debug.Log("Collision");
+            if (!collision.collider.CompareTag("Walls")) return;
+            Debug.Log("Wall exist");
+            if (!collision.collider.TryGetComponent(out TargetBehaviour targetBehaviour)) return;
+            Debug.Log("Script is real");
+            if (!(_timer > targetBehaviour.armor)) return;
+
+            targetBehaviour.DoDamage(damage);
+            Debug.Log(targetBehaviour);
+            _timer = 0;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.gameObject.CompareTag("Walls")) return;
+            if (!targets.Contains(other.gameObject)) targets.Add(other.gameObject);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            targets.Remove(other.gameObject);
+        }
+
+        #endregion
     }
 }
