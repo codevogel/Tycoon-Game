@@ -8,6 +8,8 @@ public class GridManager : SingletonBehaviour<GridManager>
 
     [field: SerializeField]
     public GameObject _tilePrefab;
+    [SerializeField]
+    public BuildingPreset wall;
 
     [SerializeField]
     private Vector2Int gridSize = new Vector2Int(5, 5);
@@ -29,6 +31,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         CreateGrid();
         PopulateGrid();
+        PlaceWallsGrid();
     }
 
     #region Grid Population
@@ -75,6 +78,18 @@ public class GridManager : SingletonBehaviour<GridManager>
             }
             currentPosition.x = startPosition.x;
             currentPosition.z += tileWidth.y;
+        }
+    }
+
+    private void PlaceWallsGrid()
+    {
+        foreach (var tile in grid)
+        {
+            if (tile.Indices.x == 0 || tile.Indices.y == 0 ||
+                tile.Indices.x == gridSize.x - 1 || tile.Indices.y == gridSize.y - 1)
+            {
+                tile.PlaceContent(new Building(wall), 0);
+            }
         }
     }
     #endregion
