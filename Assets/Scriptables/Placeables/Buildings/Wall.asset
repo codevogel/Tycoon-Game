@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
   m_Name: Wall
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 6202953202470277338, guid: 81d534576e708e0489047c56716d6f38, type: 3}
+  <Prefab>k__BackingField: {fileID: 0}
   BuildCost: []
   InitialStorage: []
   Produces: []
