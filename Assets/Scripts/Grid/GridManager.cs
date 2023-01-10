@@ -65,7 +65,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             {
                 Tile newTile = Instantiate(_tilePrefab, currentPosition, _tilePrefab.transform.rotation, transform);
                 TilePreset preset = _tilePresets[UnityEngine.Random.Range(0,_tilePresets.Length)];
-                newTile.Initialize(new Vector2Int(x, z), preset);
+                newTile.Initialize(new Vector2Int(x, z), preset, tileWidth);
                 grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }

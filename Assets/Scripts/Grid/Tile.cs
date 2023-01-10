@@ -62,11 +62,12 @@ public class Tile : MonoBehaviour
     #endregion
 
     #region Methods
-    public void Initialize(Vector2Int pos, TilePreset preset)
+    public void Initialize(Vector2Int pos, TilePreset preset, Vector2 tileSize)
     {
         _spriteRenderer.sprite = preset.Sprite;
         _gridPosition = pos;
         _preset = preset;
+        transform.localScale = new Vector3(tileSize.x * transform.localScale.x, (tileSize.x + tileSize.y) / 2 * transform.localScale.y, tileSize.y * transform.localScale.z);
         //if (preset.Obstacle != null)
         //{
         //    PlaceContent(new Placeable(preset.Obstacle), 0);
