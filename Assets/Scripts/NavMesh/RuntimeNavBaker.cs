@@ -13,7 +13,7 @@ namespace NavMesh
     {
         public static RuntimeNavBaker Instance;
 
-        private void Start()
+        private void Awake()
         {
             if (Instance == null)
             {
