@@ -42,7 +42,7 @@ namespace NavMesh
             _timer = 0;
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (!other.gameObject.CompareTag("Walls")) return;
             if (!targets.Contains(other.gameObject)) targets.Add(other.gameObject);
