@@ -15,7 +15,6 @@ namespace NavMesh
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
             if (Instance == null)
             {
                 Instance = this;
