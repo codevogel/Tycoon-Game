@@ -107,7 +107,6 @@ public class Tile
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
-        //Debug.Log(Content);
         
         switch (Content)
         {
