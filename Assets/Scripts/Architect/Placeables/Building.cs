@@ -63,7 +63,6 @@ public class Building : Placeable
             InsertAtFrontOfQueue(recipient);
             recipient.AddProvider(this);
         }
-        BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         BuildingConnectionsRenderer.SetRecipients(recipients);
     }
 
@@ -73,6 +72,7 @@ public class Building : Placeable
         {
             providers.Add(building);
         }
+        BuildingConnectionsRenderer.SetProviders(providers.ToArray());
     }
 
     private void RemoveProvider(Building building)
