@@ -34,6 +34,7 @@ namespace Towers
             SetTimer();
             CheckInactive();
             SetText();
+            EnemyInTrigger();
         }
 
         private void OnParticleCollision(GameObject other)
@@ -63,7 +64,7 @@ namespace Towers
         }
 
         /// <summary>
-        /// behaviour when an enemy enters/stays in radius
+        /// behaviour when an enemy enters/stays in trigger radius
         /// </summary>
         public void EnemyInTrigger()
         {

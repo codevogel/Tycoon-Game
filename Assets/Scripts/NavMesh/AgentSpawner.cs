@@ -13,14 +13,18 @@ namespace NavMesh
         [SerializeField] private GameObject agentPrefab;
         [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
+        [SerializeField] private int spawnMax;
 
-        [SerializeField] private bool usedTimer;
-        [SerializeField] private float threshold;
-        private float spawnTimer;
+        [SerializeField] private bool useIntervals;
+        [SerializeField] private float interval;
+        private float _spawnTimer;
 
         private ObjectPool<AgentBehaviour> _agentPool;
 
-        public ObjectPool<AgentBehaviour> AgentPool { get => _agentPool; }
+        public ObjectPool<AgentBehaviour> AgentPool
+        {
+            get => _agentPool;
+        }
 
         /// <summary>
         /// return agent to pool
@@ -45,11 +49,11 @@ namespace NavMesh
 
         private void Update()
         {
-            spawnTimer += Time.deltaTime;
+            _spawnTimer += Time.deltaTime;
 
-            if (spawnTimer > threshold && usedTimer)
+            if (_spawnTimer > interval && useIntervals)
             {
-                spawnTimer = 0;
+                _spawnTimer = 0;
                 SpawnAgent();
             }
         }
@@ -91,11 +95,17 @@ namespace NavMesh
         /// <returns></returns>
         private AgentBehaviour InstantiateAgent()
         {
-            AgentBehaviour agent = Instantiate(agentPrefab, transform).GetComponent<AgentBehaviour>();
-            if (agentList.Contains(agent)) return agent;
-            agentList.Add(agent);
-            agent.spawnOrigin = this;
-            return agent;
+            if (_agentPool.CountAll < spawnMax)
+            {
+                AgentBehaviour agent = Instantiate(agentPrefab, transform).GetComponent<AgentBehaviour>();
+                if (agentList.Contains(agent)) return agent;
+                agentList.Add(agent);
+                agent.spawnOrigin = this;
+                return agent;
+            }
+
+            Debug.LogWarning($"max spawncount reached on {this}");
+            return null;
         }
 
         /// <summary>
@@ -132,12 +142,16 @@ namespace NavMesh
         /// <param name="spawnAmount">amount of agents to spawn</param>
         private IEnumerator SpawnMultiple(int spawnAmount)
         {
-            for (var i = 0; i < spawnAmount; i++)
+            if (_agentPool.CountAll < spawnMax)
             {
-                yield return null;
-                var agent = _agentPool.Get();
-                agent.transform.localPosition = new Vector3(i * 2, -0.3f, 0);
+                for (var i = 0; i < spawnAmount; i++)
+                {
+                    var agent = _agentPool.Get();
+                    agent.transform.localPosition = new Vector3(0, 0, 0);
+                    yield return new WaitForSeconds(.5f);
+                }
             }
+
 
             yield return new WaitForEndOfFrame();
         }

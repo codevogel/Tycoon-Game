@@ -17,10 +17,5 @@ namespace Towers
             if (!other.CompareTag("Enemy")) return;
             baseTower.RemoveEnemyFromList(other.gameObject);
         }
-
-        private void OnTriggerStay(Collider other)
-        {
-            baseTower.EnemyInTrigger();
-        }
     }
 }

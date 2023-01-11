@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GridManager : SingletonBehaviour<GridManager>
 {
@@ -21,6 +22,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         CreateGrid();
         PopulateGrid();
+        PlaceWallsGrid();
     }
 
     private void Update()
@@ -48,6 +50,7 @@ public class GridManager : SingletonBehaviour<GridManager>
         {
             return grid[coords.y, coords.x];
         }
+
         return null;
     }
 
@@ -69,10 +72,24 @@ public class GridManager : SingletonBehaviour<GridManager>
                 grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }
+
             currentPosition.x = startPosition.x;
             currentPosition.z += tileWidth.y;
         }
     }
+
+    private void PlaceWallsGrid()
+    {
+        foreach (var tile in grid)
+        {
+            if (tile.Indices.x == 0 || tile.Indices.y == 0 ||
+                tile.Indices.x == gridSize.x - 1 || tile.Indices.y == gridSize.y - 1)
+            {
+                tile.PlaceContent(new Building(wall), 0);
+            }
+        }
+    }
+
     #endregion
 
     #region Public Getters
@@ -86,6 +103,7 @@ public class GridManager : SingletonBehaviour<GridManager>
                 neighbours.Add(GetNeighbourInDirection(tile.GridPosition, direction));
             }
         }
+
         return neighbours.ToArray();
     }
 
@@ -147,6 +165,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     private bool GetFloorPointFromMouse(out RaycastHit hit)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (EventSystem.current.IsPointerOverGameObject()) //stops casts when over hovering over GUI
+        {
+            hit = default;
+            return false;
+        }
+
         return Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Floor"));
     }
 
@@ -157,7 +181,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// <returns>The corresponding indices.</returns>
     private Vector2Int WorldPosToGridIndices(Vector3 point)
     {
-        return new Vector2Int((int)(point.x / tileWidth.x), (int)(point.z / tileWidth.y));
+        return new Vector2Int((int) (point.x / tileWidth.x), (int) (point.z / tileWidth.y));
     }
     #endregion
 
@@ -193,6 +217,7 @@ public class GridManager : SingletonBehaviour<GridManager>
     public struct Neighbour
     {
         public Tile tile;
+
         /// <summary>
         /// The direction in which this neighbour is connected to the host tile.
         /// </summary>
@@ -211,6 +236,9 @@ public class GridManager : SingletonBehaviour<GridManager>
     /// </summary>
     public enum Direction
     {
-        NORTH = 1, EAST = 2, SOUTH = 4, WEST = 8
+        NORTH = 1,
+        EAST = 2,
+        SOUTH = 4,
+        WEST = 8
     }
 }

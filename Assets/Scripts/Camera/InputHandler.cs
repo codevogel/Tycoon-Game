@@ -40,10 +40,6 @@ public class InputHandler : MonoBehaviour
   private Vector3 _oldMousePos;
   #endregion
 
-  #region menu variables 
-  public GameObject popup;
-  #endregion
-
   private void Start()
   {
     newPos = transform.position;
@@ -79,13 +75,6 @@ public class InputHandler : MonoBehaviour
     if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
     if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
 
-    //if pause menu active close pause menu ,
-    //if popup venster active close popup 
-    //if none of the above open pause menu
-    if (Input.GetKey(KeyCode.Escape))
-    {
-      popup.SetActive(false);
-    }
     #endregion
 
   }
