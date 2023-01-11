@@ -63,9 +63,9 @@ public class InputHandler : MonoBehaviour
 
             newZoom.y += Input.mouseScrollDelta.y * zoomAmount.y;
             
-            //Mathf.Clamp(newZoom.y, 0, 50);
-            if (newZoom.y < 0) { newZoom.y = 0; }
-            if (newZoom.y > 50) { newZoom.y = 50; }
+            newZoom.y = Mathf.Clamp(newZoom.y, 0, 50);
+           // if (newZoom.y < 0) { newZoom.y = 0; }
+           // if (newZoom.y > 50) { newZoom.y = 50; } 
 
         }
         #endregion
