@@ -18,7 +18,7 @@ public class Building : Placeable
 
     public Tile Tile { get; set; }
 
-    public RecipientLines RecipientLines { get; private set; }
+    public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; private set; }
 
 
     /// <summary>
@@ -51,8 +51,7 @@ public class Building : Placeable
         Tile = hostingTile;
         BuildingController.SubscribeBuilding(this);
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
-        RecipientLines = Tile.Root.Find("Recipient Lines").GetComponent<RecipientLines>();
-        RefreshRecipients();
+        BuildingConnectionsRenderer = Tile.Root.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
 
     public void RefreshRecipients()
@@ -62,9 +61,24 @@ public class Building : Placeable
         foreach (Building recipient in recipients)
         {
             InsertAtFrontOfQueue(recipient);
+            recipient.AddProvider(this);
         }
+        BuildingConnectionsRenderer.SetProviders(providers.ToArray());
+        BuildingConnectionsRenderer.SetRecipients(recipients);
+    }
 
-        RecipientLines.SetRecipients(recipients);
+    private void AddProvider(Building building)
+    {
+        if (! providers.Contains(building))
+        {
+            providers.Add(building);
+        }
+    }
+
+    private void RemoveProvider(Building building)
+    {
+        providers.Remove(building);
+        BuildingConnectionsRenderer.SetProviders(providers.ToArray());
     }
 
     private Building GetClosestBuilding()
@@ -249,6 +263,10 @@ public class Building : Placeable
     public override void OnDestroy()
     {
         BuildingController.UnsubscribeBuilding(this);
+        foreach (Building recipient in recipients)
+        {
+            recipient.RemoveProvider(this);
+        }
     }
 
 

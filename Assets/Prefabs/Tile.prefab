@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a686be830be434f937eb8c16a0c09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  _recipientMaterial: {fileID: 2100000, guid: db57412349db4094abd1687542c85a2e, type: 2}
+  _providerMaterial: {fileID: 2100000, guid: 345f3cf5580092647a842856b2cf553b, type: 2}
 --- !u!120 &4790408704342570003
 LineRenderer:
   m_ObjectHideFlags: 0
