@@ -51,7 +51,7 @@ public class Building : Placeable
         Tile = hostingTile;
         BuildingController.SubscribeBuilding(this);
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
-        BuildingConnectionsRenderer = Tile.Root.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
+        BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
 
     public void RefreshRecipients()

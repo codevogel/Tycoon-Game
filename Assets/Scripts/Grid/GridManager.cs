@@ -8,10 +8,9 @@ public class GridManager : SingletonBehaviour<GridManager>
     public Tile _tilePrefab;
     public TilePreset[] _tilePresets;
 
-    [SerializeField]
-    private Vector2Int gridSize = new Vector2Int(5, 5);
-    [SerializeField]
-    private Vector2 tileWidth = new Vector2Int(1,1);
+    [SerializeField] private BuildingPreset wall;
+    [SerializeField] private Vector2Int gridSize = new Vector2Int(5, 5);
+    [SerializeField] private Vector2 tileWidth = new Vector2Int(1,1);
 
     private Tile[,] grid;
     private Tile _hoverTile;
@@ -82,8 +81,8 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         foreach (var tile in grid)
         {
-            if (tile.Indices.x == 0 || tile.Indices.y == 0 ||
-                tile.Indices.x == gridSize.x - 1 || tile.Indices.y == gridSize.y - 1)
+            if (tile.GridPosition.x == 0 || tile.GridPosition.y == 0 ||
+                tile.GridPosition.x == gridSize.x - 1 || tile.GridPosition.y == gridSize.y - 1)
             {
                 tile.PlaceContent(new Building(wall), 0);
             }
