@@ -80,10 +80,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         foreach (var tile in grid)
         {
-            if (tile.Indices.x == 0 || tile.Indices.y == 0 ||
-                tile.Indices.x == gridSize.x - 1 || tile.Indices.y == gridSize.y - 1)
+            if (tile.Indices.x == 0 || tile.Indices.x == gridSize.x - 1)
             {
                 tile.PlaceContent(new Building(wall), 0);
+            } else if (tile.Indices.y == 0 || tile.Indices.y == gridSize.y - 1)
+            {
+                tile.PlaceContent(new Building(wall), 1);
             }
         }
     }
