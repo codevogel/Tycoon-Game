@@ -34,39 +34,55 @@ public class PopupScript : MonoBehaviour
     void ShowOrHidePopup()
     {
         Tile clickedOnTile = GridManager.Instance.GetTileAt(GridManager.Instance.GetTileCoordsFromMousePos().indices);
+        // Determine whether popup should be shown
         popup.SetActive(clickedOnTile != null && clickedOnTile != selectedTile && clickedOnTile.HasContent);
+        // If shown
         if (popup.activeSelf)
         {
+            // Clear selection if selection exists, then show popup
             if (selectedTile != null)
             {
-                HidePopup();
+                ClearSelection();
             }
             ShowPopup(clickedOnTile);
             return;
         }
-        HidePopup();
+        // Clear the selection
+        ClearSelection();
     }
 
-    private void ShowPopup(Tile clickedOnTile)
+    /// <summary>
+    /// Show the popup for a tile
+    /// </summary>
+    /// <param name="selection">The tile to show the popup for</param>
+    private void ShowPopup(Tile selection)
     {
-        selectedTile = clickedOnTile;
+        selectedTile = selection;
+        // If popup should show a building
         if (selectedTile.Content is Building)
         {
+            // Turn on connection renderer
             Building b = (Building)selectedTile.Content;
             b.BuildingConnectionsRenderer.ShowLines(true);
         }
     }
 
-    private void HidePopup()
+    /// <summary>
+    /// Hides the popup for a tile
+    /// </summary>
+    private void ClearSelection()
     {
+        // If popup was showing a building
         if (selectedTile != null && selectedTile.Content is Building)
         {
+            // Turn off the connections renderer
             Building b = (Building)selectedTile.Content;
             b.BuildingConnectionsRenderer.ShowLines(false);
         }
         selectedTile = null;
     }
 
+    // Updates the contents for the popup
     private void UpdateContents()
     {
         StringBuilder output = new StringBuilder();
