@@ -22,7 +22,7 @@ public class Building : Placeable
     /// <summary>
     /// List of providers that this building imports resources from.
     /// </summary>
-    public List<Building> providers = new(); //Are we going to use this??
+    public List<Building> providers = new();
     /// <summary>
     /// List of recipients that this building exports to.
     /// </summary>
@@ -328,5 +328,14 @@ public class Building : Placeable
         /// </summary>
         /// <param name="resource">Removes a resource to the storage.</param>
         public void Remove(Resource resource) { Contents[resource.Type] -= resource.Amount; }
+
+        public int Get(ResourceType type)
+        {
+            if (Contents.ContainsKey(type))
+            {
+                return Contents[type];
+            }
+            return 0;
+        }
     }
 }

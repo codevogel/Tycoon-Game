@@ -9,14 +9,7 @@ namespace Towers
 {
     public class BaseTower : MonoBehaviour
     {
-        [BoxGroup("ammo")] [ReadOnly] [SerializeField]
-        private float ammo = 100;
-
-        [BoxGroup("ammo")] [SerializeField] private int baseAmmo = 100;
         [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
-
-        [BoxGroup("ammo")] [SerializeField] [Range(.75f, 1)]
-        private float efficiencyMultiplier;
 
         [BoxGroup("Shooting Behaviour")] [SerializeField]
         private int damage = 10;
@@ -26,13 +19,14 @@ namespace Towers
 
         private List<GameObject> _enemyList = new();
         private ParticleSystem _bulletParticleSys;
+        private Building _building;
         private float _timer;
 
 
         private void Awake()
         {
             _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
-            ammo = baseAmmo;
+            _building = transform.parent.parent.parent.GetComponent<Tile>().Content as Building; //TODO make this less jank
         }
 
         private void Update()
@@ -75,9 +69,9 @@ namespace Towers
         {
             if (_enemyList.Count <= 0) return;
             transform.LookAt(_enemyList?[0].transform); //barrel looks at detected enemy
-            if (!(_timer > cooldown) || ammo <= 0) return;
+            if (!(_timer > cooldown) || _building.input.Get(ResourceType.Ammo) <= 0) return;
             _timer = 0;
-            ammo -= efficiencyMultiplier; //ammo depletes based on ammo efficiency
+            _building.input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
             _bulletParticleSys.Play(); //play/shoot bullets/particles
         }
 
@@ -111,7 +105,7 @@ namespace Towers
 
         private void SetText()
         {
-            ammoText.text = Mathf.RoundToInt(ammo).ToString();
+            ammoText.text = _building.input.Get(ResourceType.Ammo).ToString();
         }
     }
 }
