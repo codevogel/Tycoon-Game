@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementTime: 5
-  normalSpeed: 1
-  fastSpeed: 3
+  normalSpeed: 50
+  fastSpeed: 200
   newPos: {x: 0, y: 0, z: 0}
   newRotation: {x: 0, y: 0, z: 0, w: 0}
-  rotationAmount: 1
+  rotationAmount: 180
   rotateStartPos: {x: 0, y: 0, z: 0}
   rotateCurrentPos: {x: 0, y: 0, z: 0}
   cameraTransform: {fileID: 897796188610165572}
@@ -59,6 +59,7 @@ MonoBehaviour:
   newZoom: {x: 0, y: 0, z: 0}
   dragStartPosition: {x: 0, y: 0, z: 0}
   dragCurrentPosition: {x: 0, y: 0, z: 0}
+  popup: {fileID: 0}
 --- !u!1 &897796188470864798
 GameObject:
   m_ObjectHideFlags: 0
