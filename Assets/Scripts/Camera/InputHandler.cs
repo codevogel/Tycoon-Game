@@ -13,35 +13,33 @@ using UnityEngine.EventSystems;
 public class InputHandler : MonoBehaviour
 {
     #region WASD variables
-    public float movementTime;
-    public float normalSpeed;
-    public float fastSpeed;
+    [SerializeField] private float movementTime;
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private float fastSpeed;
     private float _movementSpeed;
-    public Vector3 newPos;
+    [SerializeField] private Vector3 newPos;
     #endregion
 
     #region rotation variables
-    public Quaternion newRotation;
-    public float rotationAmount;
-    public Vector3 rotateStartPos;
-    public Vector3 rotateCurrentPos;
+    [SerializeField] private Quaternion newRotation;
+    [SerializeField] private float rotationAmount;
+    [SerializeField] private Vector3 rotateStartPos;
+    [SerializeField] private Vector3 rotateCurrentPos;
     #endregion
 
     #region zoom variables 
-    public Transform cameraTransform;
-    public Vector3 zoomAmount;
-    public Vector3 newZoom;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Vector3 zoomAmount;
+    [SerializeField] private Vector3 newZoom;
     #endregion
 
     #region mouse variables
-    public Vector3 dragStartPosition;
-    public Vector3 dragCurrentPosition;
-
-    private Vector3 _oldMousePos;
+    [SerializeField] private Vector3 dragStartPosition;
+    [SerializeField] private Vector3 dragCurrentPosition;
     #endregion
 
     #region menu variables 
-    public GameObject popup;
+    [SerializeField] private GameObject popup;
     #endregion
 
     private void Start()
@@ -62,10 +60,10 @@ public class InputHandler : MonoBehaviour
 
 
             newZoom.y += Input.mouseScrollDelta.y * zoomAmount.y;
-            
+
             newZoom.y = Mathf.Clamp(newZoom.y, 0, 50);
-           // if (newZoom.y < 0) { newZoom.y = 0; }
-           // if (newZoom.y > 50) { newZoom.y = 50; } 
+            // if (newZoom.y < 0) { newZoom.y = 0; }
+            // if (newZoom.y > 50) { newZoom.y = 50; } 
 
         }
         #endregion
@@ -80,13 +78,13 @@ public class InputHandler : MonoBehaviour
             _movementSpeed = normalSpeed;
         }
 
-        if (Input.GetKey(KeyCode.W)) newPos += (transform.forward * _movementSpeed);
-        if (Input.GetKey(KeyCode.A)) newPos += (transform.right * -_movementSpeed);
-        if (Input.GetKey(KeyCode.S)) newPos += (transform.forward * -_movementSpeed);
-        if (Input.GetKey(KeyCode.D)) newPos += (transform.right * _movementSpeed);
+        if (Input.GetKey(KeyCode.W)) newPos += (transform.forward * _movementSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.A)) newPos += (transform.right * -_movementSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.S)) newPos += (transform.forward * -_movementSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.D)) newPos += (transform.right * _movementSpeed * Time.deltaTime);
 
-        if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
-        if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
+        if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount * Time.deltaTime);
 
         //if pause menu active close pause menu ,
         //if popup venster active close popup 
@@ -96,7 +94,6 @@ public class InputHandler : MonoBehaviour
             popup.SetActive(false);
         }
         #endregion
-
     }
     private void LateUpdate()
     {
