@@ -18,7 +18,7 @@ namespace NavMesh
         {
             if (targetList.Count > 0 && other == targetList[0].Tile.TileCollider)
             {
-                Debug.Log("Found Target!");
+                //Debug.Log("Found Target!");
                 targetList[0].AddToStorage(targetList[0].input, storage);
                 targetList.RemoveAt(0);
                 if (targetList.Count <= 0) OnReleaseAgent();

@@ -71,7 +71,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         {
             if (targetTile.HasContent)
             {
-                Debug.Log("Selected building: " + targetTile.Content.Preset.name);
+                //Debug.Log("Selected building: " + targetTile.Content.Preset.name);
             }
             else
             {

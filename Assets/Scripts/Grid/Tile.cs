@@ -104,7 +104,6 @@ public class Tile : MonoBehaviour
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
-        Debug.Log(Content);
 
         switch (Content)
         {

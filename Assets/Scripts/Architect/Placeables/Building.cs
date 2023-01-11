@@ -194,7 +194,7 @@ public class Building : Placeable
     {
         if (!input.HasResourcesRequired(productionCost))
         {
-            Debug.Log("Did not have enough resources to produce!");
+            //Debug.Log("Did not have enough resources to produce!");
             return;
         }
         RemoveFromStorage(input, productionCost);
@@ -229,6 +229,10 @@ public class Building : Placeable
     {
         if (recipients.Count > 0)
         {
+            //Check if it can spawn an agent
+            AgentBehaviour agent = agentSpawner.SpawnAgent();
+            if (agent == null) return;
+
             Building recipient = DequeueRecipient();
             List<Resource> resourcesToSend = new();
             // For each requested resource
@@ -253,7 +257,6 @@ public class Building : Placeable
                 return;
             }
             RemoveFromStorage(output, resourcesToSendArray);
-            AgentBehaviour agent = agentSpawner.AgentPool.Get();
             (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
             // Put recipient back into queue
             EnqueueRecipient(recipient);

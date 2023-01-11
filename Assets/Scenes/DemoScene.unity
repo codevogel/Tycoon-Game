@@ -1296,7 +1296,7 @@ GameObject:
   - component: {fileID: 1134324097}
   - component: {fileID: 1134324096}
   - component: {fileID: 1134324098}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBaseHealth: 100
   globalTarget: {fileID: 0}
-  gameOverCanvas: {fileID: 0}
+  gameOverCanvas: {fileID: 879153579}
 --- !u!4 &1137898890
 Transform:
   m_ObjectHideFlags: 0
@@ -1911,7 +1911,7 @@ GameObject:
   - component: {fileID: 1973273122}
   - component: {fileID: 1973273121}
   - component: {fileID: 1973273120}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
