@@ -48,9 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentList: []
   agentPrefab: {fileID: 2948315396895682726, guid: d76d617c5543d024881d92021dd0f951, type: 3}
-  spawnCount: 0
-  usedTimer: 0
-  threshold: 0
+  spawnCount: 1
+  spawnMax: 3
+  useIntervals: 0
+  interval: 0
 --- !u!33 &5266220473595114446
 MeshFilter:
   m_ObjectHideFlags: 0
