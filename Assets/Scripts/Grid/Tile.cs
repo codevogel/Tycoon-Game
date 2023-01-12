@@ -1,82 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
+using NavMesh;
 using UnityEngine;
 using static GridManager;
 using static Road;
 
-public class Tile
+public class Tile : MonoBehaviour
 {
     #region fields
+    public Transform AllowContentPlacement;
+    public Transform BlockContentPlacement;
+    /// <summary>
+    /// Parent transform of the Placeable object
+    /// </summary>
+    [SerializeField] private Transform _placeableHolder;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Collider _tileCollider;
+    private Vector2Int _gridPosition;
+    private TilePreset _preset;
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Indices of this tile in the grid
     /// </summary>
-    public Vector2Int Indices { get; private set; }
+    public Vector2Int GridPosition { get => _gridPosition; }
 
     /// <summary>
-    /// Root transform of gameobject assosciated to this tile.
+    /// The scriptable object containing the sprite and the resources in the Tile.
     /// </summary>
-    public Transform Root { get;  private set; }
-    
+    public TilePreset TilePreset { get => _preset; }
+
     /// <summary>
     /// Reference to the Placeable content this tile hosts.
     /// </summary>
     public Placeable Content { get; private set; }
 
     /// <summary>
+    /// Reference to the collider for this tile.
+    /// </summary>
+    public Collider TileCollider { get => _tileCollider; }
+
+    /// <summary>
     /// Parent transform of the Placeable object
     /// </summary>
-    public Transform PlaceableHolder { get; set; }
-    
+    public Transform PlaceableHolder { get => _placeableHolder; }
+
     /// <summary>
     /// Determines whether the tile hosts content
     /// </summary>
-    public bool HasContent { get => Content != null; }
+    public bool HasContent
+    {
+        get => Content != null;
+    }
 
     /// <summary>
     /// Gets the neighbours for this tile from the gridmanager.
     /// </summary>
     public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
-
-    public Transform allowContentPlacement { get; set; }
-    public Transform blockContentPlacement { get; set; }
-    
     #endregion
 
-    /// <summary>
-    /// Constructor for a tile.
-    /// </summary>
-    /// <param name="prefab">The tile object prefab.</param>
-    /// <param name="position">The position to instantiate this tile at.</param>
-    /// <param name="indices">The indices of this tile in the grid.</param>
-    public Tile(GameObject prefab, Vector3 position, Vector2Int indices)
+    #region Methods
+    public void Initialize(Vector2Int pos, TilePreset preset, Vector2 tileSize)
     {
-        Root = GameObject.Instantiate(prefab, position, Quaternion.identity).transform;
-        Indices = indices;
-        PlaceableHolder = Root.Find("Placeable Holder");
-        blockContentPlacement = Root.Find("Preview").Find("Red");
-        allowContentPlacement = Root.Find("Preview").Find("Green");
+        _spriteRenderer.sprite = preset.Sprite;
+        _gridPosition = pos;
+        _preset = preset;
+        transform.localScale = new Vector3(tileSize.x * transform.localScale.x, (tileSize.x + tileSize.y) / 2 * transform.localScale.y, tileSize.y * transform.localScale.z);
+        //if (preset.Obstacle != null)
+        //{
+        //    PlaceContent(new Placeable(preset.Obstacle), 0);
+        //    AllowContentPlacement.gameObject.SetActive(false);
+        //    BlockContentPlacement.gameObject.SetActive(true);
+        //}
     }
-
-    #region Methods 
     /// <summary>
     /// Updates the model to reflect the Content.
     /// </summary>
     /// <param name="rotation">Rotates by rotation * 90 degrees.</param>
-    public void UpdateModel(int rotation)
+    private void UpdateModel(int rotation)
     {
         if (PlaceableHolder.childCount > 0)
         {
-            GameObject.Destroy(PlaceableHolder.GetChild(0).gameObject);
-            PlaceableHolder.localEulerAngles = new Vector3(90, 0, 0);
+            Destroy(PlaceableHolder.GetChild(0).gameObject);
+            PlaceableHolder.localEulerAngles = new Vector3(0, 0, 0);
         }
-        if (Content != null)
+
+        if (Content != null && Content.Preset != null)
         {
-            GameObject.Instantiate(Content.Preset.Prefab, PlaceableHolder.transform.position, Quaternion.identity, PlaceableHolder);
-            PlaceableHolder.localEulerAngles = new Vector3(90, rotation * 90, 0);
+            Instantiate(Content.Preset.Prefab, PlaceableHolder);
+            PlaceableHolder.localEulerAngles = new Vector3(0, rotation * 90, 0);
         }
+
+        RuntimeNavBaker.Instance.DelayedBake();
     }
 
     /// <summary>
@@ -87,34 +104,41 @@ public class Tile
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
+
         switch (Content)
         {
             case Road road:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Road");
                 PickRoad();
                 PickRoadForNeighbours();
+
                 break;
             case Building building:
+                TileCollider.gameObject.layer = LayerMask.NameToLayer("Building");
                 UpdateModel(rotation);
+                building.InitializeAfterInstantiation(this);
                 break;
             default:
                 break;
         }
+
+        PlaceableHolder.name = Content.Preset.name;
     }
 
     /// <summary>
-    /// Picks the right road piece for this tile determined by looking at it's neighbours. 
+    /// Picks the right road piece for this tile determined by looking at it's neighbours.
     /// </summary>
     private void PickRoad()
     {
         byte roadConnectionFlag = GetRoadConnectionFlag();
         //Debug.Log(Convert.ToString(roadConnectionFlag, 2));
         (RoadType type, int rotation) = GetFittingPiece(roadConnectionFlag);
-        Content.Preset = ArchitectController.Instance.Roads[(int) type];
+        Content.Preset = ArchitectController.Instance.Roads[(int)type];
         UpdateModel(rotation);
     }
 
     /// <summary>
-    /// Picks the right road piece for the neighbours of this tile. 
+    /// Picks the right road piece for the neighbours of this tile.
     /// </summary>
     private void PickRoadForNeighbours()
     {
@@ -141,7 +165,8 @@ public class Tile
                 bitwiseFlag += (int)neighbour.inDirection;
             }
         }
-        return (byte) bitwiseFlag;
+
+        return (byte)bitwiseFlag;
     }
 
     /// <summary>
@@ -168,7 +193,8 @@ public class Tile
         0b00001101 => (RoadType.TJUNC, 2),
         0b00001110 => (RoadType.TJUNC, 1),
         0b00001111 => (RoadType.CROSS, 0),
-        _ => throw new NotImplementedException("Invalid road connection flag: " + Convert.ToString(roadConnectionFlag, 2))
+        _ => throw new NotImplementedException("Invalid road connection flag: " +
+                                               Convert.ToString(roadConnectionFlag, 2))
     };
 
     /// <summary>
@@ -176,10 +202,11 @@ public class Tile
     /// </summary>
     internal void RemoveContent()
     {
+        Content.OnDestroy();
         this.Content = null;
         UpdateModel(0);
         PickRoadForNeighbours();
     }
-    #endregion
 
+    #endregion
 }

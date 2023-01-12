@@ -11,6 +11,19 @@ public class TargetBehaviour : MonoBehaviour
         health = baseHealth;
     }
 
+    private void Update()
+    {
+        Destroyed();
+    }
+
+    private void Destroyed()
+    {
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public void DoDamage(int damage)
     {
         health -= damage;
