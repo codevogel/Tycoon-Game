@@ -1,9 +1,8 @@
 using NavMesh;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using static GridManager;
 
 public class Building : Placeable
 {
@@ -57,6 +56,22 @@ public class Building : Placeable
     public void RefreshRecipients()
     {
         this.recipients = new();
+
+        //Check if there is a road in the surrounding tiles
+        Neighbour[] neighbours = GridManager.Instance.GetNeighboursFor(Tile);
+        bool hasRoadNeighbour = false;
+        foreach (Neighbour neighbour in neighbours)
+        {
+            if (neighbour.tile.Content is Road)
+            {
+                hasRoadNeighbour = true;
+                break;
+            }
+        }
+        Debug.Log($"Has road neighbour:{hasRoadNeighbour}");
+        if (!hasRoadNeighbour) return;
+
+        //Get all the buildings in range
         Building[] recipients = GetBuildingsInRange();
         foreach (Building recipient in recipients)
         {
