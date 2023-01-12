@@ -10,7 +10,7 @@ public class AudioScriptable : ScriptableObject
     }
 
     public AudioClip Clip;
-    [Range(-3.0f, 3.0f)]
+    [Range(0.01f, 6.0f)]
     public float StartPitch = 1;
     [Range(0.0f, 3.0f)]
     public float PitchVariation = 0;
@@ -27,7 +27,7 @@ public class AudioScriptable : ScriptableObject
         _audioSource = audioSource;
 
         _audioSource.clip = Clip;
-        _audioSource.pitch = StartPitch + Random.Range(-PitchVariation, PitchVariation);
+        _audioSource.pitch = Mathf.Clamp(StartPitch + Random.Range(-PitchVariation, PitchVariation), 0.01f, 10f);
         OnVolumeChange();
         _audioSource.spatialBlend = SpatialBlend;
         _audioSource.loop = Loop;
@@ -36,7 +36,7 @@ public class AudioScriptable : ScriptableObject
         AudioManager.Instance.OnVolumeChange.RemoveListener(OnVolumeChange);
         AudioManager.Instance.OnVolumeChange.AddListener(OnVolumeChange);
     }
-    
+
     public void OnVolumeChange()
     {
         if (_audioSource)
