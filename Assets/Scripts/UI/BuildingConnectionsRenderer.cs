@@ -47,7 +47,7 @@ public class BuildingConnectionsRenderer : MonoBehaviour
         for (int numPos = 0; numPos < currentRenderer.positionCount; numPos+=2)
         {
             currentRenderer.SetPosition(numPos, transform.position);
-            currentRenderer.SetPosition(numPos + 1, targets[targetIndex++].Tile.Root.position);
+            currentRenderer.SetPosition(numPos + 1, targets[targetIndex++].Tile.transform.position);
         }
     }
 

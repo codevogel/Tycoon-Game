@@ -307,8 +307,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8128234632546147273}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.9600003, y: 3.9600003, z: 3.9600003}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8128234633429078835}
@@ -593,9 +593,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8128234633429078835}
+  - component: {fileID: 8128234633429078834}
   - component: {fileID: 8128234633429078836}
   - component: {fileID: 8128234633429078837}
-  - component: {fileID: 8128234633429078834}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -619,6 +619,24 @@ Transform:
   m_Father: {fileID: 8128234632403306600}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -108.59, z: 0}
+--- !u!114 &8128234633429078834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128234633429078832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b93c389c9908ae4c83a03f121bb6c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammo: 100
+  baseAmmo: 100
+  ammoText: {fileID: 8128234633083333147}
+  efficiencyMultiplier: 1
+  damage: 1
+  cooldown: 1
 --- !u!198 &8128234633429078836
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5400,21 +5418,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8128234633429078834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8128234633429078832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b93c389c9908ae4c83a03f121bb6c89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ammo: 100
-  baseAmmo: 100
-  ammoText: {fileID: 8128234633083333147}
-  efficiencyMultiplier: 1
-  damage: 1
-  cooldown: 1

@@ -21,11 +21,6 @@ namespace NavMesh
 
         private ObjectPool<AgentBehaviour> _agentPool;
 
-        public ObjectPool<AgentBehaviour> AgentPool
-        {
-            get => _agentPool;
-        }
-
         /// <summary>
         /// return agent to pool
         /// </summary>
@@ -54,7 +49,7 @@ namespace NavMesh
             if (_spawnTimer > interval && useIntervals)
             {
                 _spawnTimer = 0;
-                SpawnAgent();
+                SpawnMultipleAgents();
             }
         }
 
@@ -67,7 +62,7 @@ namespace NavMesh
                 InstantiateAgent,
                 OnGet,
                 OnRelease,
-                Destroy, true, 10, 20);
+                Destroy, true, spawnMax, spawnMax);
         }
 
         ///// <summary>
@@ -129,8 +124,14 @@ namespace NavMesh
             agent.gameObject.SetActive(false);
         }
 
+        public AgentBehaviour SpawnAgent()
+        {
+            if (_agentPool.CountActive < spawnMax) return _agentPool.Get();
+            return null;
+        }
+
         [Button("spawn multiple")]
-        private void SpawnAgent()
+        private void SpawnMultipleAgents()
         {
             StartCoroutine(SpawnMultiple(spawnCount));
         }

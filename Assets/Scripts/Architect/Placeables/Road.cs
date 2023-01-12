@@ -21,4 +21,9 @@ public class Road : Placeable
         END = 3,
         TJUNC = 4
     }
+
+    public Road()
+    {
+
+    }
 }

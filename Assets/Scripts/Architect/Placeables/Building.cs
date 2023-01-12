@@ -51,7 +51,7 @@ public class Building : Placeable
         Tile = hostingTile;
         BuildingController.SubscribeBuilding(this);
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
-        BuildingConnectionsRenderer = Tile.Root.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
+        BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
 
     public void RefreshRecipients()
@@ -88,7 +88,7 @@ public class Building : Placeable
         int maxDistanceIndex = -1;
         for (int i = 0; i < buildings.Length; i++)
         {
-            float currentDistance = Vector3.Distance(buildings[i].Tile.Root.transform.position, this.Tile.Root.transform.position);
+            float currentDistance = Vector3.Distance(buildings[i].Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position);
             if (currentDistance < minDistance)
             {
                 minDistance = currentDistance;
@@ -104,11 +104,11 @@ public class Building : Placeable
 
     private Building[] GetBuildingsInRange()
     {
-        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.Root.position, range, LayerMask.GetMask("Building"));
+        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.PlaceableHolder.position, range, LayerMask.GetMask("Building"));
         List<(Building building, float dist)> buildingsByDistance = new();
         foreach (Collider overlap in overlappedColliders)
         {
-            Building other = overlap.GetComponent<TileReference>().Tile.Content as Building;
+            Building other = overlap.GetComponent<Tile>().Content as Building;
             if (other == this)
                continue;
 
@@ -121,7 +121,7 @@ public class Building : Placeable
                 {
                     if (needed.Type == resource.Type)
                     {
-                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.Root.transform.position, this.Tile.Root.transform.position)));
+                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position)));
                         addedBuildings = true;
                         break;
                     }
@@ -194,7 +194,7 @@ public class Building : Placeable
     {
         if (!input.HasResourcesRequired(productionCost))
         {
-            Debug.Log("Did not have enough resources to produce!");
+            //Debug.Log("Did not have enough resources to produce!");
             return;
         }
         RemoveFromStorage(input, productionCost);
@@ -229,6 +229,10 @@ public class Building : Placeable
     {
         if (recipients.Count > 0)
         {
+            //Check if it can spawn an agent
+            AgentBehaviour agent = agentSpawner.SpawnAgent();
+            if (agent == null) return;
+
             Building recipient = DequeueRecipient();
             List<Resource> resourcesToSend = new();
             // For each requested resource
@@ -253,7 +257,6 @@ public class Building : Placeable
                 return;
             }
             RemoveFromStorage(output, resourcesToSendArray);
-            AgentBehaviour agent = agentSpawner.AgentPool.Get();
             (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
             // Put recipient back into queue
             EnqueueRecipient(recipient);
@@ -351,5 +354,14 @@ public class Building : Placeable
         /// </summary>
         /// <param name="resource">Removes a resource to the storage.</param>
         public void Remove(Resource resource) { Contents[resource.Type] -= resource.Amount; }
+
+        public int Get(ResourceType type)
+        {
+            if (Contents.ContainsKey(type))
+            {
+                return Contents[type];
+            }
+            return 0;
+        }
     }
 }

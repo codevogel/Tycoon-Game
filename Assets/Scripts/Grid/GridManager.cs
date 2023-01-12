@@ -1,25 +1,22 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class GridManager : SingletonBehaviour<GridManager>
 {
-    [field: SerializeField] public GameObject _tilePrefab;
-    [SerializeField] public BuildingPreset wall;
+    public Tile _tilePrefab;
+    public TilePreset[] _tilePresets;
 
+    [SerializeField] private BuildingPreset wall;
     [SerializeField] private Vector2Int gridSize = new Vector2Int(5, 5);
-    [SerializeField] private Vector2 tileWidth = new Vector2Int(1, 1);
+    [SerializeField] private Vector2 tileWidth = new Vector2Int(1,1);
 
     private Tile[,] grid;
+    private Tile _hoverTile;
 
-    public Vector2Int Bounds
-    {
-        get { return new Vector2Int(gridSize.x, gridSize.y); }
-    }
+    public Tile HoverTile { get => _hoverTile; }
 
-    // Start is called before the first frame update
     void Start()
     {
         CreateGrid();
@@ -27,8 +24,12 @@ public class GridManager : SingletonBehaviour<GridManager>
         PlaceWallsGrid();
     }
 
-    #region Grid Population
+    private void Update()
+    {
+        _hoverTile = TryGetTileFromMousePos();
+    }
 
+    #region Initialize Grid Population
     /// <summary>
     /// Initialize the grid.
     /// </summary>
@@ -38,13 +39,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     /// <summary>
-    /// Gets the tile at coords.
+    /// Gets the tile at coords if it is within the grid.
     /// </summary>
-    /// <param name="coords">The coordinates for the tile</param>
-    /// <returns>The tile at coords. Null if tile was not found or not in bounds.</returns>
+    /// <param name="coords">The coordinates for the tile you want to get</param>
+    /// <returns>The tile that is at the given coords. Null if tile was not found or not within the grid.</returns>
     internal Tile GetTileAt(Vector2Int coords)
     {
-        //Debug.Log("getting tile at " + coords);
         if (coords.x >= 0 && coords.x < gridSize.x && coords.y >= 0 && coords.y < gridSize.y)
         {
             return grid[coords.y, coords.x];
@@ -54,20 +54,21 @@ public class GridManager : SingletonBehaviour<GridManager>
     }
 
     /// <summary>
-    /// Populates the grid with Tile objects.
+    /// Populates the grid with Tile objects which instantiate a tileGameObject for every position in the Grid.
     /// </summary>
     private void PopulateGrid()
     {
         Vector3 startPosition = Vector3.zero + new Vector3(tileWidth.x / 2, 0, tileWidth.y / 2);
         Vector3 currentPosition = startPosition;
-        // Treat y as z 
-        for (int indexZ = 0; indexZ < gridSize.y; indexZ++)
+        // Treat y as z because in Unity we look along the Y axis to the tiles and the tiles are placed along the x and z axis
+        for (int z = 0; z < gridSize.y; z++)
         {
-            for (int indexX = 0; indexX < gridSize.x; indexX++)
+            for (int x = 0; x < gridSize.x; x++)
             {
-                Tile newTile = new Tile(_tilePrefab, currentPosition, new Vector2Int(indexX, indexZ));
-                newTile.Root.parent = this.transform;
-                grid[indexZ, indexX] = newTile;
+                Tile newTile = Instantiate(_tilePrefab, currentPosition, _tilePrefab.transform.rotation, transform);
+                TilePreset preset = _tilePresets[UnityEngine.Random.Range(0,_tilePresets.Length)];
+                newTile.Initialize(new Vector2Int(x, z), preset, tileWidth);
+                grid[z, x] = newTile;
                 currentPosition.x += tileWidth.x;
             }
 
@@ -80,7 +81,12 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         foreach (var tile in grid)
         {
+<<<<<<< HEAD
+            if (tile.GridPosition.x == 0 || tile.GridPosition.y == 0 ||
+                tile.GridPosition.x == gridSize.x - 1 || tile.GridPosition.y == gridSize.y - 1)
+=======
             if (tile.Indices.x == 0 || tile.Indices.x == gridSize.x - 1)
+>>>>>>> Dev-Branch
             {
                 tile.PlaceContent(new Building(wall), 0);
             } else if (tile.Indices.y == 0 || tile.Indices.y == gridSize.y - 1)
@@ -93,30 +99,14 @@ public class GridManager : SingletonBehaviour<GridManager>
     #endregion
 
     #region Public Getters
-
-    /// <summary>
-    /// Attempts to get the tile indeces from the hovered tile
-    /// </summary>
-    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
-    public TileCoordinates GetTileCoordsFromMousePos()
-    {
-        RaycastHit hit;
-        if (GetFloorPointFromMouse(out hit))
-        {
-            return new TileCoordinates(true, WorldPosToGridIndices(hit.point));
-        }
-
-        return new TileCoordinates(false, new Vector2Int(-1, -1));
-    }
-
     public Neighbour[] GetNeighboursFor(Tile tile)
     {
         List<Neighbour> neighbours = new List<Neighbour>();
         foreach (Direction direction in Enum.GetValues(typeof(Direction)))
         {
-            if (NeighbourDirectionIsAllowed(tile.Indices, direction))
+            if (NeighbourDirectionIsAllowed(tile.GridPosition, direction))
             {
-                neighbours.Add(GetNeighbourInDirection(tile.Indices, direction));
+                neighbours.Add(GetNeighbourInDirection(tile.GridPosition, direction));
             }
         }
 
@@ -156,17 +146,29 @@ public class GridManager : SingletonBehaviour<GridManager>
                 throw new ArgumentException("Unsupported direction was passed to this function.");
         }
     }
-
     #endregion
 
     #region Utilities
-
     /// <summary>
-    /// Get the current floor point under the hit.
+    /// Attempts to get the tile over which the mouse hovers
+    /// </summary>
+    /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
+    private Tile TryGetTileFromMousePos()
+    {
+        RaycastHit hit;
+        if (GetFloorPointFromMouse(out hit))
+        {
+            return GetTileAt(WorldPosToGridIndices(hit.point));
+        }
+        return null;
+    }
+    /// <summary>
+    /// Converts the mouse Screen position to a world position 
+    /// and than casts a ray to find if the mouse is hovering over a tile.
     /// </summary>
     /// <param name="hit">The RaycastHit struct to store the hit information in.</param>
     /// <returns>Whether a floor point was found.</returns>
-    public bool GetFloorPointFromMouse(out RaycastHit hit)
+    private bool GetFloorPointFromMouse(out RaycastHit hit)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (EventSystem.current.IsPointerOverGameObject()) //stops casts when over hovering over GUI
@@ -187,31 +189,20 @@ public class GridManager : SingletonBehaviour<GridManager>
     {
         return new Vector2Int((int) (point.x / tileWidth.x), (int) (point.z / tileWidth.y));
     }
-
     #endregion
 
-    #region Dev
-
+    #region Gizmos
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-
-        // Get tile under mouse
-        Tile hoverTile = null;
-        TileCoordinates hoverTileIndices = GetTileCoordsFromMousePos();
-        if (hoverTileIndices.inBounds)
-        {
-            hoverTile = grid[hoverTileIndices.indices.y, hoverTileIndices.indices.x];
-        }
 
         if (Application.isPlaying)
         {
             // Draw tile gizmos
             foreach (Tile tile in grid)
             {
-                Gizmos.color = tile == hoverTile ? Color.yellow : Color.green;
-                Gizmos.DrawWireCube(tile.Root.position + new Vector3(0, tileWidth.y / 2, 0),
-                    new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
+                Gizmos.color = tile == _hoverTile ? Color.yellow : Color.green;
+                Gizmos.DrawWireCube(tile.transform.position + new Vector3(0, tileWidth.y / 2, 0), new Vector3(tileWidth.x, tileWidth.y, tileWidth.y));
             }
         }
 
@@ -223,31 +214,7 @@ public class GridManager : SingletonBehaviour<GridManager>
             Gizmos.DrawWireSphere(hit.point, .25f);
         }
     }
-
     #endregion
-
-    /// <summary>
-    /// Struct that stores grid coordinates along with
-    /// whether they are in bounds
-    /// </summary>
-    public struct TileCoordinates
-    {
-        /// <summary>
-        /// Whether the coordinates are in bounds of the grid
-        /// </summary>
-        public bool inBounds;
-
-        /// <summary>
-        /// The index coordinates
-        /// </summary>
-        public Vector2Int indices;
-
-        public TileCoordinates(bool exist, Vector2Int indices)
-        {
-            this.inBounds = exist;
-            this.indices = indices;
-        }
-    }
 
     /// <summary>
     /// A struct containing the neighbouring tile and in what

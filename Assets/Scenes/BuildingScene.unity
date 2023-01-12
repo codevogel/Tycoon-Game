@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -264,8 +264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb425cdd43108034aa3e60cb0c816659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilePrefab: {fileID: 4412614505582519150, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
-  gridSize: {x: 100, y: 100}
+  _tilePrefab: {fileID: 6203884913808110735, guid: 4af9fcc782facdb4582df23b79fed052, type: 3}
+  _tilePresets:
+  - {fileID: 11400000, guid: 25919508403ba634c83a0673ab9d78ce, type: 2}
+  - {fileID: 11400000, guid: 25d85d0896b778b488b99cd497a4fe28, type: 2}
+  gridSize: {x: 10, y: 10}
   tileWidth: {x: 5, y: 5}
 --- !u!4 &553647067
 Transform:

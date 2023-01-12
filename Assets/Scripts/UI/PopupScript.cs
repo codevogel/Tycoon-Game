@@ -33,7 +33,7 @@ public class PopupScript : MonoBehaviour
     /// </summary>
     void ShowOrHidePopup()
     {
-        Tile clickedOnTile = GridManager.Instance.GetTileAt(GridManager.Instance.GetTileCoordsFromMousePos().indices);
+        Tile clickedOnTile = GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition);
         // Determine whether popup should be shown
         popup.SetActive(clickedOnTile != null && clickedOnTile != selectedTile && clickedOnTile.HasContent);
         // If shown
@@ -59,10 +59,9 @@ public class PopupScript : MonoBehaviour
     {
         selectedTile = selection;
         // If popup should show a building
-        if (selectedTile.Content is Building)
+        if (selectedTile.Content is Building b)
         {
             // Turn on connection renderer
-            Building b = (Building)selectedTile.Content;
             b.BuildingConnectionsRenderer.ShowLines(true);
         }
     }
@@ -73,10 +72,9 @@ public class PopupScript : MonoBehaviour
     private void ClearSelection()
     {
         // If popup was showing a building
-        if (selectedTile != null && selectedTile.Content is Building)
+        if (selectedTile != null && selectedTile.Content is Building b)
         {
             // Turn off the connections renderer
-            Building b = (Building)selectedTile.Content;
             b.BuildingConnectionsRenderer.ShowLines(false);
         }
         selectedTile = null;
@@ -108,7 +106,6 @@ public class PopupScript : MonoBehaviour
     public void RemoveObjectAt()
     {
         selectedTile.RemoveContent();
-        selectedTile.blockContentPlacement.gameObject.SetActive(false);
         popup.SetActive(false);
     }
 }

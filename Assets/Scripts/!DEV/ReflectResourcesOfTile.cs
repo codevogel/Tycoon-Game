@@ -3,20 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TileReference))]
 public class ReflectResourcesOfTile : MonoBehaviour
 {
-
-    Tile tile;
+    public Tile tile;
 
     public string ammoIn, ammoOut;
     public string ironIn, ironOut;
-
-    private void Start()
-    {
-        tile = GetComponent<TileReference>().Tile;
-    }
-
 
     private void Update()
     {
