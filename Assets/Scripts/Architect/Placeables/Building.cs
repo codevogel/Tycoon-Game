@@ -244,10 +244,6 @@ public class Building : Placeable
     {
         if (recipients.Count > 0)
         {
-            //Check if it can spawn an agent
-            AgentBehaviour agent = agentSpawner.SpawnAgent();
-            if (agent == null) return;
-
             Building recipient = DequeueRecipient();
             List<Resource> resourcesToSend = new();
             // For each requested resource
@@ -271,6 +267,10 @@ public class Building : Placeable
                 InsertAtFrontOfQueue(recipient);
                 return;
             }
+            //Check if it can spawn an agent
+            AgentBehaviour agent = agentSpawner.SpawnAgent();
+            if (agent == null) return;
+
             RemoveFromStorage(output, resourcesToSendArray);
             (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
             // Put recipient back into queue
