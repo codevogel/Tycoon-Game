@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -16,10 +18,21 @@ namespace NavMesh
         [SerializeField] private int spawnMax;
 
         [SerializeField] private bool useIntervals;
-        [SerializeField] private float interval;
+
+        [ShowIfGroup("useIntervals")] [SerializeField]
+        private float interval;
+
         private float _spawnTimer;
 
+        [SerializeField] private bool useDelay = false;
+
+        [ShowIfGroup("useDelay")] [SerializeField]
+        private float delayTimer = 60;
+
+        [SerializeField] private TextMeshPro delaytimerText;
+
         private ObjectPool<AgentBehaviour> _agentPool;
+
 
         /// <summary>
         /// return agent to pool
@@ -39,17 +52,24 @@ namespace NavMesh
         private void Start()
         {
             CreateAgentPool();
-            StartCoroutine(SpawnMultiple(spawnCount));
         }
 
         private void Update()
         {
-            _spawnTimer += Time.deltaTime;
-
-            if (_spawnTimer > interval && useIntervals)
+            if (useDelay)
             {
-                _spawnTimer = 0;
-                SpawnMultipleAgents();
+                SpawnDelay();
+            }
+            else
+            {
+                StartCoroutine(SpawnMultiple(spawnCount));
+                _spawnTimer += Time.deltaTime;
+
+                if (_spawnTimer > interval && useIntervals)
+                {
+                    _spawnTimer = 0;
+                    SpawnMultipleAgents();
+                }
             }
         }
 
@@ -136,6 +156,20 @@ namespace NavMesh
             StartCoroutine(SpawnMultiple(spawnCount));
         }
 
+        /// <summary>
+        /// sets a delay before agents are able to spawn
+        /// </summary>
+        private void SpawnDelay()
+        {
+            delayTimer -= Time.deltaTime;
+
+            var timeTable = TimeSpan.FromSeconds(delayTimer);
+            delaytimerText.text = $"{timeTable.Minutes:D2}:{timeTable.Seconds:D2}";
+            if (delayTimer <= 0)
+            {
+                useDelay = false;
+            }
+        }
 
         /// <summary>
         /// Spawn multiple enemies
