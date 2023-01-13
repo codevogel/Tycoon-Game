@@ -220,12 +220,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentList: []
   agentPrefab: {fileID: 8543467033000699885, guid: 42d8677dd96295f4b91bb83ea5244f55, type: 3}
-  spawnCount: 10
-  spawnMax: 10
+  spawnCount: 3
+  spawnMax: 100
   useIntervals: 1
   interval: 5
-  useDelay: 0
+  useDelay: 1
   delayTimer: 60
+  delayAmount: 5
   delaytimerText: {fileID: 7651458009113209535}
 --- !u!1001 &1247946024271905137
 PrefabInstance:

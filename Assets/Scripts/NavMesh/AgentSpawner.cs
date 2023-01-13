@@ -26,8 +26,11 @@ namespace NavMesh
 
         [SerializeField] private bool useDelay = false;
 
-        [ShowIfGroup("useDelay")] [SerializeField]
+        [ShowIfGroup("useDelay")] [ReadOnly] [SerializeField]
         private float delayTimer = 60;
+
+        [ShowIfGroup("useDelay")] [SerializeField]
+        private float delayAmount = 60;
 
         [SerializeField] private TextMeshPro delaytimerText;
 
@@ -52,13 +55,24 @@ namespace NavMesh
         private void Start()
         {
             CreateAgentPool();
+            delayTimer=delayAmount;
         }
 
         private void Update()
         {
             if (useDelay)
             {
-                SpawnDelay();
+                if (!SpawnDelay())
+                {
+                    StartCoroutine(SpawnMultiple(spawnCount));
+                    _spawnTimer += Time.deltaTime;
+
+                    // if (_spawnTimer > interval && useIntervals)
+                    // {
+                    //     _spawnTimer = 0;
+                    //     SpawnMultipleAgents();
+                    // }
+                }
             }
             else
             {
@@ -159,7 +173,7 @@ namespace NavMesh
         /// <summary>
         /// sets a delay before agents are able to spawn
         /// </summary>
-        private void SpawnDelay()
+        private bool SpawnDelay()
         {
             delayTimer -= Time.deltaTime;
 
@@ -167,8 +181,11 @@ namespace NavMesh
             delaytimerText.text = $"{timeTable.Minutes:D2}:{timeTable.Seconds:D2}";
             if (delayTimer <= 0)
             {
-                useDelay = false;
+                delayTimer = delayAmount;
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
