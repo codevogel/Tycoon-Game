@@ -1,26 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BillboardText : MonoBehaviour
 {
     private Camera _camera;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _camera = Camera.main;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_camera != null)
         {
             var cameraTransform = _camera.transform;
             var position = cameraTransform.position;
             transform.LookAt(new Vector3(
-                x: position.x, 
+                x: position.x,
                 45,
                 z: position.z)
             );
