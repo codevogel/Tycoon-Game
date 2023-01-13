@@ -17,7 +17,7 @@ public class Building : Placeable
 
     public Tile Tile { get; set; }
 
-    public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; private set; }
+    public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
 
 
     /// <summary>
@@ -45,10 +45,11 @@ public class Building : Placeable
         range = LocalPreset.range;
     }
 
-    public void InitializeAfterInstantiation(Tile hostingTile)
+    public virtual void InitializeAfterInstantiation(Tile hostingTile)
     {
         Tile = hostingTile;
-        BuildingController.SubscribeBuilding(this);
+        bool producesItems = produces.Length > 0;
+        BuildingController.SubscribeBuilding(this, producesItems, producesItems);
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
         BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
@@ -205,7 +206,7 @@ public class Building : Placeable
     /// <summary>
     /// Fabricates the resources from productionCost into the resources from produces.
     /// </summary>
-    private void Fabricate()
+    protected virtual void Fabricate()
     {
         if (!input.HasResourcesRequired(productionCost))
         {

@@ -39,25 +39,25 @@ public class BuildingController : MonoBehaviour
         Transport.Invoke();
     }
 
-    internal static void SubscribeBuilding(Building building)
+    internal static void SubscribeBuilding(Building building, bool produce, bool transport)
     {
         _buildings.Add(building);
-        Refresh.AddListener(building.RefreshRecipients);
-        if (building.produces.Length > 0)
+        if (produce)
         {
             Produce.AddListener(building.Produce);
+        }
+        if (transport)
+        {
             Transport.AddListener(building.Transport);
+            Refresh.AddListener(building.RefreshRecipients);
         }
     }
 
     internal static void UnsubscribeBuilding(Building building)
     {
         _buildings.Remove(building);
+        Produce.RemoveListener(building.Produce);
+        Transport.RemoveListener(building.Transport);
         Refresh.RemoveListener(building.RefreshRecipients);
-        if (building.produces.Length > 0)
-        {
-            Produce.RemoveListener(building.Produce);
-            Transport.RemoveListener(building.Transport);
-        }
     }
 }

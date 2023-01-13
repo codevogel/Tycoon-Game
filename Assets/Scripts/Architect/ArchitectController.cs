@@ -37,6 +37,9 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
 
     private BuildingPreset CurrentBuildingPreset => PlaceableBuildings[_currentBuildingIndex];
 
+    [SerializeField]
+    private BuildingPreset constructionSitePreset;
+
     // Update is called once per frame
     void Update()
     {
@@ -90,6 +93,12 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
         targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
     }
 
+    internal void PlaceBuildingAt(Tile targetTile, BuildingPreset presetToConstruct)
+    {
+        //TODO: save rotation ?
+        targetTile.PlaceContent(new Building(presetToConstruct), rotation: _currentRotation);
+    }
+
     /// <summary>
     /// Get the Placeable that should be placed.
     /// </summary>
@@ -99,7 +108,7 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         return CurrentlyPlacing switch
         {
-            PlaceableType.BUILDING => new Building(CurrentBuildingPreset),
+            PlaceableType.BUILDING => new ConstructionSite(constructionSitePreset, CurrentBuildingPreset),
             PlaceableType.ROAD => new Road(),
             _ => throw new KeyNotFoundException("Did not find PlaceableType" + CurrentlyPlacing)
         };
