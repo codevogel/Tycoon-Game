@@ -631,10 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b93c389c9908ae4c83a03f121bb6c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: 100
-  baseAmmo: 100
   ammoText: {fileID: 8128234633083333147}
-  efficiencyMultiplier: 1
   damage: 1
   cooldown: 1
 --- !u!198 &8128234633429078836
@@ -4390,7 +4387,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 127
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
