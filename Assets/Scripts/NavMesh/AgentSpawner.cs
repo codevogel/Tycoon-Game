@@ -60,7 +60,6 @@ namespace NavMesh
 
         private void Update()
         {
-            Debug.Log(transform);
             if (useDelay)
             {
                 if (!SpawnDelay())

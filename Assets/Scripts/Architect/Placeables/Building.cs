@@ -69,7 +69,6 @@ public class Building : Placeable
                 break;
             }
         }
-        Debug.Log($"Has road neighbour:{hasRoadNeighbour}");
         if (!hasRoadNeighbour) return;
 
         //Get all the buildings in range
@@ -276,10 +275,11 @@ public class Building : Placeable
                 agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
             }
             AgentBehaviour agent = agentSpawner.SpawnAgent();
-            if (agent == null) return;
-
-            RemoveFromStorage(output, resourcesToSendArray);
-            (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+            if (agent != null) {
+                RemoveFromStorage(output, resourcesToSendArray);
+                (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+            }
+            
             // Put recipient back into queue
             EnqueueRecipient(recipient);
         }
