@@ -204,6 +204,7 @@ public class Tile : MonoBehaviour
         this.Content = null;
         UpdateModel(0);
         PickRoadForNeighbours();
+        TileCollider.gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
     #endregion

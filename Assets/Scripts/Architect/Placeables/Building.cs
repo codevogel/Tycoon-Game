@@ -56,6 +56,7 @@ public class Building : Placeable
 
     public void RefreshRecipients()
     {
+        Debug.Log(Tile.transform.name);
         this.recipients = new();
 
         //Check if there is a road in the surrounding tiles
@@ -288,6 +289,7 @@ public class Building : Placeable
     public override void OnDestroy()
     {
         BuildingController.UnsubscribeBuilding(this);
+        BuildingConnectionsRenderer.ShowLines(false);
         foreach (Building recipient in recipients)
         {
             recipient.RemoveProvider(this);
