@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 4412614505582519146}
   - component: {fileID: 7200039709778253131}
   - component: {fileID: 1994799942295635313}
-  - component: {fileID: 446466398452270387}
+  - component: {fileID: 5270836571658737654}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -297,7 +297,7 @@ MonoBehaviour:
   BlockContentPlacement: {fileID: 9149801769234510586}
   _placeableHolder: {fileID: 7010959418966345627}
   _spriteRenderer: {fileID: 1985145397514077898}
-  _tileCollider: {fileID: 0}
+  _tileCollider: {fileID: 5270836571658737654}
 --- !u!114 &1994799942295635313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   ammoOut: 
   ironIn: 
   ironOut: 
---- !u!135 &446466398452270387
+--- !u!135 &5270836571658737654
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

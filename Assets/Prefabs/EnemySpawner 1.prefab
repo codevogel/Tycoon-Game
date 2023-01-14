@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5524830137983100760}
   - component: {fileID: 3064093995886117397}
   - component: {fileID: 7651458009113209535}
+  - component: {fileID: 704280982}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -172,6 +173,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 3064093995886117397}
   m_maskType: 0
+--- !u!114 &704280982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692499424303058177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177ef9657fe5bec428f7566234c0ecfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7731306912513840555
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,12 +233,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentList: []
   agentPrefab: {fileID: 8543467033000699885, guid: 42d8677dd96295f4b91bb83ea5244f55, type: 3}
-  spawnCount: 10
-  spawnMax: 10
-  useIntervals: 1
+  spawnCount: 3
+  spawnMax: 100
+  useIntervals: 0
   interval: 5
-  useDelay: 0
-  delayTimer: 60
+  useDelay: 1
+  delayTimer: 3
+  delayAmount: 60
   delaytimerText: {fileID: 7651458009113209535}
 --- !u!1001 &1247946024271905137
 PrefabInstance:
