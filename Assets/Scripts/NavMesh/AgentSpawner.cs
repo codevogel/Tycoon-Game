@@ -92,6 +92,7 @@ namespace NavMesh
         /// </summary>
         private void CreateAgentPool()
         {
+            Debug.Log(transform.name);
             _agentPool = new ObjectPool<AgentBehaviour>(
                 InstantiateAgent,
                 OnGet,

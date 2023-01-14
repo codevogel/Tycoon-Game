@@ -84,12 +84,14 @@ public class PopupScript : MonoBehaviour
     private void UpdateContents()
     {
         StringBuilder output = new StringBuilder();
-        Building selectedBuilding = selectedTile.Content as Building;
-        if (selectedBuilding.output.Contents.Count > 0)
+        if (selectedTile.Content is Building selectedBuilding)
         {
-            foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.output.Contents)
+            if (selectedBuilding.output.Contents.Count > 0)
             {
-                output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+                foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.output.Contents)
+                {
+                    output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+                }
             }
         }
         else
@@ -107,5 +109,6 @@ public class PopupScript : MonoBehaviour
     {
         selectedTile.RemoveContent();
         popup.SetActive(false);
+        BuildingController.Refresh.Invoke();
     }
 }

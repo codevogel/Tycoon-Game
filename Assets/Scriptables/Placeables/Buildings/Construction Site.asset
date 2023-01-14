@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
-  m_Name: Mine
+  m_Name: Construction Site
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: a38463cc46bbbc747a4b3438b7c3e9dc, type: 3}
-  BuildCost: []
-  InitialStorage: []
-  Produces:
+  <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: ef73ce0497bb55f4f867de0662a71c12, type: 3}
+  BuildCost:
   - Type: 0
-    Amount: 1
+    Amount: 0
+  InitialStorage: []
+  Produces: []
   ProductionCost: []
   range: 100
-  ProductionTime: 50
-  TransportTime: 50
+  ProductionTime: 200
+  TransportTime: 100

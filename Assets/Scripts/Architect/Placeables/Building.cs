@@ -17,7 +17,7 @@ public class Building : Placeable
 
     public Tile Tile { get; set; }
 
-    public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; private set; }
+    public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
 
 
     /// <summary>
@@ -45,16 +45,18 @@ public class Building : Placeable
         range = LocalPreset.range;
     }
 
-    public void InitializeAfterInstantiation(Tile hostingTile)
+    public virtual void InitializeAfterInstantiation(Tile hostingTile)
     {
         Tile = hostingTile;
-        BuildingController.SubscribeBuilding(this);
+        bool producesItems = produces.Length > 0;
+        BuildingController.SubscribeBuilding(this, producesItems, producesItems);
         agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
         BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
 
     public void RefreshRecipients()
     {
+        Debug.Log(Tile.transform.name);
         this.recipients = new();
 
         //Check if there is a road in the surrounding tiles
@@ -68,7 +70,6 @@ public class Building : Placeable
                 break;
             }
         }
-        Debug.Log($"Has road neighbour:{hasRoadNeighbour}");
         if (!hasRoadNeighbour) return;
 
         //Get all the buildings in range
@@ -205,7 +206,7 @@ public class Building : Placeable
     /// <summary>
     /// Fabricates the resources from productionCost into the resources from produces.
     /// </summary>
-    private void Fabricate()
+    protected virtual void Fabricate()
     {
         if (!input.HasResourcesRequired(productionCost))
         {
@@ -268,11 +269,18 @@ public class Building : Placeable
                 return;
             }
             //Check if it can spawn an agent
-            AgentBehaviour agent = agentSpawner.SpawnAgent();
-            if (agent == null) return;
 
-            RemoveFromStorage(output, resourcesToSendArray);
-            (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+            //TODO: why is this nullcheck nessecary
+            if (agentSpawner == null)
+            {
+                agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
+            }
+            AgentBehaviour agent = agentSpawner.SpawnAgent();
+            if (agent != null) {
+                RemoveFromStorage(output, resourcesToSendArray);
+                (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+            }
+            
             // Put recipient back into queue
             EnqueueRecipient(recipient);
         }
@@ -281,10 +289,12 @@ public class Building : Placeable
     public override void OnDestroy()
     {
         BuildingController.UnsubscribeBuilding(this);
+        BuildingConnectionsRenderer.ShowLines(false);
         foreach (Building recipient in recipients)
         {
             recipient.RemoveProvider(this);
         }
+        GameObject.Destroy(agentSpawner);
     }
 
 
