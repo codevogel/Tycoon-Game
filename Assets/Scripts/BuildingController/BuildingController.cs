@@ -49,8 +49,8 @@ public class BuildingController : MonoBehaviour
         if (transport)
         {
             Transport.AddListener(building.Transport);
-            Refresh.AddListener(building.RefreshRecipients);
         }
+        Refresh.AddListener(building.RefreshRecipients);
     }
 
     internal static void UnsubscribeBuilding(Building building)

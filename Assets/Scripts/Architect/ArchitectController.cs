@@ -79,7 +79,6 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
             else
             {
                 PlaceObjectAt(targetTile);
-                BuildingController.Refresh.Invoke(); // TODO: not performance friendly
             }
         }
     }

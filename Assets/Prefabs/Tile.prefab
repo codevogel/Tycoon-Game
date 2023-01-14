@@ -253,8 +253,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4412614505582519146}
   - component: {fileID: 7200039709778253131}
-  - component: {fileID: 642829938253649756}
   - component: {fileID: 1994799942295635313}
+  - component: {fileID: 446466398452270387}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -297,21 +297,7 @@ MonoBehaviour:
   BlockContentPlacement: {fileID: 9149801769234510586}
   _placeableHolder: {fileID: 7010959418966345627}
   _spriteRenderer: {fileID: 1985145397514077898}
-  _tileCollider: {fileID: 642829938253649756}
---- !u!64 &642829938253649756
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4412614505582519150}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  _tileCollider: {fileID: 0}
 --- !u!114 &1994799942295635313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +315,19 @@ MonoBehaviour:
   ammoOut: 
   ironIn: 
   ironOut: 
+--- !u!135 &446466398452270387
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4412614505582519150}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4521905526455487253
 GameObject:
   m_ObjectHideFlags: 0

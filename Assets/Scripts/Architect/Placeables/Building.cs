@@ -269,6 +269,12 @@ public class Building : Placeable
                 return;
             }
             //Check if it can spawn an agent
+
+            //TODO: why is this nullcheck nessecary
+            if (agentSpawner == null)
+            {
+                agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
+            }
             AgentBehaviour agent = agentSpawner.SpawnAgent();
             if (agent == null) return;
 
@@ -286,6 +292,7 @@ public class Building : Placeable
         {
             recipient.RemoveProvider(this);
         }
+        GameObject.Destroy(agentSpawner);
     }
 
 

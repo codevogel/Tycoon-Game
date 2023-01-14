@@ -56,6 +56,7 @@ namespace NavMesh
 
         private void Update()
         {
+            Debug.Log(transform);
             if (useDelay)
             {
                 SpawnDelay();
@@ -78,6 +79,7 @@ namespace NavMesh
         /// </summary>
         private void CreateAgentPool()
         {
+            Debug.Log(transform.name);
             _agentPool = new ObjectPool<AgentBehaviour>(
                 InstantiateAgent,
                 OnGet,

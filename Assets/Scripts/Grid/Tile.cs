@@ -104,14 +104,12 @@ public class Tile : MonoBehaviour
     public void PlaceContent(Placeable toBePlaced, int rotation)
     {
         Content = toBePlaced;
-
         switch (Content)
         {
             case Road road:
                 TileCollider.gameObject.layer = LayerMask.NameToLayer("Road");
                 PickRoad();
                 PickRoadForNeighbours();
-
                 break;
             case Building building:
                 TileCollider.gameObject.layer = LayerMask.NameToLayer("Building");
@@ -121,8 +119,8 @@ public class Tile : MonoBehaviour
             default:
                 break;
         }
-
-        PlaceableHolder.name = Content.Preset.name;
+        PlaceableHolder.parent.name = Content.Preset.name;
+        BuildingController.Refresh.Invoke(); // TODO: not performance friendly
     }
 
     /// <summary>
