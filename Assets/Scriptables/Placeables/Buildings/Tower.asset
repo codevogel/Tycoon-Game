@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
+  m_Name: Tower
+  m_EditorClassIdentifier: 
+  <Prefab>k__BackingField: {fileID: 8128234632546147273, guid: ad716f29347e324469f932e2a7779a49, type: 3}
+  BuildCost: []
+  InitialStorage: []
+  Produces: []
+  ProductionCost:
+  - Type: 1
+    Amount: 1
+  range: 100
+  ProductionTime: 100
+  TransportTime: 100

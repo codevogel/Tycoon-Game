@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Target
+  - Walls
   layers:
   - Default
   - TransparentFX
@@ -13,9 +14,9 @@ TagManager:
   - Floor
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Road
+  - Building
+  - Walls
   - 
   - 
   - 

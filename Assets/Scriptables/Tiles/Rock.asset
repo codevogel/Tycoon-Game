@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8910f9ad372009e418d42098101b5f5d, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 1430307994, guid: 43f30d581a425754bb10e765461147d8, type: 3}
+  Obstacle: {fileID: 11400000, guid: 899f52d9246f7b94c92c0b7aab81464e, type: 2}
+  resources: []

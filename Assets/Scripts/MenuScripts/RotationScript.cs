@@ -6,7 +6,7 @@ public class RotationScript : MonoBehaviour
 {
   // Start is called before the first frame update
 
-  float rotation = 0;
+ // float rotation = 0;
     void Start()
     {
         

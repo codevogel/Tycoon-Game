@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-100)]
 public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
+
     public static T Instance
     {
         get
@@ -15,8 +14,9 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
                 GameObject gameObject = new GameObject();
                 gameObject.name = typeof(T).ToString();
                 instance = gameObject.AddComponent<T>();
-                DontDestroyOnLoad(gameObject);
+                //  DontDestroyOnLoad(gameObject);
             }
+
             return instance;
         }
     }
@@ -25,14 +25,14 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (instance == this as T)
         {
-            DontDestroyOnLoad(gameObject);
+            //  DontDestroyOnLoad(gameObject);
             return;
         }
 
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            //   DontDestroyOnLoad(gameObject);
         }
         else
         {

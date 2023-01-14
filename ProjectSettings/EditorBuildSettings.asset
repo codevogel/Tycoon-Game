@@ -9,18 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 7dba5a5d7c4124f4d89ced124adf49db
   - enabled: 1
-    path: Assets/Scenes/BuildingScene.unity
-    guid: 96f9fd60c416ec449b226ed8b06c3068
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/Scenes/Mats Test.unity
-    guid: 38ffbb22dd2777e4aa31e11e360aab3c
-  - enabled: 1
-    path: Assets/Scenes/PauseMenu.unity
-    guid: ce4abc783374d814ba29346295b39fd6
-  - enabled: 1
-    path: Assets/Scenes/TowerScene.unity
-    guid: f28440588a1e18346b4e68c5d793da6f
+    path: Assets/Scenes/DemoScene.unity
+    guid: d68db991f22f0de449097445ed270cee
   m_configObjects: {}

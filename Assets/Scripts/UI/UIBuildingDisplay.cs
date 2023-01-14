@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 
 public class UIBuildingDisplay : MonoBehaviour
 {
-    [SerializeField] private BuildingPreset buildingInfo;
+    [SerializeField] [CanBeNull] private BuildingPreset buildingInfo;
 
     [SerializeField] private TMP_Text buildingName;
     [SerializeField] private TMP_Text buildingInformationText;
@@ -14,26 +15,26 @@ public class UIBuildingDisplay : MonoBehaviour
     private readonly List<string> _buildingInformation = new List<string>();
     private void Start()
     {
-        buildingName.text = buildingInfo.name;
+        if (buildingInfo != null) buildingName.text = buildingInfo.name;
         buildingInformationText.text = null;
 
-        if (buildingInfo.BuildCost.Length != 0)
-        {
-            _buildingInformation.Add("<b>Build Cost:</b> \n");
-            GetText(buildingInfo.BuildCost);
-        }
+        //if (buildingInfo.BuildCost.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Build Cost:</b> \n");
+        //    GetText(buildingInfo.BuildCost);
+        //}
 
-        if (buildingInfo.Production.Length != 0)
-        {
-            _buildingInformation.Add("<b>Building production:</b> \n");
-            GetText(buildingInfo.Production);
-        }
+        //if (buildingInfo.StorageOut.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Building production:</b> \n");
+        //    GetText(buildingInfo.StorageOut);
+        //}
 
-        if (buildingInfo.Upkeep.Length != 0)
-        {
-            _buildingInformation.Add("<b>Building upkeep:</b> \n");
-            GetText(buildingInfo.Upkeep);
-        }
+        //if (buildingInfo.Upkeep.Length != 0)
+        //{
+        //    _buildingInformation.Add("<b>Building upkeep:</b> \n");
+        //    GetText(buildingInfo.Upkeep);
+        //}
 
         foreach (var informationString in _buildingInformation)
         {
