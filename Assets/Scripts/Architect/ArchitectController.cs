@@ -40,6 +40,27 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
     [SerializeField]
     private BuildingPreset constructionSitePreset;
 
+    [SerializeField]
+    private BuildingUIButtons buildingUIButtons;
+
+    private static bool _firstBuilding = true;
+
+    public bool FirstBuilding 
+    { 
+        get 
+        { 
+            if (_firstBuilding)
+            {
+                buildingUIButtons.HideEverythingButMine(false);
+                _firstBuilding = false;
+                return true;
+            }
+            return false;
+        }    
+    }
+
+
+
     // Update is called once per frame
     void Update()
     {
