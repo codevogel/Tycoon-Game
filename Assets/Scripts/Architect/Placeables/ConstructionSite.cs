@@ -5,7 +5,7 @@ using UnityEngine;
 public class ConstructionSite : Building
 {
 
-    private BuildingPreset presetToConstruct;
+    public BuildingPreset presetToConstruct;
 
     public ConstructionSite(BuildingPreset preset, BuildingPreset toConstruct) : base(preset)
     {
