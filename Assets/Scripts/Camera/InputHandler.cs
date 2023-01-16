@@ -38,8 +38,14 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private Vector3 dragCurrentPosition;
     #endregion
 
-    #region menu variables 
+    #region popup variables 
     [SerializeField] private GameObject popup;
+    #endregion
+
+    #region pause menu variables
+    [SerializeField] private GameObject pausemenuPopup;
+    private bool _gamePaused;
+
     #endregion
 
     private void Start()
@@ -55,16 +61,8 @@ public class InputHandler : MonoBehaviour
 
         if (Input.mouseScrollDelta.y != 0)
         {
-
-
-
-
             newZoom.y += Input.mouseScrollDelta.y * zoomAmount.y;
-
             newZoom.y = Mathf.Clamp(newZoom.y, 0, 50);
-            // if (newZoom.y < 0) { newZoom.y = 0; }
-            // if (newZoom.y > 50) { newZoom.y = 50; } 
-
         }
         #endregion
 
@@ -78,27 +76,51 @@ public class InputHandler : MonoBehaviour
             _movementSpeed = normalSpeed;
         }
 
-        if (Input.GetKey(KeyCode.W)) newPos += (transform.forward * _movementSpeed * Time.deltaTime);
-        if (Input.GetKey(KeyCode.A)) newPos += (transform.right * -_movementSpeed * Time.deltaTime);
-        if (Input.GetKey(KeyCode.S)) newPos += (transform.forward * -_movementSpeed * Time.deltaTime);
-        if (Input.GetKey(KeyCode.D)) newPos += (transform.right * _movementSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.W)) newPos += (transform.forward * _movementSpeed * Time.unscaledDeltaTime);
+        if (Input.GetKey(KeyCode.A)) newPos += (transform.right * -_movementSpeed * Time.unscaledDeltaTime);
+        if (Input.GetKey(KeyCode.S)) newPos += (transform.forward * -_movementSpeed * Time.unscaledDeltaTime);
+        if (Input.GetKey(KeyCode.D)) newPos += (transform.right * _movementSpeed * Time.unscaledDeltaTime);
 
-        if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount * Time.deltaTime);
-        if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount * Time.deltaTime);
+        if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount * Time.unscaledDeltaTime);
+        if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount * Time.unscaledDeltaTime);
+
+
 
         //if pause menu active close pause menu ,
         //if popup venster active close popup 
         //if none of the above open pause menu
         if (Input.GetKey(KeyCode.Escape))
         {
+            //close buildings popup.
             popup.SetActive(false);
+
+
+            
+                _gamePaused = !_gamePaused;
+                PauseGame();
         }
         #endregion
     }
     private void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * movementTime);
-        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.deltaTime * movementTime);
+        transform.position = Vector3.Lerp(transform.position, newPos, Time.unscaledDeltaTime * movementTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.unscaledDeltaTime * movementTime);
+        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.unscaledDeltaTime * movementTime);
+    }
+
+    //temp make own script
+    void PauseGame()
+    {
+
+        if (_gamePaused)
+        {
+            Time.timeScale = 0f;
+            pausemenuPopup.SetActive(true);
+        }else
+        {
+            Time.timeScale = 1;
+            pausemenuPopup.SetActive(false);
+        }
+   
     }
 }
