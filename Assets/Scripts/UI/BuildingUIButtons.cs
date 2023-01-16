@@ -6,6 +6,23 @@ using static Placeable;
 
 public class BuildingUIButtons : MonoBehaviour
 {
+
+    [SerializeField]
+    public List<GameObject> buttonsForEverythingButMine = new List<GameObject>();
+
+    private void Start()
+    {
+        HideEverythingButMine(true);
+    }
+
+    public void HideEverythingButMine(bool hide)
+    {
+        foreach (GameObject go in buttonsForEverythingButMine)
+        {
+            go.SetActive(!hide);
+        }
+    }
+
     public void SelectMineBuilding()
     {
         ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
