@@ -289,11 +289,13 @@ public class Building : Placeable
     public override void OnDestroy()
     {
         BuildingController.UnsubscribeBuilding(this);
-        BuildingConnectionsRenderer.ShowLines(false);
+        providers.Clear();
+        BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         foreach (Building recipient in recipients)
         {
             recipient.RemoveProvider(this);
         }
+        BuildingConnectionsRenderer.ShowLines(false);
         GameObject.Destroy(agentSpawner);
     }
 
