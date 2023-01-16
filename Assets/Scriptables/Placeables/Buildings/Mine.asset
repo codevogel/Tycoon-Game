@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Mine
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: a38463cc46bbbc747a4b3438b7c3e9dc, type: 3}
-  BuildCost: []
+  BuildCost:
+  - Type: 0
+    Amount: 5
   InitialStorage: []
   Produces:
   - Type: 0
