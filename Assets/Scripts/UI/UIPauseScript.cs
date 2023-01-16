@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class UIPauseScript : MonoBehaviour
 {
-    
-    public bool PauseGame(bool gamepaused)
-    {
 
-        if (gamepaused)
-        {
-            Time.timeScale = 0f;
-            return true; 
-        }
-        else
-        {
-            Time.timeScale = 1;
-            return false;
-        }
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 }

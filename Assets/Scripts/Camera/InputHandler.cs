@@ -93,11 +93,6 @@ public class InputHandler : MonoBehaviour
         {
             //close buildings popup.
             popup.SetActive(false);
-
-
-            
-                _gamePaused = !_gamePaused;
-                PauseGame();
         }
         #endregion
     }
@@ -109,18 +104,18 @@ public class InputHandler : MonoBehaviour
     }
 
     //temp make own script
-    void PauseGame()
-    {
+    //void PauseGame()
+    //{
 
-        if (_gamePaused)
-        {
-            Time.timeScale = 0f;
-            pausemenuPopup.SetActive(true);
-        }else
-        {
-            Time.timeScale = 1;
-            pausemenuPopup.SetActive(false);
-        }
+    //    if (_gamePaused)
+    //    {
+    //        Time.timeScale = 0f;
+    //        pausemenuPopup.SetActive(true);
+    //    }else
+    //    {
+    //        Time.timeScale = 1;
+    //        pausemenuPopup.SetActive(false);
+    //    }
    
-    }
+    //}
 }
