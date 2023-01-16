@@ -7,7 +7,7 @@ public class Road : Placeable
 {
     public override void OnDestroy()
     {
-        throw new NotImplementedException();
+        Debug.Log("Destroyed road");
     }
 
     /// <summary>
