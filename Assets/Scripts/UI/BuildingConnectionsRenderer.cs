@@ -43,6 +43,8 @@ public class BuildingConnectionsRenderer : MonoBehaviour
     {
         currentRenderer.gameObject.SetActive(true);
         currentRenderer.positionCount = targets.Length * 2;
+
+        Debug.Log(currentRenderer.positionCount);
         int targetIndex = 0;
         for (int numPos = 0; numPos < currentRenderer.positionCount; numPos+=2)
         {
