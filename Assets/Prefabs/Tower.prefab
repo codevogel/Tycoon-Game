@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 8128234633083333144}
   - component: {fileID: 8128234633083333146}
   - component: {fileID: 8128234633083333147}
+  - component: {fileID: 965395200343805909}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -584,6 +585,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8128234633083333146}
   m_maskType: 0
+--- !u!114 &965395200343805909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128234633083333145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177ef9657fe5bec428f7566234c0ecfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8128234633429078832
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +783,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 500
+      scalar: 1000
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1263,7 +1276,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 0.71
+    angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
