@@ -1,7 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9fe7580a-480a-4ad2-bc2c-c7c92f0a5b09" name="Changes" comment="" />
+    <list default="true" id="9fe7580a-480a-4ad2-bc2c-c7c92f0a5b09" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tycoon/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tycoon/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BillboardText.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BillboardText.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Tile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Audio Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Audio Test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/DemoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/DemoScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Construction Site.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Construction Site.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Factory.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Factory.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Mine.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Mine.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Tower.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Tower.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Wall.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scriptables/Placeables/Buildings/Wall.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/!DEV.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/!DEV/ReflectResourcesOfTile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/!DEV/ReflectResourcesOfTile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/ArchitectController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/ArchitectController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/ConstructionSite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/ConstructionSite.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Factory.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Factory.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Placeable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Placeable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/BuildingPreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/BuildingPreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/PlaceablePreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/PlaceablePreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/RoadPreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/RoadPreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/WarehousePreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Presets/WarehousePreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Road.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Architect/Placeables/Road.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Audio/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Audio/AudioManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Audio/AudioScriptable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Audio/AudioScriptable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Audio/ChangeAudioSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Audio/ChangeAudioSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/BuildingController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/BuildingController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/Resources/Resource.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/Resources/Resource.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/Resources/ResourceUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingController/Resources/ResourceUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/InputHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/InputHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/OldInputHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/OldInputHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameOverTrigger.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameOverTrigger.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GeneralEvents.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GeneralEvents.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/GridManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Grid/GridManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Grid/Tile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/TilePreset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Grid/TilePreset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Towers.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Towers/BaseTower.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Towers/BaseTower.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Towers/EnemyDetection.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Grid/Towers/EnemyDetection.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/GameObjectMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/GameObjectMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/MainMenuGameTips.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/MainMenuGameTips.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/PauseMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/PauseMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/RotationScript.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/RotationScript.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/SpawnScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuScripts/SpawnScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/AgentBehaviour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/AgentBehaviour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/AgentSpawner.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/AgentSpawner.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/BaseEnemy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/BaseEnemy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/DeliveryAgent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/DeliveryAgent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/EnemyManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/EnemyManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/RuntimeNavBaker.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NavMesh/RuntimeNavBaker.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SingletonBehaviour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SingletonBehaviour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TargetBehaviour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TargetBehaviour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingConnectionsRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingConnectionsRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUIButtons.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUIButtons.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CanBuildOnTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CanBuildOnTile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/DisplayResource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/DisplayResource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HideShow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ShowUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HideShow.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ShowUI.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/PopupScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/PopupScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ToolTipOnHover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ToolTipOnHover.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIBuildingDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIBuildingDisplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIPauseScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIPauseScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UsefullFunctions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UsefullFunctions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StartParticles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StartParticles.cs.meta" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -9,9 +101,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/fc/6b9b7e36/ObjectPool`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameOverTrigger.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TargetBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Towers/EnemyDetection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Buildings/BuildingController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/BillboardText.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utils/UsefulFunctions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ai.navigation@1.1.1/Runtime/NavMeshSurface.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/MaterialReferenceManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>

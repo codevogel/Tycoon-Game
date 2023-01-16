@@ -1,6 +1,7 @@
+using Architect.Placeables;
 using UnityEngine;
 
-namespace Towers
+namespace Agency.Towers
 {
     public class EnemyDetection : MonoBehaviour
     {

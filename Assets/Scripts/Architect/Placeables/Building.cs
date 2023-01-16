@@ -1,17 +1,22 @@
-using NavMesh;
 using System;
 using System.Collections.Generic;
+using Agency;
+using Architect.Placeables;
+using Architect.Placeables.Presets;
+using Buildings.Resources;
+using Grid;
+using UI;
 using UnityEngine;
-using static GridManager;
+using static Grid.GridManager;
 
 public class Building : Placeable
 {
-    public Storage input;
-    public Storage output;
-    private int range; 
+    public Storage Input;
+    public Storage Output;
+    private int _range;
 
-    public Resource[] productionCost;
-    public Resource[] produces;
+    public Resource[] ProductionCost;
+    public Resource[] Produces;
 
     public BuildingPreset LocalPreset { get; private set; }
 
@@ -24,11 +29,13 @@ public class Building : Placeable
     /// List of providers that this building imports resources from.
     /// </summary>
     public List<Building> providers = new();
+
     /// <summary>
     /// List of recipients that this building exports to.
     /// </summary>
     public List<Building> recipients = new();
-    private AgentSpawner agentSpawner;
+
+    private AgentSpawner _agentSpawner;
 
     /// <summary>
     /// Creates a new building with a given BuildingPreset.
@@ -38,20 +45,21 @@ public class Building : Placeable
     {
         Preset = preset;
         LocalPreset = preset;
-        input = new Storage(preset.InitialStorage);
-        output = new Storage(Array.Empty<Resource>());
-        productionCost = LocalPreset.ProductionCost;
-        produces = LocalPreset.Produces;
-        range = LocalPreset.range;
+        Input = new Storage(preset.initialStorage);
+        Output = new Storage(Array.Empty<Resource>());
+        ProductionCost = LocalPreset.productionCost;
+        Produces = LocalPreset.produces;
+        _range = LocalPreset.range;
     }
 
     public virtual void InitializeAfterInstantiation(Tile hostingTile)
     {
         Tile = hostingTile;
-        bool producesItems = produces.Length > 0;
-        BuildingController.SubscribeBuilding(this, producesItems, producesItems);
-        agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
-        BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
+        bool producesItems = Produces.Length > 0;
+        Buildings.BuildingController.SubscribeBuilding(this, producesItems, producesItems);
+        _agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
+        BuildingConnectionsRenderer =
+            Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
     }
 
     public void RefreshRecipients()
@@ -64,30 +72,33 @@ public class Building : Placeable
         bool hasRoadNeighbour = false;
         foreach (Neighbour neighbour in neighbours)
         {
-            if (neighbour.tile.Content is Road)
+            if (neighbour.Tile.Content is Road)
             {
                 hasRoadNeighbour = true;
                 break;
             }
         }
+
         if (!hasRoadNeighbour) return;
 
         //Get all the buildings in range
-        Building[] recipients = GetBuildingsInRange();
-        foreach (Building recipient in recipients)
+        Building[] recipientsInRange = GetBuildingsInRange();
+        foreach (Building recipient in recipientsInRange)
         {
             InsertAtFrontOfQueue(recipient);
             recipient.AddProvider(this);
         }
-        BuildingConnectionsRenderer.SetRecipients(recipients);
+
+        BuildingConnectionsRenderer.SetRecipients(recipientsInRange);
     }
 
     private void AddProvider(Building building)
     {
-        if (! providers.Contains(building))
+        if (!providers.Contains(building))
         {
             providers.Add(building);
         }
+
         BuildingConnectionsRenderer.SetProviders(providers.ToArray());
     }
 
@@ -104,40 +115,46 @@ public class Building : Placeable
         int maxDistanceIndex = -1;
         for (int i = 0; i < buildings.Length; i++)
         {
-            float currentDistance = Vector3.Distance(buildings[i].Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position);
+            float currentDistance = Vector3.Distance(buildings[i].Tile.PlaceableHolder.transform.position,
+                Tile.PlaceableHolder.transform.position);
             if (currentDistance < minDistance)
             {
                 minDistance = currentDistance;
                 maxDistanceIndex = i;
             }
         }
+
         if (maxDistanceIndex < 0)
         {
             return null;
         }
+
         return buildings[maxDistanceIndex];
     }
 
     private Building[] GetBuildingsInRange()
     {
-        Collider[] overlappedColliders = Physics.OverlapSphere(Tile.PlaceableHolder.position, range, LayerMask.GetMask("Building"));
+        Collider[] overlappedColliders =
+            Physics.OverlapSphere(Tile.PlaceableHolder.position, _range, LayerMask.GetMask("Building"));
         List<(Building building, float dist)> buildingsByDistance = new();
         foreach (Collider overlap in overlappedColliders)
         {
             Building other = overlap.GetComponent<Tile>().Content as Building;
             if (other == this)
-               continue;
+                continue;
 
             bool addedBuildings = false;
-            foreach (Resource needed in other.productionCost)
+            foreach (Resource needed in other.ProductionCost)
             {
                 if (addedBuildings)
                     break;
-                foreach (Resource resource in produces)
+                foreach (Resource resource in Produces)
                 {
-                    if (needed.Type == resource.Type)
+                    if (needed.type == resource.type)
                     {
-                        buildingsByDistance.Add((other, Vector3.Distance(other.Tile.PlaceableHolder.transform.position, Tile.PlaceableHolder.transform.position)));
+                        buildingsByDistance.Add((other,
+                            Vector3.Distance(other.Tile.PlaceableHolder.transform.position,
+                                Tile.PlaceableHolder.transform.position)));
                         addedBuildings = true;
                         break;
                     }
@@ -152,6 +169,7 @@ public class Building : Placeable
         {
             buildings[i] = buildingsByDistance[i].building;
         }
+
         return buildings;
     }
 
@@ -167,7 +185,7 @@ public class Building : Placeable
     /// <summary>
     /// Enqueue recipient add end of list
     /// </summary>
-    /// <param name="building">the recipient to add.</param>
+    /// <param name="recipient">the recipient to add.</param>
     public void EnqueueRecipient(Building recipient)
     {
         recipients.Add(recipient);
@@ -183,21 +201,12 @@ public class Building : Placeable
         return firstInQueue;
     }
 
-    ///// <summary>
-    ///// Remove recipient from this building
-    ///// </summary>
-    ///// <param name="building">the recipient to remove.</param>
-    //public void RemoveRecipient(Building building)
-    //{
-    //    recipients.Remove(building);
-    //}
-
     /// <summary>
     /// Production cycle for this building.
     /// </summary>
     public void Produce()
     {
-        if (BuildingController.Tick % LocalPreset.ProductionTime == 0)
+        if (Buildings.BuildingController.Tick % LocalPreset.productionTime == 0)
         {
             Fabricate();
         }
@@ -208,13 +217,14 @@ public class Building : Placeable
     /// </summary>
     protected virtual void Fabricate()
     {
-        if (!input.HasResourcesRequired(productionCost))
+        if (!Input.HasResourcesRequired(ProductionCost))
         {
             //Debug.Log("Did not have enough resources to produce!");
             return;
         }
-        RemoveFromStorage(input, productionCost);
-        AddToStorage(output, produces);
+
+        RemoveFromStorage(Input, ProductionCost);
+        AddToStorage(Output, Produces);
     }
 
     public void AddToStorage(Storage storage, Resource[] resources)
@@ -235,7 +245,7 @@ public class Building : Placeable
 
     public void Transport()
     {
-        if (BuildingController.Tick % LocalPreset.TransportTime == 0)
+        if (Buildings.BuildingController.Tick % LocalPreset.transportTime == 0)
         {
             TransportToRecipients();
         }
@@ -248,10 +258,10 @@ public class Building : Placeable
             Building recipient = DequeueRecipient();
             List<Resource> resourcesToSend = new();
             // For each requested resource
-            foreach (Resource requestedResource in recipient.productionCost)
+            foreach (Resource requestedResource in recipient.ProductionCost)
             {
                 // If this building's output contains that requested resource
-                if (output.HasResourceRequired(requestedResource))
+                if (Output.HasResourceRequired(requestedResource))
                 {
                     resourcesToSend.Add(requestedResource);
                 }
@@ -260,6 +270,7 @@ public class Building : Placeable
                     // Did not have that resource
                 }
             }
+
             // Send resources that were requested by recipient
             Resource[] resourcesToSendArray = resourcesToSend.ToArray();
 
@@ -271,16 +282,18 @@ public class Building : Placeable
             //Check if it can spawn an agent
 
             //TODO: why is this nullcheck nessecary
-            if (agentSpawner == null)
+            if (_agentSpawner == null)
             {
-                agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
+                _agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
             }
-            AgentBehaviour agent = agentSpawner.SpawnAgent();
-            if (agent != null) {
-                RemoveFromStorage(output, resourcesToSendArray);
+
+            AgentBehaviour agent = _agentSpawner.SpawnAgent();
+            if (agent != null)
+            {
+                RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
             }
-            
+
             // Put recipient back into queue
             EnqueueRecipient(recipient);
         }
@@ -288,15 +301,16 @@ public class Building : Placeable
 
     public override void OnDestroy()
     {
-        BuildingController.UnsubscribeBuilding(this);
+        Buildings.BuildingController.UnsubscribeBuilding(this);
         providers.Clear();
         BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         foreach (Building recipient in recipients)
         {
             recipient.RemoveProvider(this);
         }
+
         BuildingConnectionsRenderer.ShowLines(false);
-        GameObject.Destroy(agentSpawner);
+        GameObject.Destroy(_agentSpawner);
     }
 
 
@@ -343,20 +357,22 @@ public class Building : Placeable
                     return false;
                 }
             }
+
             return true;
         }
 
         internal bool HasResourceRequired(Resource resource)
         {
-            if (Contents.ContainsKey(resource.Type))
+            if (Contents.ContainsKey(resource.type))
             {
-                if (Contents[resource.Type] - resource.Amount < 0)
+                if (Contents[resource.type] - resource.amount < 0)
                     return false;
             }
             else
             {
                 return false;
             }
+
             return true;
         }
 
@@ -366,13 +382,13 @@ public class Building : Placeable
         /// <param name="resource">Adds a resource to the storage.</param>
         public void Add(Resource resource)
         {
-            if (Contents.ContainsKey(resource.Type))
+            if (Contents.ContainsKey(resource.type))
             {
-                Contents[resource.Type] += resource.Amount;
+                Contents[resource.type] += resource.amount;
             }
             else
             {
-                Contents[resource.Type] = resource.Amount;
+                Contents[resource.type] = resource.amount;
             }
         }
 
@@ -380,7 +396,10 @@ public class Building : Placeable
         /// Removes a resource item from the storage.
         /// </summary>
         /// <param name="resource">Removes a resource to the storage.</param>
-        public void Remove(Resource resource) { Contents[resource.Type] -= resource.Amount; }
+        public void Remove(Resource resource)
+        {
+            Contents[resource.type] -= resource.amount;
+        }
 
         public int Get(ResourceType type)
         {
@@ -388,6 +407,7 @@ public class Building : Placeable
             {
                 return Contents[type];
             }
+
             return 0;
         }
     }

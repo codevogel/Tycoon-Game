@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using NavMesh;
+using Agency;
+using Buildings.Resources;
+using Grid;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-namespace Towers
+namespace Architect.Placeables
 {
     public class BaseTower : MonoBehaviour
     {
@@ -26,7 +28,8 @@ namespace Towers
         private void Awake()
         {
             _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
-            _building = transform.parent.parent.parent.GetComponent<Tile>().Content as Building; //TODO make this less jank
+            _building = transform.parent.parent.parent.GetComponent<Tile>()
+                .Content as Building; //TODO make this less jank
         }
 
         private void Update()
@@ -70,9 +73,9 @@ namespace Towers
         {
             if (_enemyList.Count <= 0) return;
             transform.LookAt(_enemyList?[0].transform); //barrel looks at detected enemy
-            if (!(_timer > cooldown) || _building.input.Get(ResourceType.Ammo) <= 0) return;
+            if (!(_timer > cooldown) || _building.Input.Get(ResourceType.Ammo) <= 0) return;
             _timer = 0;
-            _building.input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
+            _building.Input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
             _bulletParticleSys.Play(); //play/shoot bullets/particles
         }
 
@@ -106,7 +109,7 @@ namespace Towers
 
         private void SetText()
         {
-            ammoText.text = _building.input.Get(ResourceType.Ammo).ToString();
+            ammoText.text = _building.Input.Get(ResourceType.Ammo).ToString();
         }
     }
 }

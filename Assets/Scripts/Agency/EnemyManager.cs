@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NavMesh
+namespace Agency
 {
     public class EnemyManager : MonoBehaviour
     {

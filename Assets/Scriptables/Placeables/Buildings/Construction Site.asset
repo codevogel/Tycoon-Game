@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Construction Site
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: ef73ce0497bb55f4f867de0662a71c12, type: 3}
-  BuildCost:
-  - Type: 0
-    Amount: 0
-  InitialStorage: []
-  Produces: []
-  ProductionCost: []
+  buildCost:
+  - type: 0
+    amount: 0
+  initialStorage: []
+  produces: []
+  productionCost: []
   range: 100
-  ProductionTime: 200
-  TransportTime: 100
+  productionTime: 200
+  transportTime: 100

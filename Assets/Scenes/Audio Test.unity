@@ -1010,7 +1010,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 384388910}
         m_TargetAssemblyTypeName: ChangeAudioSettings, Assembly-CSharp
-        m_MethodName: ChangeSFXVolume
+        m_MethodName: ChangeSfxVolume
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 484251211}

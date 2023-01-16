@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NavMesh
+namespace Agency
 {
     public class BaseEnemy : AgentBehaviour
     {
@@ -11,9 +11,9 @@ namespace NavMesh
         public int speed;
 
         private Vector3 _startPos;
-        [SerializeField] private float _timer;
+        private float _timer;
 
-        [SerializeField] private List<GameObject> attackTargets = new List<GameObject>();
+        [SerializeField] private List<GameObject> attackTargets = new();
 
         protected override void Update()
         {
@@ -26,7 +26,7 @@ namespace NavMesh
 
         #region logic
 
-        private void CheckForInactive()//checks for inactive object in attackTargets list
+        private void CheckForInactive() //checks for inactive object in attackTargets list
         {
             foreach (var target in attackTargets.Where(target => !target.activeSelf))
             {
@@ -66,15 +66,15 @@ namespace NavMesh
 
             if (attackTargets == null) return null;
 
-            foreach (var VARIABLE in attackTargets)
+            foreach (var targetInRange in attackTargets)
             {
-                if (closestTarget == null) closestTarget = VARIABLE;
+                if (closestTarget == null) closestTarget = targetInRange;
 
-                var distance = Vector3.Distance(VARIABLE.transform.position, transform.position);
+                var distance = Vector3.Distance(targetInRange.transform.position, transform.position);
                 if (!(distance < mDist)) continue;
 
                 mDist = distance;
-                closestTarget = VARIABLE;
+                closestTarget = targetInRange;
             }
 
             return closestTarget;

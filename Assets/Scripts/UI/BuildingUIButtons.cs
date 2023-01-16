@@ -1,48 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
+using Architect;
 using UnityEngine;
-using static ArchitectController;
-using static Placeable;
+using static Architect.Placeables.Placeable;
 
-public class BuildingUIButtons : MonoBehaviour
+namespace UI
 {
-
-    [SerializeField]
-    public List<GameObject> buttonsForEverythingButMine = new List<GameObject>();
-
-    private void Start()
+    public class BuildingUIButtons : MonoBehaviour
     {
-        HideEverythingButMine(true);
-    }
 
-    public void HideEverythingButMine(bool hide)
-    {
-        foreach (GameObject go in buttonsForEverythingButMine)
+        [SerializeField]
+        public List<GameObject> buttonsForEverythingButMine = new();
+
+        private void Start()
         {
-            go.SetActive(!hide);
+            HideEverythingButMine(true);
         }
-    }
 
-    public void SelectMineBuilding()
-    {
-        ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
-        ArchitectController.Instance.SetBuildingIndex(0);
-    }
+        public void HideEverythingButMine(bool hide)
+        {
+            foreach (GameObject go in buttonsForEverythingButMine)
+            {
+                go.SetActive(!hide);
+            }
+        }
 
-    public void SelectFactoryBuilding()
-    {
-        ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
-        ArchitectController.Instance.SetBuildingIndex(1);
-    }
+        public void SelectMineBuilding()
+        {
+            ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
+            ArchitectController.Instance.SetBuildingIndex(0);
+        }
 
-    public void SelectRoad()
-    {
-        ArchitectController.Instance.SetPlaceableType(PlaceableType.ROAD);
-    }
+        public void SelectFactoryBuilding()
+        {
+            ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
+            ArchitectController.Instance.SetBuildingIndex(1);
+        }
+
+        public void SelectRoad()
+        {
+            ArchitectController.Instance.SetPlaceableType(PlaceableType.ROAD);
+        }
     
-    public void SelectTower()
+        public void SelectTower()
         {
             ArchitectController.Instance.SetPlaceableType(PlaceableType.BUILDING);
             ArchitectController.Instance.SetBuildingIndex(2);
         }
+    }
 }

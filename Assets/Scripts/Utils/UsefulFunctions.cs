@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class UsefullFunctions
+public class UsefulFunctions
 {
     /// <summary>Looks through all the files in assets to find the assets with the same type as is given in T</summary>
     /// <typeparam name="T"></typeparam>

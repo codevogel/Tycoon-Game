@@ -1,34 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using Architect.Placeables.Presets;
+using Grid;
+using UI;
 using UnityEngine;
 
-public class ConstructionSite : Building
+namespace Architect.Placeables
 {
-
-    public BuildingPreset presetToConstruct;
-
-    public ConstructionSite(BuildingPreset preset, BuildingPreset toConstruct) : base(preset)
+    public class ConstructionSite : Building
     {
-        presetToConstruct = toConstruct;
-        productionCost = toConstruct.BuildCost;
-    }
 
-    //TODO: better Building hierarchy to reduce duplicate code
-    public override void InitializeAfterInstantiation(Tile hostingTile)
-    {
-        Tile = hostingTile;
-        BuildingController.SubscribeBuilding(this, true, false);
-        BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
-    }
+        public BuildingPreset PresetToConstruct;
 
-    protected override void Fabricate()
-    {
-        if (!ArchitectController.Instance.FirstBuilding && !input.HasResourcesRequired(productionCost))
+        public ConstructionSite(BuildingPreset preset, BuildingPreset toConstruct) : base(preset)
         {
-            Debug.Log("Could not fabricate in Construction Site");
-            return;
+            PresetToConstruct = toConstruct;
+            ProductionCost = toConstruct.buildCost;
         }
-        Tile.RemoveContent();
-        ArchitectController.Instance.PlaceBuildingAt(Tile, presetToConstruct);
+
+        //TODO: better Building hierarchy to reduce duplicate code
+        public override void InitializeAfterInstantiation(Tile hostingTile)
+        {
+            Tile = hostingTile;
+            Buildings.BuildingController.SubscribeBuilding(this, true, false);
+            BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
+        }
+
+        protected override void Fabricate()
+        {
+            if (!ArchitectController.Instance.FirstBuilding && !Input.HasResourcesRequired(ProductionCost))
+            {
+                Debug.Log("Could not fabricate in Construction Site");
+                return;
+            }
+            Tile.RemoveContent();
+            ArchitectController.Instance.PlaceBuildingAt(Tile, PresetToConstruct);
+        }
     }
 }

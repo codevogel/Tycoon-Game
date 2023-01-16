@@ -3539,13 +3539,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b51697200c8d36641aeacb1cfb254313, type: 2}
     - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: tilePrefab
+      value: 
+      objectReference: {fileID: 7200039709778253131, guid: 326aebbfa6e05db47aeb9f7413c52658, type: 3}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
       propertyPath: _tilePrefab
       value: 
       objectReference: {fileID: 7200039709778253131, guid: 326aebbfa6e05db47aeb9f7413c52658, type: 3}
     - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: tilePresets.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
       propertyPath: _tilePresets.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: tilePresets.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25919508403ba634c83a0673ab9d78ce, type: 2}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: tilePresets.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25d85d0896b778b488b99cd497a4fe28, type: 2}
     - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
       propertyPath: _tilePresets.Array.data[0]
       value: 

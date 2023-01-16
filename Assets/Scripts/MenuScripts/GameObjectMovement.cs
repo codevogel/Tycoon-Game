@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameObjectMovement : MonoBehaviour
+namespace MenuScripts
 {
-  float speed = 1;
-  void Update()
+  public class GameObjectMovement : MonoBehaviour
   {
-    transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * speed);
+    float _speed = 1;
+    void Update()
+    {
+      transform.Rotate(new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * _speed);
+    }
   }
 }

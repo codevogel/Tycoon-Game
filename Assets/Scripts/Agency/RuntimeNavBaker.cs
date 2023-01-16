@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using UnityEngine;
 
-namespace NavMesh
+namespace Agency
 {
     /// <summary>
     /// Build NavMesh in runtime based on a NavMeshSurface component

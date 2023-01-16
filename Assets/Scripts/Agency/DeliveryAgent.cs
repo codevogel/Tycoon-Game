@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Buildings.Resources;
 using UnityEngine;
 
-namespace NavMesh
+namespace Agency
 {
     public class DeliveryAgent : AgentBehaviour
     {
@@ -11,17 +10,17 @@ namespace NavMesh
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)
         {
             storage = toDeliver;
-            targetList.Add(target);
+            TargetList.Add(target);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (targetList.Count > 0 && other == targetList[0].Tile.TileCollider)
+            if (TargetList.Count > 0 && other == TargetList[0].Tile.TileCollider)
             {
                 //Debug.Log("Found Target!");
-                targetList[0].AddToStorage(targetList[0].input, storage);
-                targetList.RemoveAt(0);
-                if (targetList.Count <= 0) OnReleaseAgent();
+                TargetList[0].AddToStorage(TargetList[0].Input, storage);
+                TargetList.RemoveAt(0);
+                if (TargetList.Count <= 0) OnReleaseAgent();
             }
         }
     }

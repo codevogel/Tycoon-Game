@@ -6,16 +6,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace NavMesh
+namespace Agency
 {
     public class AgentSpawner : MonoBehaviour
     {
         public List<AgentBehaviour> agentList;
 
         [SerializeField] private GameObject agentPrefab;
-        [SerializeField] private Building agentTarget;
         [SerializeField] private int spawnCount;
         [SerializeField] private int spawnMax;
+        private Building _agentTarget;
 
         [SerializeField] private bool useIntervals;
 
@@ -24,7 +24,7 @@ namespace NavMesh
 
         private float _spawnTimer;
 
-        [SerializeField] private bool useDelay = false;
+        [SerializeField] private bool useDelay;
 
         [ShowIfGroup("useDelay")] [ReadOnly] [SerializeField]
         private float delayTimer = 60;
@@ -49,7 +49,7 @@ namespace NavMesh
         private void SetAgentTargets(AgentBehaviour agent, Building target)
         {
             //agent.targetList.Add(target != null ? target : GameManager.Instance.globalTarget.transform);
-            agent.targetList.Add(target);
+            agent.TargetList.Add(target);
         }
 
         private void Start()
@@ -99,25 +99,6 @@ namespace NavMesh
                 OnRelease,
                 Destroy, true, spawnMax, spawnMax);
         }
-
-        ///// <summary>
-        ///// retrieves the AgentBehaviour class of a given agent
-        ///// </summary>
-        ///// <param name="agent">agent to retrieve the behaviour class of</param>
-        ///// <returns></returns>
-        //private AgentBehaviour GetAgentData(AgentBehaviour agent)
-        //{
-        //    if (agentList != null)
-        //    {
-        //        if (agent.TryGetComponent(out AgentBehaviour agentBehaviour))
-        //        {
-        //            return agentBehaviour;
-        //        }
-        //    }
-
-        //    Debug.Log($"{agentList} list is empty");
-        //    return null;
-        //}
 
         /// <summary>
         /// instantiate

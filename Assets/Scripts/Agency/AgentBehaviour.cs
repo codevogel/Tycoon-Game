@@ -1,16 +1,15 @@
-using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace NavMesh
+namespace Agency
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentBehaviour : MonoBehaviour
     {
         public AgentSpawner spawnOrigin;
-        public List<Building> targetList = new List<Building>();
+        public List<Building> TargetList = new();
 
         private NavMeshAgent _navMeshAgent;
 
@@ -25,7 +24,7 @@ namespace NavMesh
         private void ResetPath()
         {
             _navMeshAgent.ResetPath();
-            _navMeshAgent.SetDestination(targetList[0].Tile.PlaceableHolder.position);
+            _navMeshAgent.SetDestination(TargetList[0].Tile.PlaceableHolder.position);
         }
 
         protected virtual void Update()
@@ -36,8 +35,8 @@ namespace NavMesh
 
         private void SetTarget()
         {
-            if (targetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
-            _navMeshAgent.SetDestination(targetList[0].Tile.PlaceableHolder.position);
+            if (TargetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
+            _navMeshAgent.SetDestination(TargetList[0].Tile.PlaceableHolder.position);
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace NavMesh
         /// </summary>
         protected void OnReleaseAgent()
         {
-            targetList.Clear();
+            TargetList.Clear();
             transform.position = spawnOrigin.transform.position;
             spawnOrigin.ReleaseAgent(this);
         }

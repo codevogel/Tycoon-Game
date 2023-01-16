@@ -1,49 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Pause Menu buttons and menu logic.
-/// Entering the menu sets the games timescale to 0. 
-/// </summary>
-public class PauseMenu : MonoBehaviour
+namespace MenuScripts
 {
-  [SerializeField] GameObject pauseMenu;
-  public static bool isPaused;
-  void Start()
+  /// <summary>
+  /// Pause Menu buttons and menu logic.
+  /// Entering the menu sets the games timescale to 0. 
+  /// </summary>
+  public class PauseMenu : MonoBehaviour
   {
-    pauseMenu.SetActive(false);
-  }
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.Escape))
+    [SerializeField] GameObject pauseMenu;
+    public static bool IsPaused;
+
+    private void Start()
     {
-      if (isPaused) ResumeGame(); else PauseGame();
+      pauseMenu.SetActive(false);
     }
-  }
 
-  public void PauseGame()
-  {
-    pauseMenu.SetActive(true);
-    Time.timeScale = 0f;
-    isPaused = true;
-  }
-  public void ResumeGame()
-  {
-    pauseMenu.SetActive(false);
-    Time.timeScale = 1f;
-    isPaused = false;
-  }
+    private void Update()
+    {
+      if (Input.GetKeyDown(KeyCode.Escape))
+      {
+        if (IsPaused) ResumeGame(); else PauseGame();
+      }
+    }
 
-  public void GoToMainMenu()
-  {
-    Time.timeScale = 1f;
-    SceneManager.LoadScene("MainMenu");
-    isPaused = false;
-  }
-  public void QuitGame()
-  {
-    Application.Quit();
+    public void PauseGame()
+    {
+      pauseMenu.SetActive(true);
+      Time.timeScale = 0f;
+      IsPaused = true;
+    }
+    public void ResumeGame()
+    {
+      pauseMenu.SetActive(false);
+      Time.timeScale = 1f;
+      IsPaused = false;
+    }
+
+    public void GoToMainMenu()
+    {
+      Time.timeScale = 1f;
+      SceneManager.LoadScene("MainMenu");
+      IsPaused = false;
+    }
+    public void QuitGame()
+    {
+      Application.Quit();
+    }
   }
 }
