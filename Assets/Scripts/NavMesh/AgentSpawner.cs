@@ -55,7 +55,7 @@ namespace NavMesh
         private void Start()
         {
             CreateAgentPool();
-            delayTimer=delayAmount;
+            delayTimer = delayAmount;
         }
 
         private void Update()
@@ -166,7 +166,7 @@ namespace NavMesh
         }
 
         [Button("spawn multiple")]
-        private void SpawnMultipleAgents()
+        public void SpawnMultipleAgents()
         {
             StartCoroutine(SpawnMultiple(spawnCount));
         }

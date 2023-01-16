@@ -15,26 +15,28 @@ public class UIBuildingDisplay : MonoBehaviour
     private readonly List<string> _buildingInformation = new List<string>();
     private void Start()
     {
-        if (buildingInfo != null) buildingName.text = buildingInfo.name;
+        if (buildingInfo == null) return;
+
+        buildingName.text = buildingInfo.name;
         buildingInformationText.text = null;
 
-        //if (buildingInfo.BuildCost.Length != 0)
-        //{
-        //    _buildingInformation.Add("<b>Build Cost:</b> \n");
-        //    GetText(buildingInfo.BuildCost);
-        //}
+        if (buildingInfo.BuildCost.Length != 0)
+        {
+            _buildingInformation.Add("<b>Build Cost:</b> \n");
+            GetText(buildingInfo.BuildCost);
+        }
 
-        //if (buildingInfo.StorageOut.Length != 0)
-        //{
-        //    _buildingInformation.Add("<b>Building production:</b> \n");
-        //    GetText(buildingInfo.StorageOut);
-        //}
+        if (buildingInfo.ProductionCost.Length != 0)
+        {
+            _buildingInformation.Add("<b>Production cost:</b> \n");
+            GetText(buildingInfo.ProductionCost);
+        }
 
-        //if (buildingInfo.Upkeep.Length != 0)
-        //{
-        //    _buildingInformation.Add("<b>Building upkeep:</b> \n");
-        //    GetText(buildingInfo.Upkeep);
-        //}
+        if (buildingInfo.Produces.Length != 0)
+        {
+            _buildingInformation.Add("<b>Produces:</b> \n");
+            GetText(buildingInfo.Produces);
+        }
 
         foreach (var informationString in _buildingInformation)
         {
