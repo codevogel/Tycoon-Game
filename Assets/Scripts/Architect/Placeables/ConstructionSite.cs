@@ -23,7 +23,7 @@ public class ConstructionSite : Building
 
     protected override void Fabricate()
     {
-        if (!input.HasResourcesRequired(productionCost))
+        if (!ArchitectController.FirstBuilding && !input.HasResourcesRequired(productionCost))
         {
             Debug.Log("Could not fabricate in Construction Site");
             return;

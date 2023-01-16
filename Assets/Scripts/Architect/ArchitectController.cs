@@ -37,6 +37,20 @@ public class ArchitectController : SingletonBehaviour<ArchitectController>
 
     private BuildingPreset CurrentBuildingPreset => PlaceableBuildings[_currentBuildingIndex];
 
+    private static bool _firstBuilding = true;
+    public static bool FirstBuilding 
+    { 
+        get 
+        { 
+            if (_firstBuilding)
+            {
+                _firstBuilding = false;
+                return true;
+            }
+            return false;
+        }    
+    }
+
     [SerializeField]
     private BuildingPreset constructionSitePreset;
 
