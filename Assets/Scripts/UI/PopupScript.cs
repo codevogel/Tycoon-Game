@@ -86,7 +86,14 @@ public class PopupScript : MonoBehaviour
         StringBuilder output = new StringBuilder();
         if (selectedTile.Content is Building selectedBuilding)
         {
-            if (selectedBuilding.output.Contents.Count > 0)
+            if (selectedTile.Content is ConstructionSite selectedSite)
+            {
+                foreach (KeyValuePair<ResourceType, int> kvp in selectedSite.input.Contents)
+                {
+                    output.AppendFormat("Build progress: {0}/{1} {2}\n", kvp.Value, selectedSite.presetToConstruct.BuildCost[0].Amount, kvp.Key);
+                }
+            }
+            else if (selectedBuilding.output.Contents.Count > 0)
             {
                 foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.output.Contents)
                 {
@@ -94,7 +101,7 @@ public class PopupScript : MonoBehaviour
                 }
             }
         }
-        else
+        if (output.Length == 0)
         {
             output.Append("No contents");
         }
