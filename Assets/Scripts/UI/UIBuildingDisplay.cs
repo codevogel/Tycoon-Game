@@ -28,13 +28,13 @@ public class UIBuildingDisplay : MonoBehaviour
 
         if (buildingInfo.ProductionCost.Length != 0)
         {
-            _buildingInformation.Add("<b>Building production:</b> \n");
+            _buildingInformation.Add("<b>Production cost:</b> \n");
             GetText(buildingInfo.ProductionCost);
         }
 
         if (buildingInfo.Produces.Length != 0)
         {
-            _buildingInformation.Add("<b>Building upkeep:</b> \n");
+            _buildingInformation.Add("<b>Produces:</b> \n");
             GetText(buildingInfo.Produces);
         }
 
