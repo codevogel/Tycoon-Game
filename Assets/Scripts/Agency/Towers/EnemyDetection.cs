@@ -11,12 +11,14 @@ namespace Agency.Towers
         {
             if (!other.CompareTag("Enemy")) return;
             baseTower.AddEnemyToList(other.gameObject);
+            baseTower.NewTarget();
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Enemy")) return;
             baseTower.RemoveEnemyFromList(other.gameObject);
+            baseTower.NewTarget();
         }
     }
 }
