@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Architect;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using static Architect.Placeables.Placeable;
 
 namespace UI
@@ -10,6 +12,7 @@ namespace UI
 
         [SerializeField]
         public List<GameObject> buttonsForEverythingButMine = new();
+        [SerializeField] Button mineBuildingButton;
 
         private void Start()
         {
@@ -21,6 +24,7 @@ namespace UI
             foreach (GameObject go in buttonsForEverythingButMine)
             {
                 go.SetActive(!hide);
+                mineBuildingButton.Select();
             }
         }
 
