@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Agency;
@@ -23,6 +24,7 @@ namespace Architect.Placeables
         private ParticleSystem _bulletParticleSys;
         private Building _building;
         private float _timer;
+        private GameObject currentTarget;
 
 
         private void Awake()
@@ -72,7 +74,9 @@ namespace Architect.Placeables
         public void EnemyInTrigger()
         {
             if (_enemyList.Count <= 0) return;
-            transform.LookAt(_enemyList?[0].transform); //barrel looks at detected enemy
+            if (NewTarget() == null) return;
+            transform.LookAt(NewTarget().transform); //barrel looks at detected enemy
+            Debug.Log("Target: " + NewTarget());
             if (!(_timer > cooldown) || _building.Input.Get(ResourceType.Ammo) <= 0) return;
             _timer = 0;
             _building.Input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
@@ -100,6 +104,24 @@ namespace Architect.Placeables
             {
                 _enemyList.Remove(enemy); //remove gameObject from list if inactive
             }
+        }
+
+        public GameObject NewTarget()
+        {
+            currentTarget = _enemyList[0];
+            var distanceToCurrentTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
+
+            foreach (var t in _enemyList)
+            {
+                var distanceToEnemy = Vector3.Distance(transform.position, t.transform.position);
+
+                if (distanceToEnemy < distanceToCurrentTarget)
+                {
+                    currentTarget = t;
+                }
+            }
+
+            return currentTarget;
         }
 
         private void SetTimer()
