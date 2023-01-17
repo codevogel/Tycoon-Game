@@ -106,6 +106,10 @@ namespace Architect.Placeables
             }
         }
 
+        /// <summary>
+        /// sets a new (enemy) target based on distance to tower
+        /// </summary>
+        /// <returns></returns>
         public GameObject NewTarget()
         {
             currentTarget = _enemyList[0];
