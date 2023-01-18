@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2623626, g: 0.12514442, b: 0.05923947, a: 1}
+  m_IndirectSpecularColor: {r: 0.26236242, g: 0.12514421, b: 0.059239324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1400,6 +1400,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &635750722 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3262912964395267984, guid: 2939319af0c22734e8b336cd8a636ff4, type: 3}
+  m_PrefabInstance: {fileID: 357759269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &643333344
 GameObject:
   m_ObjectHideFlags: 0
@@ -2717,7 +2728,7 @@ MonoBehaviour:
   - {fileID: 1967506147}
   - {fileID: 1807344856}
   - {fileID: 1766718377}
-  mineBuildingButton: {fileID: 0}
+  mineBuildingButton: {fileID: 635750722}
 --- !u!114 &1749035088
 MonoBehaviour:
   m_ObjectHideFlags: 0
