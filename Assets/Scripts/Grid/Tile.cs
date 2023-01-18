@@ -75,6 +75,23 @@ namespace Grid
             //    BlockContentPlacement.gameObject.SetActive(true);
             //}
         }
+
+        internal void OnSelect()
+        {
+            if (HasContent && Content is Building b)
+            {
+                b.BuildingConnectionsRenderer.ShowLines(true);
+            }
+        }
+
+        internal void OnDeselect()
+        {
+            if (HasContent && Content is Building b)
+            {
+                b.BuildingConnectionsRenderer.ShowLines(false);
+            }
+        }
+
         /// <summary>
         /// Updates the model to reflect the Content.
         /// </summary>

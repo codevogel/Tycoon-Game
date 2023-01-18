@@ -1,11 +1,20 @@
 using Buildings.Resources;
+using System;
 using UnityEngine;
 
 namespace Agency
 {
+    [RequireComponent(typeof(AgentTargetRenderer))]
     public class DeliveryAgent : AgentBehaviour
     {
         public Resource[] storage;
+
+        private AgentTargetRenderer targetRenderer;
+
+        private void Awake()
+        {
+            targetRenderer = GetComponent<AgentTargetRenderer>();    
+        }
 
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)
         {
@@ -27,6 +36,23 @@ namespace Agency
                 TargetList.RemoveAt(0);
                 if (TargetList.Count <= 0) OnReleaseAgent();
             }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            targetRenderer.SetOriginAndTarget(spawnOrigin.transform, TargetList[0].Tile.transform);
+        }
+
+        internal void OnSelect()
+        {
+            targetRenderer.SetOriginAndTarget(spawnOrigin.transform, TargetList[0].Tile.transform);
+            targetRenderer.ShowLines(true);
+        }
+
+        internal void OnDeselect()
+        {
+            targetRenderer.ShowLines(false);
         }
     }
 }

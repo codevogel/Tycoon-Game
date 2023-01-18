@@ -92,6 +92,11 @@ public class Building : Placeable
         BuildingConnectionsRenderer.SetRecipients(recipientsInRange);
     }
 
+    internal void OnDeselect()
+    {
+        throw new NotImplementedException();
+    }
+
     private void AddProvider(Building building)
     {
         if (!providers.Contains(building))
