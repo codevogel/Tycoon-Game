@@ -92,6 +92,11 @@ public class Building : Placeable
         BuildingConnectionsRenderer.SetRecipients(recipientsInRange);
     }
 
+    internal void OnDeselect()
+    {
+        throw new NotImplementedException();
+    }
+
     private void AddProvider(Building building)
     {
         if (!providers.Contains(building))
@@ -274,6 +279,12 @@ public class Building : Placeable
             // Send resources that were requested by recipient
             Resource[] resourcesToSendArray = resourcesToSend.ToArray();
 
+            if (recipient is ConstructionSite c && c.isReceiving)
+            {
+                TransportToRecipients();
+                return;
+            }
+
             if (resourcesToSendArray.Length == 0)
             {
                 InsertAtFrontOfQueue(recipient);
@@ -292,6 +303,8 @@ public class Building : Placeable
             {
                 RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+                //(agent as DeliveryAgent).AddTarget(this);
+                if (recipient is ConstructionSite c2) c2.isReceiving = true;
             }
 
             // Put recipient back into queue
