@@ -292,6 +292,7 @@ public class Building : Placeable
             {
                 RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
+                (agent as DeliveryAgent).AddTarget(this);
             }
 
             // Put recipient back into queue

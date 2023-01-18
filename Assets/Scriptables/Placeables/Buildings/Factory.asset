@@ -25,4 +25,4 @@ MonoBehaviour:
     amount: 1
   range: 100
   productionTime: 100
-  transportTime: 0
+  transportTime: 100

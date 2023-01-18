@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Agency
@@ -8,7 +10,16 @@ namespace Agency
     {
         [SerializeField] private List<AgentSpawner> enemySpawnerList;
         [SerializeField] private GameObject startButton;
+        [SerializeField] [ReadOnly] private int waveCounter;
 
+        [Tooltip("how many waves it takes for a new spawner to get activated")] [SerializeField]
+        private int waveThreshold;
+
+        private void Update()
+        {
+            waveCounter = enemySpawnerList[0].waveCounter;
+            AddSpawner();
+        }
 
         public void StartWaveSpawn()
         {
@@ -22,6 +33,17 @@ namespace Agency
             yield return new WaitForFixedUpdate();
             enemySpawnerList[0].SpawnMultipleAgents();
             yield return new WaitForEndOfFrame();
+        }
+
+        private void AddSpawner()
+        {
+            for (int i = 0; i < enemySpawnerList.Count; i++)
+            {
+                if (waveCounter == waveThreshold * (i + 1))
+                {
+                    enemySpawnerList[i].gameObject.SetActive(true);
+                }
+            }
         }
     }
 }

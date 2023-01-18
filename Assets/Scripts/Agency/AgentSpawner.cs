@@ -11,9 +11,14 @@ namespace Agency
     public class AgentSpawner : MonoBehaviour
     {
         public List<AgentBehaviour> agentList;
+        public int waveCounter;
 
         [SerializeField] private GameObject agentPrefab;
         [SerializeField] private int spawnCount;
+
+        [Tooltip("the amount of enemies that get added to the next wave")] [SerializeField]
+        private int spawnScalar;
+
         [SerializeField] private int spawnMax;
         private Building _agentTarget;
 
@@ -101,7 +106,7 @@ namespace Agency
         }
 
         /// <summary>
-        /// instantiate
+        /// instantiate agents for the objectPool;
         /// </summary>
         /// <returns></returns>
         private AgentBehaviour InstantiateAgent()
@@ -178,14 +183,16 @@ namespace Agency
         {
             if (_agentPool.CountAll < spawnMax)
             {
+                waveCounter++;
                 for (var i = 0; i < spawnAmount; i++)
                 {
                     var agent = _agentPool.Get();
                     agent.transform.localPosition = new Vector3(0, 0, 0);
                     yield return new WaitForSeconds(.5f);
                 }
-            }
 
+                spawnCount += spawnScalar;
+            }
 
             yield return new WaitForEndOfFrame();
         }
