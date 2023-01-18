@@ -298,7 +298,7 @@ public class Building : Placeable
             {
                 RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
-                (agent as DeliveryAgent).AddTarget(this);
+                //(agent as DeliveryAgent).AddTarget(this);
                 if (recipient is ConstructionSite c2) c2.isReceiving = true;
             }
 
