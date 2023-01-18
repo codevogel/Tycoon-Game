@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Agency;
 using Architect.Placeables;
 using Buildings.Resources;
 using Grid;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UI
 {
@@ -14,13 +17,24 @@ namespace UI
         public GameObject popup;
         public TMP_Text popuptext;
         private Tile _selectedTile;
+        private DeliveryAgent _selectedAgent;
+
+        private bool SomethingSelected { get => _selectedTile != null || _selectedAgent != null; }
         #endregion
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(1))
             {
-                ShowOrHidePopup();
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, float.PositiveInfinity, LayerMask.GetMask("Clickbox")))
+                {
+                    ShowOrHidePopup(hit.collider.gameObject.GetComponentInParent<DeliveryAgent>());
+                }
+                else
+                {
+                    ShowOrHidePopup(GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition));
+                }
             }
             if (popup.activeSelf)
             {
@@ -28,44 +42,35 @@ namespace UI
             }
         }
 
-        // Start is called before the first frame update
-        /// <summary>
-        /// doet popup laten zien on right click. 
-        /// popup geeft informatie over de building/road en buttons om te upgraden/destroyen.
-        /// </summary>
-        void ShowOrHidePopup()
-        {
-            Tile clickedOnTile = GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition);
-            // Determine whether popup should be shown
-            popup.SetActive(clickedOnTile != null && clickedOnTile != _selectedTile && clickedOnTile.HasContent);
-            // If shown
-            if (popup.activeSelf)
-            {
-                // Clear selection if selection exists, then show popup
-                if (_selectedTile != null)
-                {
-                    ClearSelection();
-                }
-                ShowPopup(clickedOnTile);
-                return;
-            }
-            // Clear the selection
-            ClearSelection();
-        }
 
-        /// <summary>
-        /// Show the popup for a tile
-        /// </summary>
-        /// <param name="selection">The tile to show the popup for</param>
-        private void ShowPopup(Tile selection)
+        private void ShowOrHidePopup<T>(T newSelection)
         {
-            _selectedTile = selection;
-            // If popup should show a building
-            if (_selectedTile.Content is Building b)
+            if (SomethingSelected)
             {
-                // Turn on connection renderer
-                b.BuildingConnectionsRenderer.ShowLines(true);
+                ClearSelection();
             }
+            switch (newSelection)
+            {
+                case Tile t:
+                    // If clicked out of grid or tile has no content
+                    if (t == null || !t.HasContent)
+                    {
+                        // Nullify
+                        _selectedTile = null;
+                    }
+                    else
+                    {
+                        _selectedTile = t;
+                    }
+                    break;
+                case DeliveryAgent a:
+                    _selectedAgent = a;
+                    a.OnSelect();
+                    break;
+                default:
+                    break;
+            }
+            popup.SetActive(SomethingSelected);
         }
 
         /// <summary>
@@ -80,29 +85,27 @@ namespace UI
                 b.BuildingConnectionsRenderer.ShowLines(false);
             }
             _selectedTile = null;
+
+            if (_selectedAgent != null)
+                _selectedAgent.OnDeselect();
+            _selectedAgent = null;
         }
 
         // Updates the contents for the popup
         private void UpdateContents()
         {
             StringBuilder output = new StringBuilder();
-            if (_selectedTile.Content is Building selectedBuilding)
+
+            // If tile is selected
+            if (_selectedTile != null)
             {
-                if (_selectedTile.Content is ConstructionSite selectedSite)
-                {
-                    foreach (KeyValuePair<ResourceType, int> kvp in selectedSite.Input.Contents)
-                    {
-                        output.AppendFormat("Build progress: {0}/{1} {2}\n", kvp.Value, selectedSite.PresetToConstruct.buildCost[0].amount, kvp.Key);
-                    }
-                }
-                else if (selectedBuilding.Output.Contents.Count > 0)
-                {
-                    foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
-                    {
-                        output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
-                    }
-                }
+                AppendTileContents(output);
             }
+            else // Agent is selected
+            {
+                AppendAgentContents(output);
+            }
+
             if (output.Length == 0)
             {
                 output.Append("No contents");
@@ -110,12 +113,70 @@ namespace UI
             popuptext.text = output.ToString();
         }
 
+        private void AppendAgentContents(StringBuilder output)
+        {
+            if (_selectedAgent.TargetList.Count > 0)
+            {
+                output.AppendFormat("Origin: {0}\nTarget: {1}", _selectedAgent.spawnOrigin, _selectedAgent.TargetList[0]);
+            }
+        }
+
+        private void AppendTileContents(StringBuilder output)
+        {
+            if (_selectedTile.HasContent)
+            {
+                if (_selectedTile.Content is Building b)
+                {
+                    if (b is ConstructionSite c)
+                    {
+                        AppendBuildingProgress(output, c);
+                        return;
+                    }
+                    AppendBuildingResources(output, b);
+                    return;
+                }
+                else
+                {
+                    output.Append("Road");
+                }
+            }
+        }
+
+        private static void AppendBuildingResources(StringBuilder output, Building selectedBuilding)
+        {
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
+            {
+                output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+            }
+        }
+
+        private static void AppendBuildingProgress(StringBuilder output, ConstructionSite selectedSite)
+        {
+            var buildCost = selectedSite.PresetToConstruct.buildCost[0];
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedSite.Input.Contents)
+            {
+
+                output.AppendFormat("Build progress: {0}/{1} {2}\n", kvp.Value, buildCost.amount, buildCost.type.ToString());
+            }
+            if (output.Length == 0)
+            {
+                output.AppendFormat("Build Progress: 0/{0} {1}", buildCost.amount, buildCost.type.ToString());
+            }
+        }
+
         /// <summary>
         /// Removes the contents at targetTile.
         /// </summary>
         public void RemoveObjectAt()
         {
-            _selectedTile.RemoveContent();
+            if (_selectedTile != null)
+            {
+                _selectedTile.RemoveContent();
+            }
+            if (_selectedAgent != null)
+            {
+                _selectedAgent.spawnOrigin.ReleaseAgent(_selectedAgent);
+            }
             popup.SetActive(false);
             Buildings.BuildingController.Refresh.Invoke();
         }
