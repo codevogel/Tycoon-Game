@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8910f9ad372009e418d42098101b5f5d, type: 3}
   m_Name: Stone
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 1430307994, guid: 43f30d581a425754bb10e765461147d8, type: 3}
-  Obstacle: {fileID: 0}
+  sprite: {fileID: 1430307994, guid: 43f30d581a425754bb10e765461147d8, type: 3}
+  obstacle: {fileID: 0}
   resources:
-  - Type: 0
-    Amount: 1
+  - type: 0
+    amount: 0
