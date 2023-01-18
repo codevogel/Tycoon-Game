@@ -26,7 +26,7 @@ namespace Architect.Placeables
 
         protected override void Fabricate()
         {
-            if (!ArchitectController.Instance.FirstBuilding && !Input.HasResourcesRequired(ProductionCost))
+            if (!Input.HasResourcesRequired(ProductionCost))
             {
                 Debug.Log("Could not fabricate in Construction Site");
                 return;

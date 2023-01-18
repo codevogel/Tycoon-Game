@@ -46,21 +46,10 @@ namespace Architect
 
         private static bool _firstBuilding = true;
 
-        public bool FirstBuilding 
-        { 
-            get 
-            { 
-                if (_firstBuilding)
-                {
-                    buildingUIButtons.HideEverythingButMine(false);
-                    _firstBuilding = false;
-                    return true;
-                }
-                return false;
-            }    
+        private void Start()
+        {
+            _firstBuilding = true;
         }
-
-
 
         // Update is called once per frame
         private void Update()
@@ -100,7 +89,13 @@ namespace Architect
                 }
                 else
                 {
-                    PlaceObjectAt(targetTile);
+                    if (_firstBuilding)
+                    {
+                        PlaceBuildingAt(targetTile, CurrentBuildingPreset);
+                        buildingUIButtons.HideEverythingButMine(false);
+                    }
+                    else 
+                        PlaceObjectAt(targetTile);
                 }
             }
         }
@@ -155,7 +150,7 @@ namespace Architect
         {
             CurrentlyPlacing = placeableType;
         }
-    
+
         public void SetBuildingIndex(int index)
         {
             _currentBuildingIndex = index;
