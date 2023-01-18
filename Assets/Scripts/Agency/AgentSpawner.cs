@@ -15,6 +15,10 @@ namespace Agency
 
         [SerializeField] private GameObject agentPrefab;
         [SerializeField] private int spawnCount;
+
+        [Tooltip("the amount of enemies that get added to the next wave")] [SerializeField]
+        private int spawnScalar;
+
         [SerializeField] private int spawnMax;
         private Building _agentTarget;
 
@@ -186,6 +190,8 @@ namespace Agency
                     agent.transform.localPosition = new Vector3(0, 0, 0);
                     yield return new WaitForSeconds(.5f);
                 }
+
+                spawnCount += spawnScalar;
             }
 
             yield return new WaitForEndOfFrame();
