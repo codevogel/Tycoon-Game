@@ -26,6 +26,7 @@ namespace UI
         {
             if (Input.GetMouseButtonDown(1))
             {
+                // Attempt raycast on agent Clickbox
                 RaycastHit hit;
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, float.PositiveInfinity, LayerMask.GetMask("Clickbox")))
                 {
@@ -33,6 +34,7 @@ namespace UI
                 }
                 else
                 {
+                    // Show popup for hover tile
                     ShowOrHidePopup(GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition));
                 }
             }
@@ -42,25 +44,34 @@ namespace UI
             }
         }
 
-
+        /// <summary>
+        /// Shows the popup for newSelection.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to show the popup for.</typeparam>
+        /// <param name="newSelection">The object to show the popup for.</param>
         private void ShowOrHidePopup<T>(T newSelection)
         {
+            // If already selected something, clear that selection
             if (SomethingSelected)
             {
                 ClearSelection();
             }
+
+            // Now switch on the new selection
             switch (newSelection)
             {
                 case Tile t:
-                    // If clicked out of grid or tile has no content
+                    // ... if clicked out of grid or tile has no content
                     if (t == null || !t.HasContent)
                     {
-                        // Nullify
-                        _selectedTile = null;
+                        // Keep selection null
+                        break;
                     }
                     else
                     {
+                        // Select the tile
                         _selectedTile = t;
+                        t.OnSelect();
                     }
                     break;
                 case DeliveryAgent a:
@@ -74,16 +85,13 @@ namespace UI
         }
 
         /// <summary>
-        /// Hides the popup for a tile
+        /// Clears the current selection.
         /// </summary>
         private void ClearSelection()
         {
             // If popup was showing a building
-            if (_selectedTile != null && _selectedTile.Content is Building b)
-            {
-                // Turn off the connections renderer
-                b.BuildingConnectionsRenderer.ShowLines(false);
-            }
+            if (_selectedTile != null)
+                _selectedTile.OnDeselect();
             _selectedTile = null;
 
             if (_selectedAgent != null)
@@ -91,7 +99,9 @@ namespace UI
             _selectedAgent = null;
         }
 
-        // Updates the contents for the popup
+        /// <summary>
+        /// Updates popup contents according to current selection
+        /// </summary>
         private void UpdateContents()
         {
             StringBuilder output = new StringBuilder();
@@ -113,6 +123,11 @@ namespace UI
             popuptext.text = output.ToString();
         }
 
+
+        /// <summary>
+        /// Append popup info for an agent
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
         private void AppendAgentContents(StringBuilder output)
         {
             if (_selectedAgent.TargetList.Count > 0)
@@ -121,6 +136,10 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Append popup info for a tile
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
         private void AppendTileContents(StringBuilder output)
         {
             if (_selectedTile.HasContent)
@@ -142,6 +161,12 @@ namespace UI
             }
         }
 
+
+        /// <summary>
+        /// Append resources for a building
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        /// <param name="selectedBuilding">The building from which the resources are appended.</param>
         private static void AppendBuildingResources(StringBuilder output, Building selectedBuilding)
         {
             foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
@@ -150,6 +175,11 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Append building progress for a construction site
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        /// <param name="selectedBuilding">The site from which the progress is appended.</param>
         private static void AppendBuildingProgress(StringBuilder output, ConstructionSite selectedSite)
         {
             var buildCost = selectedSite.PresetToConstruct.buildCost[0];
@@ -179,6 +209,7 @@ namespace UI
             }
             popup.SetActive(false);
             Buildings.BuildingController.Refresh.Invoke();
+            ClearSelection();
         }
     }
 }
