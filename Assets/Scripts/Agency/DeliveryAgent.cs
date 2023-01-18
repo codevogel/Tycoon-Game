@@ -10,6 +10,11 @@ namespace Agency
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)
         {
             storage = toDeliver;
+            AddTarget(target);
+        }
+
+        public void AddTarget(Building target)
+        {
             TargetList.Add(target);
         }
 
