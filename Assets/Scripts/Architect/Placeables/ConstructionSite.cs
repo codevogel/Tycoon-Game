@@ -7,8 +7,8 @@ namespace Architect.Placeables
 {
     public class ConstructionSite : Building
     {
-
         public BuildingPreset PresetToConstruct;
+        public bool isReceiving = false;
 
         public ConstructionSite(BuildingPreset preset, BuildingPreset toConstruct) : base(preset)
         {
