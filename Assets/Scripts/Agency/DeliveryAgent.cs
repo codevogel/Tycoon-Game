@@ -13,7 +13,7 @@ namespace Agency
 
         private void Awake()
         {
-            targetRenderer = GetComponent<AgentTargetRenderer>();    
+            targetRenderer = GetComponent<AgentTargetRenderer>();
         }
 
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)

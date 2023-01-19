@@ -25,23 +25,17 @@ public class Building : Placeable
 
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
 
-    private Tile b_entrance;
+    private Tile b_entrance, b_exit;
     public Tile Entrance
     {
-        get
-        {
-            if (b_entrance == null)
-            {
-                return Tile;
-            }
-            return b_entrance;
-        }
-        private set
-        {
-            b_entrance = value;
-        }
+        get { return b_entrance == null ? Tile : b_entrance; }
+        private set { b_entrance = value; }
     }
-    public Tile Exit { get; private set; }
+    public Tile Exit
+    {
+        get { return b_exit == null ? Tile : b_exit; }
+        private set { b_exit = value; }
+    }
 
     public bool HasExitAndEntrance => b_entrance != null && Exit != null;
 
@@ -346,6 +340,7 @@ public class Building : Placeable
             AgentBehaviour agent = _agentSpawner.SpawnAgent();
             if (agent != null)
             {
+                agent.transform.position = Exit.transform.position;
                 RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
                 //(agent as DeliveryAgent).AddTarget(this);
