@@ -152,7 +152,7 @@ namespace Grid
         /// Attempts to get the tile over which the mouse hovers
         /// </summary>
         /// <returns>A TileCoordinates struct that includes the coords and whether the coords were in bounds.</returns>
-        private Tile TryGetTileFromMousePos()
+        public Tile TryGetTileFromMousePos()
         {
             RaycastHit hit;
             if (GetFloorPointFromMouse(out hit))

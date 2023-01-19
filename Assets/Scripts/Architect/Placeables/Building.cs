@@ -9,6 +9,7 @@ using UI;
 using UnityEngine;
 using static Grid.GridManager;
 
+[Serializable]
 public class Building : Placeable
 {
     public Storage Input;
@@ -23,6 +24,10 @@ public class Building : Placeable
     public Tile Tile { get; set; }
 
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
+
+    private Tile _entrance, _exit;
+
+    public bool HasExitAndEntrance => _entrance != null && _exit != null;
 
 
     /// <summary>
@@ -50,6 +55,30 @@ public class Building : Placeable
         ProductionCost = LocalPreset.productionCost;
         Produces = LocalPreset.produces;
         _range = LocalPreset.range;
+    }
+
+    internal bool SetEntrance(Tile tile)
+    {
+        if (!tile.HasContent || tile.Content is not Road)
+        {
+            Debug.LogWarning("Could not set entrance because there is no road there!");
+            return false;
+        }
+        _entrance = tile;
+        Debug.Log("setting entrance at " + tile);
+        return true;
+    }
+
+    internal bool SetExit(Tile tile)
+    {
+        if (!tile.HasContent || tile.Content is not Road)
+        {
+            Debug.LogWarning("Could not set exit because there is no road there!");
+            return false;
+        }
+        _exit = tile;
+        Debug.Log("setting exit at " + tile);
+        return true;
     }
 
     public virtual void InitializeAfterInstantiation(Tile hostingTile)

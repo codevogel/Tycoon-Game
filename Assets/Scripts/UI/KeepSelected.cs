@@ -7,15 +7,15 @@
  /// </summary>
  public class KeepSelected : MonoBehaviour
  {
-     private Button ToKeepActive;
+     //private Button ToKeepActive;
 
-     private void Update()
-     {
-         ToKeepActive.Select();
-     }
+     //private void Update()
+     //{
+     //    ToKeepActive.Select();
+     //}
 
-     public void ButtonToKeepActive(Button thisButton)
-     {
-         ToKeepActive = thisButton;
-     }
+     //public void ButtonToKeepActive(Button thisButton)
+     //{
+     //    ToKeepActive = thisButton;
+     //}
  }
