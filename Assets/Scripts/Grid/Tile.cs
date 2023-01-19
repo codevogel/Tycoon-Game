@@ -5,6 +5,7 @@ using Architect.Placeables;
 using UnityEngine;
 using static Grid.GridManager;
 using static Architect.Placeables.Road;
+using Buildings;
 
 namespace Grid
 {
@@ -135,7 +136,7 @@ namespace Grid
                     break;
             }
             PlaceableHolder.parent.name = Content.Preset.name;
-            Buildings.BuildingController.Refresh.Invoke(); // TODO: not performance friendly
+            BuildingController.Instance.Refresh.Invoke(); // TODO: not performance friendly
         }
 
         /// <summary>
@@ -221,7 +222,6 @@ namespace Grid
             PickRoadForNeighbours();
             TileCollider.gameObject.layer = LayerMask.NameToLayer("Default");
         }
-
         #endregion
     }
 }

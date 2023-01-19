@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Agency;
 using Architect.Placeables;
+using Buildings;
 using Buildings.Resources;
 using Grid;
 using TMPro;
@@ -208,7 +209,7 @@ namespace UI
                 _selectedAgent.spawnOrigin.ReleaseAgent(_selectedAgent);
             }
             popup.SetActive(false);
-            Buildings.BuildingController.Refresh.Invoke();
+            BuildingController.Instance.Refresh.Invoke();
             ClearSelection();
         }
     }

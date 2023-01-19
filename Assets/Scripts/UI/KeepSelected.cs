@@ -11,7 +11,7 @@
 
      private void Update()
      {
-         ToKeepActive.Select();
+         if (ToKeepActive != null) ToKeepActive.Select();
      }
 
      public void ButtonToKeepActive(Button thisButton)
