@@ -29,7 +29,7 @@ namespace Agency
 
         private void OnTriggerEnter(Collider other)
         {
-            if (TargetList.Count > 0 && other == TargetList[0].Tile.TileCollider)
+            if (TargetList.Count > 0 && other == TargetList[0].Entrance.TileCollider)
             {
                 //Debug.Log("Found Target!");
                 TargetList[0].AddToStorage(TargetList[0].Input, storage);
@@ -53,6 +53,12 @@ namespace Agency
         internal void OnDeselect()
         {
             targetRenderer.ShowLines(false);
+        }
+
+        protected override void SetTarget()
+        {
+            if (TargetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
+            _navMeshAgent.SetDestination(TargetList[0].Entrance.PlaceableHolder.position);
         }
     }
 }

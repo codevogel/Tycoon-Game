@@ -25,9 +25,25 @@ public class Building : Placeable
 
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
 
-    private Tile _entrance, _exit;
+    private Tile b_entrance;
+    public Tile Entrance
+    {
+        get
+        {
+            if (b_entrance == null)
+            {
+                return Tile;
+            }
+            return b_entrance;
+        }
+        private set
+        {
+            b_entrance = value;
+        }
+    }
+    public Tile Exit { get; private set; }
 
-    public bool HasExitAndEntrance => _entrance != null && _exit != null;
+    public bool HasExitAndEntrance => b_entrance != null && Exit != null;
 
 
     /// <summary>
@@ -64,7 +80,7 @@ public class Building : Placeable
             Debug.LogWarning("Could not set entrance because there is no road there!");
             return false;
         }
-        _entrance = tile;
+        Entrance = tile;
         Debug.Log("setting entrance at " + tile);
         return true;
     }
@@ -76,7 +92,7 @@ public class Building : Placeable
             Debug.LogWarning("Could not set exit because there is no road there!");
             return false;
         }
-        _exit = tile;
+        Exit = tile;
         Debug.Log("setting exit at " + tile);
         return true;
     }
