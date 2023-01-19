@@ -186,7 +186,6 @@ namespace UI
             var buildCost = selectedSite.PresetToConstruct.buildCost[0];
             foreach (KeyValuePair<ResourceType, int> kvp in selectedSite.Input.Contents)
             {
-
                 output.AppendFormat("Build progress: {0}/{1} {2}\n", kvp.Value, buildCost.amount, buildCost.type.ToString());
             }
             if (output.Length == 0)
@@ -207,6 +206,7 @@ namespace UI
             if (_selectedAgent != null)
             {
                 _selectedAgent.spawnOrigin.ReleaseAgent(_selectedAgent);
+                _selectedAgent.TargetList.Clear();
             }
             popup.SetActive(false);
             BuildingController.Instance.Refresh.Invoke();
