@@ -44,12 +44,7 @@ namespace Architect
         [SerializeField]
         private BuildingUIButtons buildingUIButtons;
 
-        private static bool _firstBuilding = true;
-
-        private void Start()
-        {
-            _firstBuilding = true;
-        }
+        private Tile _firstBuildingTile = null;
 
         // Update is called once per frame
         private void Update()
@@ -89,12 +84,13 @@ namespace Architect
                 }
                 else
                 {
-                    if (_firstBuilding)
+                    if (_firstBuildingTile == null || _firstBuildingTile.Content == null)
                     {
                         PlaceBuildingAt(targetTile, CurrentBuildingPreset);
                         buildingUIButtons.HideEverythingButMine(false);
+                        _firstBuildingTile = targetTile;
                     }
-                    else 
+                    else
                         PlaceObjectAt(targetTile);
                 }
             }

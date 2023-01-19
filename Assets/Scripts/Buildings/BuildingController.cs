@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 namespace Buildings
 {
-    public class BuildingController : MonoBehaviour
+    public class BuildingController : SingletonBehaviour<BuildingController>
     {
         /// <summary>
         /// Current tick
@@ -13,14 +14,14 @@ namespace Buildings
         /// <summary>
         /// Event for production cycle
         /// </summary>
-        public static UnityEvent Produce = new();
+        public UnityEvent Produce = new();
         /// <summary>
         /// Event for transport cycle
         /// </summary>
-        public static UnityEvent Transport = new();
-        public static UnityEvent Refresh = new();
+        public UnityEvent Transport = new();
+        public UnityEvent Refresh = new();
 
-        private static List<Building> _buildings = new();
+        private List<Building> _buildings = new();
 
         private void Update()
         {
@@ -38,7 +39,7 @@ namespace Buildings
             Transport.Invoke();
         }
 
-        internal static void SubscribeBuilding(Building building, bool produce, bool transport)
+        internal void SubscribeBuilding(Building building, bool produce, bool transport)
         {
             _buildings.Add(building);
             if (produce)
@@ -48,11 +49,11 @@ namespace Buildings
             if (transport)
             {
                 Transport.AddListener(building.Transport);
+                Refresh.AddListener(building.RefreshRecipients);
             }
-            Refresh.AddListener(building.RefreshRecipients);
         }
 
-        internal static void UnsubscribeBuilding(Building building)
+        internal void UnsubscribeBuilding(Building building)
         {
             _buildings.Remove(building);
             Produce.RemoveListener(building.Produce);

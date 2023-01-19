@@ -1,4 +1,5 @@
 using Architect.Placeables.Presets;
+using Buildings;
 using Grid;
 using UI;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Architect.Placeables
         public override void InitializeAfterInstantiation(Tile hostingTile)
         {
             Tile = hostingTile;
-            Buildings.BuildingController.SubscribeBuilding(this, true, false);
+            BuildingController.Instance.SubscribeBuilding(this, true, false);
             BuildingConnectionsRenderer = Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
         }
 
