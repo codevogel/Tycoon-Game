@@ -9,10 +9,10 @@
  {
      //private Button ToKeepActive;
 
-     //private void Update()
-     //{
-     //    ToKeepActive.Select();
-     //}
+     private void Update()
+     {
+         if (ToKeepActive != null) ToKeepActive.Select();
+     }
 
      //public void ButtonToKeepActive(Button thisButton)
      //{

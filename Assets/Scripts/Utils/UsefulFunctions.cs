@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UsefulFunctions
 {
+#if (UNITY_EDITOR)
     /// <summary>Looks through all the files in assets to find the assets with the same type as is given in T</summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>A list of all the objects it found</returns>
@@ -22,4 +23,5 @@ public class UsefulFunctions
         }
         return assets;
     }
+#endif
 }

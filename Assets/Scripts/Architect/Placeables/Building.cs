@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Agency;
 using Architect.Placeables;
 using Architect.Placeables.Presets;
+using Buildings;
 using Buildings.Resources;
 using Grid;
 using UI;
@@ -95,7 +96,7 @@ public class Building : Placeable
     {
         Tile = hostingTile;
         bool producesItems = Produces.Length > 0;
-        Buildings.BuildingController.SubscribeBuilding(this, producesItems, producesItems);
+        BuildingController.Instance.SubscribeBuilding(this, producesItems, producesItems);
         _agentSpawner = Tile.PlaceableHolder.GetComponentInChildren<AgentSpawner>();
         BuildingConnectionsRenderer =
             Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
@@ -103,7 +104,6 @@ public class Building : Placeable
 
     public void RefreshRecipients()
     {
-        Debug.Log(Tile.transform.name);
         this.recipients = new();
 
         //Check if there is a road in the surrounding tiles
@@ -354,7 +354,7 @@ public class Building : Placeable
 
     public override void OnDestroy()
     {
-        Buildings.BuildingController.UnsubscribeBuilding(this);
+        BuildingController.Instance.UnsubscribeBuilding(this);
         providers.Clear();
         BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         foreach (Building recipient in recipients)
