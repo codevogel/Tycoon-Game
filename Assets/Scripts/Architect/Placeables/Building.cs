@@ -27,11 +27,19 @@ public class Building : Placeable
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
 
     private Tile b_entrance, b_exit;
+    /// <summary>
+    /// Holds the entrance tile of a building this is where agents enter. 
+    /// The default value is the Tile this building is placed on
+    /// </summary>
     public Tile Entrance
     {
         get { return b_entrance == null ? Tile : b_entrance; }
         private set { b_entrance = value; }
     }
+    /// <summary>
+    /// Holds the exit tile of a building this is where agents exit. 
+    /// The default value is the Tile this building is placed on
+    /// </summary>
     public Tile Exit
     {
         get { return b_exit == null ? Tile : b_exit; }

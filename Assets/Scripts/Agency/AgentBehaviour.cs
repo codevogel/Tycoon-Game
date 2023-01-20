@@ -39,6 +39,12 @@ namespace Agency
             _navMeshAgent.SetDestination(TargetList[0].Tile.PlaceableHolder.position);
         }
 
+        protected void RemoveTarget()
+        {
+            TargetList.RemoveAt(0);
+            if (TargetList.Count <= 0) OnReleaseAgent();
+        }
+
         /// <summary>
         /// activates spawner objectPool OnRelease()
         /// </summary>
