@@ -11,7 +11,7 @@ namespace Agency
         public AgentSpawner spawnOrigin;
         public List<Building> TargetList = new();
 
-        private NavMeshAgent _navMeshAgent;
+        protected NavMeshAgent _navMeshAgent;
 
         [ReadOnly] public bool onMesh;
 
@@ -33,10 +33,16 @@ namespace Agency
             onMesh = _navMeshAgent.isOnNavMesh;
         }
 
-        private void SetTarget()
+        protected virtual void SetTarget()
         {
             if (TargetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
             _navMeshAgent.SetDestination(TargetList[0].Tile.PlaceableHolder.position);
+        }
+
+        protected void RemoveTarget()
+        {
+            TargetList.RemoveAt(0);
+            if (TargetList.Count <= 0) OnReleaseAgent();
         }
 
         /// <summary>

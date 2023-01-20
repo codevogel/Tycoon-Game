@@ -1,6 +1,7 @@
 using Buildings.Resources;
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Agency
 {
@@ -13,7 +14,7 @@ namespace Agency
 
         private void Awake()
         {
-            targetRenderer = GetComponent<AgentTargetRenderer>();    
+            targetRenderer = GetComponent<AgentTargetRenderer>();
         }
 
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)
@@ -27,14 +28,18 @@ namespace Agency
             TargetList.Add(target);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
-            if (TargetList.Count > 0 && other == TargetList[0].Tile.TileCollider)
+            if (TargetList.Count > 0 && other == TargetList[0].Entrance.TileCollider)
             {
-                //Debug.Log("Found Target!");
-                TargetList[0].AddToStorage(TargetList[0].Input, storage);
-                TargetList.RemoveAt(0);
-                if (TargetList.Count <= 0) OnReleaseAgent();
+                //Check if agent has reached destination or if the collider is from the building tile
+                if ((_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance &&
+                    _navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete) ||
+                    TargetList[0].Entrance == TargetList[0].Tile)
+                {
+                    TargetList[0].AddToStorage(TargetList[0].Input, storage);
+                    RemoveTarget();
+                }
             }
         }
 
@@ -42,6 +47,7 @@ namespace Agency
         {
             base.Update();
             targetRenderer.SetOriginAndTarget(spawnOrigin.transform, TargetList[0].Tile.transform);
+            if (TargetList[0].Tile.Content == null) RemoveTarget();
         }
 
         internal void OnSelect()
@@ -53,6 +59,12 @@ namespace Agency
         internal void OnDeselect()
         {
             targetRenderer.ShowLines(false);
+        }
+
+        protected override void SetTarget()
+        {
+            if (TargetList.Count <= 0 || _navMeshAgent.hasPath || !_navMeshAgent.isOnNavMesh) return;
+            _navMeshAgent.SetDestination(TargetList[0].Entrance.PlaceableHolder.position);
         }
     }
 }

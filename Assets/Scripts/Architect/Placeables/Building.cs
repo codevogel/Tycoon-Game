@@ -10,6 +10,7 @@ using UI;
 using UnityEngine;
 using static Grid.GridManager;
 
+[Serializable]
 public class Building : Placeable
 {
     public Storage Input;
@@ -24,6 +25,28 @@ public class Building : Placeable
     public Tile Tile { get; set; }
 
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
+
+    private Tile b_entrance, b_exit;
+    /// <summary>
+    /// Holds the entrance tile of a building this is where agents enter. 
+    /// The default value is the Tile this building is placed on
+    /// </summary>
+    public Tile Entrance
+    {
+        get { return b_entrance == null ? Tile : b_entrance; }
+        private set { b_entrance = value; }
+    }
+    /// <summary>
+    /// Holds the exit tile of a building this is where agents exit. 
+    /// The default value is the Tile this building is placed on
+    /// </summary>
+    public Tile Exit
+    {
+        get { return b_exit == null ? Tile : b_exit; }
+        private set { b_exit = value; }
+    }
+
+    public bool HasExitAndEntrance => b_entrance != null && Exit != null;
 
 
     /// <summary>
@@ -51,6 +74,30 @@ public class Building : Placeable
         ProductionCost = LocalPreset.productionCost;
         Produces = LocalPreset.produces;
         _range = LocalPreset.range;
+    }
+
+    internal bool SetEntrance(Tile tile)
+    {
+        if (!tile.HasContent || tile.Content is not Road)
+        {
+            Debug.LogWarning("Could not set entrance because there is no road there!");
+            return false;
+        }
+        Entrance = tile;
+        Debug.Log("setting entrance at " + tile);
+        return true;
+    }
+
+    internal bool SetExit(Tile tile)
+    {
+        if (!tile.HasContent || tile.Content is not Road)
+        {
+            Debug.LogWarning("Could not set exit because there is no road there!");
+            return false;
+        }
+        Exit = tile;
+        Debug.Log("setting exit at " + tile);
+        return true;
     }
 
     public virtual void InitializeAfterInstantiation(Tile hostingTile)
@@ -301,6 +348,7 @@ public class Building : Placeable
             AgentBehaviour agent = _agentSpawner.SpawnAgent();
             if (agent != null)
             {
+                agent.transform.position = Exit.transform.position;
                 RemoveFromStorage(Output, resourcesToSendArray);
                 (agent as DeliveryAgent).SetDeliveryTarget(resourcesToSendArray, recipient);
                 //(agent as DeliveryAgent).AddTarget(this);

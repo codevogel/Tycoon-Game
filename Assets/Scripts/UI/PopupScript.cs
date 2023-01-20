@@ -9,9 +9,11 @@ using Grid;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
+    [RequireComponent(typeof(EntranceExitPlacer))]
     public class PopupScript : MonoBehaviour
     {
         #region Popup vars
@@ -19,9 +21,18 @@ namespace UI
         public TMP_Text popuptext;
         private Tile _selectedTile;
         private DeliveryAgent _selectedAgent;
+        private EntranceExitPlacer _entranceExitPlacer;
+
+        [SerializeField]
+        private Button _entranceExitButton;
 
         private bool SomethingSelected { get => _selectedTile != null || _selectedAgent != null; }
         #endregion
+
+        private void Awake()
+        {
+            _entranceExitPlacer = GetComponent<EntranceExitPlacer>();
+        }
 
         private void Update()
         {
@@ -72,6 +83,10 @@ namespace UI
                     {
                         // Select the tile
                         _selectedTile = t;
+                        if (_selectedTile.Content is Building && _selectedTile.Content is not ConstructionSite)
+                        {
+                            _entranceExitButton.gameObject.SetActive(true);
+                        }
                         t.OnSelect();
                     }
                     break;
@@ -98,6 +113,9 @@ namespace UI
             if (_selectedAgent != null)
                 _selectedAgent.OnDeselect();
             _selectedAgent = null;
+
+            _entranceExitPlacer.enabled = false;
+            _entranceExitButton.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -122,6 +140,12 @@ namespace UI
                 output.Append("No contents");
             }
             popuptext.text = output.ToString();
+        }
+
+        public void StartPlacingEntranceAndExit()
+        {
+            _entranceExitPlacer.enabled = true;
+            _entranceExitPlacer.SelectBuilding((Building) _selectedTile.Content);
         }
 
 
