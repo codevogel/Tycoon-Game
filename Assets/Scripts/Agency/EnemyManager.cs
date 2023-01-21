@@ -12,7 +12,9 @@ namespace Agency
         [SerializeField] private GameObject startButton;
         [SerializeField] [ReadOnly] private int waveCounter;
 
-        [Tooltip("how many waves it takes for a new spawner to get activated")] [SerializeField]
+        [Tooltip(
+            "how many waves it takes for a new spawner to get activated, set to 0 for spawners to activate instantly")]
+        [SerializeField]
         private int waveThreshold;
 
         private void Update()

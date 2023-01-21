@@ -1750,7 +1750,7 @@ MonoBehaviour:
   - {fileID: 825496371}
   startButton: {fileID: 1838288545}
   waveCounter: 0
-  waveThreshold: 0
+  waveThreshold: 3
 --- !u!1 &934782820
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,6 +3035,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df213cab380191c4a9ea5740759e190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Produce:
+    m_PersistentCalls:
+      m_Calls: []
+  Transport:
+    m_PersistentCalls:
+      m_Calls: []
+  Refresh:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1965549057
 GameObject:
   m_ObjectHideFlags: 0
