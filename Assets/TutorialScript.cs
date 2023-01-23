@@ -8,16 +8,15 @@ public class TutorialScript : MonoBehaviour
 
     [SerializeField] GameObject nextPopup;
     [SerializeField] GameObject ControlOrBuildingsUI;
-    
+
 
     public void RemovePopup()
     {
-       // LeanTween.easeInCubic(0.5f, 2f, 2f);
-       // LeanTween.easeOutQuint(0.5f, 10f, 20f);
+        // LeanTween.easeInCubic(0.5f, 2f, 2f);
+        // LeanTween.easeOutQuint(0.5f, 10f, 20f);
         LeanTween.scale(gameObject, Vector3.zero, 0.5f).setOnComplete(DestroyMe);
 
-      if (nextPopup != null)  nextPopup.SetActive(true);
-
+        if (nextPopup != null) nextPopup.SetActive(true);
         if (ControlOrBuildingsUI != null) ControlOrBuildingsUI.SetActive(true);
     }
 
