@@ -7,6 +7,7 @@ using Buildings;
 using Buildings.Resources;
 using Grid;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,8 +24,9 @@ namespace UI
         private DeliveryAgent _selectedAgent;
         private EntranceExitPlacer _entranceExitPlacer;
 
-        [SerializeField]
-        private Button _entranceExitButton;
+        [SerializeField] private Button _entranceExitButton;
+        [SerializeField] private GameObject _transportRange;
+        [SerializeField] private Slider _transportRangeSlider;
 
         private bool SomethingSelected { get => _selectedTile != null || _selectedAgent != null; }
         #endregion
@@ -83,9 +85,13 @@ namespace UI
                     {
                         // Select the tile
                         _selectedTile = t;
-                        if (_selectedTile.Content is Building && _selectedTile.Content is not ConstructionSite)
+                        if (_selectedTile.Content is Building b && _selectedTile.Content is not ConstructionSite)
                         {
                             _entranceExitButton.gameObject.SetActive(true);
+                            _transportRange.SetActive(true);
+                            _transportRangeSlider.value = b.Range;
+                            OnTransportRangeSliderChange();
+                            _selectedTile.TransportRangeVisual.SetActive(true);
                         }
                         t.OnSelect();
                     }
@@ -116,6 +122,7 @@ namespace UI
 
             _entranceExitPlacer.enabled = false;
             _entranceExitButton.gameObject.SetActive(false);
+            _transportRange.SetActive(false);
         }
 
         /// <summary>
@@ -235,6 +242,14 @@ namespace UI
             popup.SetActive(false);
             BuildingController.Instance.Refresh.Invoke();
             ClearSelection();
+        }
+
+        public void OnTransportRangeSliderChange()
+        {
+            _selectedTile.TransportRangeVisual.transform.localScale = Vector3.one + Vector3.one * _transportRangeSlider.value * 2;
+            Building b = _selectedTile.Content as Building;
+            b.Range = _transportRangeSlider.value;
+            b.RefreshRecipients();
         }
     }
 }

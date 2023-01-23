@@ -22,6 +22,7 @@ namespace Grid
         private Tile _hoverTile;
 
         public Tile HoverTile { get => _hoverTile; }
+        public float AverageTileWidth { get { return (tileWidth.x + tileWidth.y) / 2; } }
 
         void Start()
         {
@@ -196,7 +197,7 @@ namespace Grid
         private bool GetFloorPointFromMouse(out RaycastHit hit)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (EventSystem.current.IsPointerOverGameObject()) //stops casts when over hovering over GUI
+            if (Application.isPlaying && EventSystem.current.IsPointerOverGameObject()) //stops casts when over hovering over GUI
             {
                 hit = default;
                 return false;
