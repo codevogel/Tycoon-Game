@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
   m_Name: Gate
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 6184696444346599579, guid: e1aece54455f50e4ebfaa1a2f93404dc, type: 3}
   buildCost: []
   initialStorage: []
   produces: []
