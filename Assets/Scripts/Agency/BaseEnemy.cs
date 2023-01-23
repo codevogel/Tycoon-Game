@@ -15,9 +15,9 @@ namespace Agency
 
         [SerializeField] private List<GameObject> attackTargets = new();
 
-        protected override void Update()
+        protected override void FixedUpdate()
         {
-            base.Update();
+            base.FixedUpdate();
             SetTimer();
             OnDeath();
             GoToTarget();

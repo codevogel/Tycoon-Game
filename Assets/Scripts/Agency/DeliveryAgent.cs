@@ -1,7 +1,7 @@
 using Buildings.Resources;
-using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace Agency
 {
@@ -9,6 +9,7 @@ namespace Agency
     public class DeliveryAgent : AgentBehaviour
     {
         public Resource[] storage;
+        public UnityEvent<bool> OnMoving;
 
         private AgentTargetRenderer targetRenderer;
 
@@ -43,11 +44,12 @@ namespace Agency
             }
         }
 
-        protected override void Update()
+        protected override void FixedUpdate()
         {
-            base.Update();
+            base.FixedUpdate();
             targetRenderer.SetOriginAndTarget(spawnOrigin.transform, TargetList[0].Tile.transform);
             if (TargetList[0].Tile.Content == null) RemoveTarget();
+            OnMoving.Invoke(_navMeshAgent.remainingDistance == 0);
         }
 
         internal void OnSelect()
