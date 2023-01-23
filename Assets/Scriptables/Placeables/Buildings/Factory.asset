@@ -23,6 +23,6 @@ MonoBehaviour:
   productionCost:
   - type: 0
     amount: 1
-  range: 100
+  range: 3
   productionTime: 100
   transportTime: 100

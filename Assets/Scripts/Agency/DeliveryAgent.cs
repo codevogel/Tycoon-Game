@@ -12,6 +12,7 @@ namespace Agency
         public UnityEvent<bool> OnMoving;
 
         private AgentTargetRenderer targetRenderer;
+        private int _standStill;
 
         private void Awake()
         {
@@ -49,7 +50,12 @@ namespace Agency
             base.FixedUpdate();
             targetRenderer.SetOriginAndTarget(spawnOrigin.transform, TargetList[0].Tile.transform);
             if (TargetList[0].Tile.Content == null) RemoveTarget();
-            OnMoving.Invoke(_navMeshAgent.remainingDistance == 0);
+
+            if (_navMeshAgent.velocity.magnitude > 1f)
+            {
+                _standStill = 0;
+            }
+            OnMoving.Invoke(_standStill++ > 10);
         }
 
         internal void OnSelect()

@@ -5,8 +5,14 @@ namespace UI
 {
     public class WarningIcons : MonoBehaviour
     {
-        public Tile parentTile;
+        private Tile parentTile;
         public GameObject NoRoads, NoResources, NoCars;
+
+        private void Awake()
+        {
+            parentTile = transform.parent.parent.parent.GetComponent<Tile>();
+            CheckBuilding();
+        }
 
         public void CheckBuilding()
         {

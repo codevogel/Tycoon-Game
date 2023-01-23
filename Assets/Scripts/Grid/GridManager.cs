@@ -13,6 +13,8 @@ namespace Grid
         public TilePreset[] tilePresets;
 
         [SerializeField] private BuildingPreset wall;
+        [SerializeField] private BuildingPreset gate;
+        [SerializeField] private BuildingPreset corner;
         [SerializeField] private Vector2Int gridSize = new(5, 5);
         [SerializeField] private Vector2 tileWidth = new Vector2Int(1,1);
 
@@ -86,13 +88,37 @@ namespace Grid
         {
             foreach (var tile in _grid)
             {
-                if (tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1)
+                if ((tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1) && tile.GridPosition.y != Mathf.Ceil(gridSize.y / 2))
                 {
                     tile.PlaceContent(new Building(wall), 0);
-                } else if (tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1)
+                } else if ((tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1) && tile.GridPosition.x != Mathf.Ceil(gridSize.x / 2))
                 {
                     tile.PlaceContent(new Building(wall), 1);
                 }
+
+                if (tile.GridPosition.x == 0 && tile.GridPosition.y == 0)
+                    tile.PlaceContent(new Building(corner), 0);
+                if (tile.GridPosition.x == 0 && tile.GridPosition.y == gridSize.y - 1)
+                    tile.PlaceContent(new Building(corner), 1);
+                if (tile.GridPosition.y == 0 && tile.GridPosition.x == gridSize.x - 1)
+                    tile.PlaceContent(new Building(corner), 3);
+                if (tile.GridPosition.x == gridSize.x - 1 && tile.GridPosition.y == gridSize.y - 1)
+                    tile.PlaceContent(new Building(corner), 2);
+            }
+
+            PlaceGates();
+        }
+
+        private void PlaceGates()
+        {
+            foreach (var tile in _grid)
+            {
+                if (tile.GridPosition.x == Mathf.Ceil(gridSize.x / 2) &&
+                    (tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1))
+                    tile.PlaceContent(new Building(gate), 0);
+                if (tile.GridPosition.y == Mathf.Ceil(gridSize.y / 2) &&
+                    (tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1))
+                    tile.PlaceContent(new Building(gate), 1);
             }
         }
 
