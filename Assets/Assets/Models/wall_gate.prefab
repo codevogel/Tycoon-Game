@@ -4884,7 +4884,7 @@ GameObject:
   - component: {fileID: -9203422997337748171}
   - component: {fileID: 7757558799694339071}
   - component: {fileID: -1043080408274324227}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall_gate
   m_TagString: Gate
   m_Icon: {fileID: 0}
