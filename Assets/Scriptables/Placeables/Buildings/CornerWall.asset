@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
   m_Name: CornerWall
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 5973347931352856277, guid: 016a89efa3a33394b924a0bb88ad864f, type: 3}
   buildCost: []
   initialStorage: []
   produces: []

@@ -94,6 +94,15 @@ namespace Grid
                 {
                     tile.PlaceContent(new Building(wall), 1);
                 }
+
+                if (tile.GridPosition.x == 0 && tile.GridPosition.y == 0)
+                    tile.PlaceContent(new Building(corner), 0);
+                if (tile.GridPosition.x == 0 && tile.GridPosition.y == gridSize.y - 1)
+                    tile.PlaceContent(new Building(corner), 1);
+                if (tile.GridPosition.y == 0 && tile.GridPosition.x == gridSize.x - 1)
+                    tile.PlaceContent(new Building(corner), 3);
+                if (tile.GridPosition.x == gridSize.x - 1 && tile.GridPosition.y == gridSize.y - 1)
+                    tile.PlaceContent(new Building(corner), 2);
             }
 
             PlaceGates();
