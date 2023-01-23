@@ -15,6 +15,7 @@ namespace Grid
         #region fields
         public Transform allowContentPlacement;
         public Transform blockContentPlacement;
+        public GameObject TransportRangeVisual;
         /// <summary>
         /// Parent transform of the Placeable object
         /// </summary>
@@ -96,6 +97,7 @@ namespace Grid
             if (HasContent && Content is Building b)
             {
                 b.BuildingConnectionsRenderer.ShowLines(false);
+                TransportRangeVisual.SetActive(false);
             }
         }
 
