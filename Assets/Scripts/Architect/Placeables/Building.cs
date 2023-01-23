@@ -59,6 +59,9 @@ public class Building : Placeable
     /// </summary>
     public List<Building> recipients = new();
 
+    public delegate void Event(bool b);
+    public Event OnRoadCheck, OnFabricate, OnTransport;
+
     private AgentSpawner _agentSpawner;
 
     /// <summary>
@@ -126,6 +129,7 @@ public class Building : Placeable
             }
         }
 
+        OnRoadCheck?.Invoke(hasRoadNeighbour);
         if (!hasRoadNeighbour) return;
 
         //Get all the buildings in range
@@ -258,7 +262,7 @@ public class Building : Placeable
     /// </summary>
     public void Produce()
     {
-        if (Buildings.BuildingController.Tick % LocalPreset.productionTime == 0)
+        if (BuildingController.Tick % LocalPreset.productionTime == 0)
         {
             Fabricate();
         }
@@ -269,12 +273,14 @@ public class Building : Placeable
     /// </summary>
     protected virtual void Fabricate()
     {
-        if (!Input.HasResourcesRequired(ProductionCost))
+        bool HasRequiredResources = Input.HasResourcesRequired(ProductionCost);
+        OnFabricate?.Invoke(HasRequiredResources);
+        if (!HasRequiredResources)
         {
             //Debug.Log("Did not have enough resources to produce!");
             return;
         }
-
+        
         RemoveFromStorage(Input, ProductionCost);
         AddToStorage(Output, Produces);
     }
@@ -346,7 +352,9 @@ public class Building : Placeable
             }
 
             AgentBehaviour agent = _agentSpawner.SpawnAgent();
-            if (agent != null)
+            bool gotAgent = agent != null;
+            OnTransport?.Invoke(gotAgent);
+            if (gotAgent)
             {
                 agent.transform.position = Exit.transform.position;
                 RemoveFromStorage(Output, resourcesToSendArray);

@@ -6,6 +6,7 @@ using UnityEngine;
 using static Grid.GridManager;
 using static Architect.Placeables.Road;
 using Buildings;
+using UnityEngine.Events;
 
 namespace Grid
 {
@@ -60,6 +61,11 @@ namespace Grid
         /// Gets the neighbours for this tile from the gridmanager.
         /// </summary>
         public Neighbour[] Neighbours { get => GridManager.Instance.GetNeighboursFor(this); }
+
+        /// <summary>
+        /// This is called when the PlaceContent function is used
+        /// </summary>
+        public UnityEvent OnPlaceContent;
         #endregion
 
         #region Methods
@@ -137,6 +143,7 @@ namespace Grid
             }
             PlaceableHolder.parent.name = Content.Preset.name;
             BuildingController.Instance.Refresh.Invoke(); // TODO: not performance friendly
+            OnPlaceContent.Invoke();
         }
 
         /// <summary>
