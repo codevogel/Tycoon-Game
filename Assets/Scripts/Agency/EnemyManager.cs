@@ -47,9 +47,9 @@ namespace Agency
 
         private void AddSpawner()
         {
-            for (int i = 1; i < enemySpawnerList.Count; i++)
+            for (int i = 0; i < enemySpawnerList.Count; i++)
             {
-                if (waveCounter == waveThreshold * (i))
+                if (waveCounter == waveThreshold * (i + 1))
                 {
                     enemySpawnerList[i].gameObject.SetActive(true);
                 }
