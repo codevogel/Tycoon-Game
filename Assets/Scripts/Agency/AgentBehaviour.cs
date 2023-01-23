@@ -27,7 +27,7 @@ namespace Agency
             _navMeshAgent.SetDestination(TargetList[0].Tile.PlaceableHolder.position);
         }
 
-        protected virtual void Update()
+        protected virtual void FixedUpdate()
         {
             SetTarget();
             onMesh = _navMeshAgent.isOnNavMesh;
