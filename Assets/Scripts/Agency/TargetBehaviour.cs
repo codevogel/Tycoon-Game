@@ -23,6 +23,7 @@ namespace Agency
         {
             if (health <= 0)
             {
+                GameManager.Instance.GameOver();
                 gameObject.SetActive(false);
             }
         }

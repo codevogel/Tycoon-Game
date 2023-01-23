@@ -86,10 +86,10 @@ namespace Grid
         {
             foreach (var tile in _grid)
             {
-                if ((tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1) && tile.GridPosition.x != Mathf.Ceil(gridSize.x / 2))
+                if ((tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1) && tile.GridPosition.y != Mathf.Ceil(gridSize.y / 2))
                 {
                     tile.PlaceContent(new Building(wall), 0);
-                } else if ((tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1) && tile.GridPosition.y != Mathf.Ceil(gridSize.y / 2))
+                } else if ((tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1) && tile.GridPosition.x != Mathf.Ceil(gridSize.x / 2))
                 {
                     tile.PlaceContent(new Building(wall), 1);
                 }
