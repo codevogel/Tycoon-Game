@@ -87,7 +87,7 @@ namespace Agency
         private void OnCollisionStay(Collision collision)
         {
             CheckForInactive();
-            if (!collision.collider.CompareTag("Walls")) return;
+            if (!collision.collider.CompareTag("Gate")) return;
             if (!collision.collider.TryGetComponent(out TargetBehaviour targetBehaviour)) return;
             if (!(_timer > targetBehaviour.armor)) return;
             if (targetBehaviour.health > 0)
@@ -99,7 +99,7 @@ namespace Agency
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.gameObject.CompareTag("Walls")) return;
+            if (!other.gameObject.CompareTag("Gate")) return;
             if (!attackTargets.Contains(other.gameObject)) attackTargets.Add(other.gameObject);
         }
 
