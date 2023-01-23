@@ -14,6 +14,7 @@ namespace Grid
 
         [SerializeField] private BuildingPreset wall;
         [SerializeField] private BuildingPreset gate;
+        [SerializeField] private BuildingPreset corner;
         [SerializeField] private Vector2Int gridSize = new(5, 5);
         [SerializeField] private Vector2 tileWidth = new Vector2Int(1,1);
 
