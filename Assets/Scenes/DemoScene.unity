@@ -3753,6 +3753,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b51697200c8d36641aeacb1cfb254313, type: 2}
     - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
+      propertyPath: corner
+      value: 
+      objectReference: {fileID: 11400000, guid: b219abbb5d66031468d2e0f511b4928d, type: 2}
+    - target: {fileID: 7059909705757930752, guid: bcc60319716f3f0468464182215bff07, type: 3}
       propertyPath: tilePrefab
       value: 
       objectReference: {fileID: 7200039709778253131, guid: 326aebbfa6e05db47aeb9f7413c52658, type: 3}
