@@ -17,6 +17,14 @@ namespace Agency
         [SerializeField]
         private int waveThreshold;
 
+        private void Awake()
+        {
+            if (waveThreshold <= 0)
+            {
+                Debug.Log($"waveThreshold on {this} = 0, all spawners will activate at the same time");
+            }
+        }
+
         private void Update()
         {
             waveCounter = enemySpawnerList[0].waveCounter;

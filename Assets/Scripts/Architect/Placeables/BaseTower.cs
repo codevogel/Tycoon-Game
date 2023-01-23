@@ -21,15 +21,15 @@ namespace Architect.Placeables
         private float cooldown = 1f;
 
         private List<GameObject> _enemyList = new();
-        private ParticleSystem _bulletParticleSys;
+      [SerializeField]  private ParticleSystem bulletParticleSys;
         private Building _building;
         private float _timer;
-        private GameObject currentTarget;
+        private GameObject _currentTarget;
 
 
         private void Awake()
         {
-            _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
+         //   _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
             _building = transform.parent.parent.parent.GetComponent<Tile>()
                 .Content as Building; //TODO make this less jank
         }
@@ -80,7 +80,7 @@ namespace Architect.Placeables
             if (!(_timer > cooldown) || _building.Input.Get(ResourceType.Ammo) <= 0) return;
             _timer = 0;
             _building.Input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
-            _bulletParticleSys.Play(); //play/shoot bullets/particles
+            bulletParticleSys.Play(); //play/shoot bullets/particles
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace Architect.Placeables
         /// <returns></returns>
         public GameObject NewTarget()
         {
-            currentTarget = _enemyList[0];
-            var distanceToCurrentTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
+            _currentTarget = _enemyList[0];
+            var distanceToCurrentTarget = Vector3.Distance(transform.position, _currentTarget.transform.position);
 
             foreach (var t in _enemyList)
             {
@@ -121,11 +121,11 @@ namespace Architect.Placeables
 
                 if (distanceToEnemy < distanceToCurrentTarget)
                 {
-                    currentTarget = t;
+                    _currentTarget = t;
                 }
             }
 
-            return currentTarget;
+            return _currentTarget;
         }
 
         private void SetTimer()
