@@ -15,7 +15,6 @@ public class Building : Placeable
 {
     public Storage Input;
     public Storage Output;
-    private int _range;
 
     public Resource[] ProductionCost;
     public Resource[] Produces;
@@ -25,6 +24,8 @@ public class Building : Placeable
     public Tile Tile { get; set; }
 
     public BuildingConnectionsRenderer BuildingConnectionsRenderer { get; protected set; }
+
+    public float Range { get; set; }
 
     private Tile b_entrance, b_exit;
     /// <summary>
@@ -76,7 +77,7 @@ public class Building : Placeable
         Output = new Storage(Array.Empty<Resource>());
         ProductionCost = LocalPreset.productionCost;
         Produces = LocalPreset.produces;
-        _range = LocalPreset.range;
+        Range = LocalPreset.range;
     }
 
     internal bool SetEntrance(Tile tile)
@@ -191,7 +192,7 @@ public class Building : Placeable
     private Building[] GetBuildingsInRange()
     {
         Collider[] overlappedColliders =
-            Physics.OverlapSphere(Tile.PlaceableHolder.position, _range, LayerMask.GetMask("Building"));
+            Physics.OverlapSphere(Tile.PlaceableHolder.position, Range * GridManager.Instance.AverageTileWidth, LayerMask.GetMask("Building"));
         List<(Building building, float dist)> buildingsByDistance = new();
         foreach (Collider overlap in overlappedColliders)
         {
