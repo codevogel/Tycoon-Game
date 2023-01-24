@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Agency
 {
@@ -7,7 +8,8 @@ namespace Agency
         public int health;
         [SerializeField] private int baseHealth;
         public float armor = 1; //armor stat sets how often a target can be attacked
-        [SerializeField] ParticleSystem onDamage;
+        [SerializeField] ParticleSystem damageParticle;
+        public UnityEvent onDamage;
 
         private void Awake()
         {
@@ -31,7 +33,7 @@ namespace Agency
         public void DoDamage(int damage)
         {
             health -= damage;
-            onDamage.Play();
+            onDamage.Invoke();
         }
     }
 }
