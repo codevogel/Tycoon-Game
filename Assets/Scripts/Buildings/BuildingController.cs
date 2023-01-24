@@ -48,6 +48,7 @@ namespace Buildings
             }
             if (transport)
             {
+                building.IsTransporting = true;
                 Transport.AddListener(building.Transport);
                 Refresh.AddListener(building.RefreshRecipients);
             }
