@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e11bf9e1ea68340bb274174fc7e286, type: 3}
   m_Name: wallDamage
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 92f9fa076aab3c541b991d644dc59244, type: 3}
   startPitch: 1
-  pitchVariation: 0
+  pitchVariation: 0.412
   volume: 1
   spatialBlend: 1
   loop: 0
