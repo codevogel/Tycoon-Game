@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4790427556519032821}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5019,7 +5019,7 @@ GameObject:
   - component: {fileID: 898664137446943009}
   - component: {fileID: 4683620961800157227}
   - component: {fileID: 7136109335090184576}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5095,7 +5095,8 @@ GameObject:
   - component: {fileID: 192600544278756939}
   - component: {fileID: 5359024064008934065}
   - component: {fileID: 6121824190648677051}
-  m_Layer: 5
+  - component: {fileID: 4540289785831897708}
+  m_Layer: 2
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5187,6 +5188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177ef9657fe5bec428f7566234c0ecfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4540289785831897708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715246478591882850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af22190dfcf372745aef7c3821df2d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 5359024064008934065}
 --- !u!1 &8410415056540803412
 GameObject:
   m_ObjectHideFlags: 0
@@ -5334,7 +5348,7 @@ GameObject:
   - component: {fileID: 5592844801151627375}
   - component: {fileID: 5273349216936897259}
   - component: {fileID: 5156754240251654973}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
