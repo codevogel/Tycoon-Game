@@ -1,5 +1,8 @@
 using UnityEngine;
+
 using UnityEngine.Events;
+using Unity.UI;
+using UnityEngine.UI;
 
 namespace Agency
 {
@@ -7,6 +10,8 @@ namespace Agency
     {
         public int health;
         [SerializeField] private int baseHealth;
+
+        [SerializeField] private Slider healthBar;
         public float armor = 1; //armor stat sets how often a target can be attacked
         [SerializeField] ParticleSystem damageParticle;
         public UnityEvent onDamage;
@@ -14,26 +19,25 @@ namespace Agency
         private void Awake()
         {
             health = baseHealth;
-        }
-
-        private void Update()
-        {
-            Destroyed();
+            healthBar.value = (float)health / baseHealth;
         }
 
         private void Destroyed()
         {
-            if (health <= 0)
-            {
-                GameManager.Instance.GameOver();
-                gameObject.SetActive(false);
-            }
+            GameManager.Instance.GameOver();
+            gameObject.SetActive(false);
         }
 
         public void DoDamage(int damage)
         {
             health -= damage;
             onDamage.Invoke();
+            healthBar.value = (float)health / baseHealth;
+
+            if (health <= 0)
+            {
+                Destroyed();
+            }
         }
     }
 }

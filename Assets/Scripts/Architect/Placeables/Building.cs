@@ -63,6 +63,8 @@ public class Building : Placeable
     public delegate void Event(bool b);
     public Event OnRoadCheck, OnFabricate, OnTransport;
 
+    public bool IsTransporting { get; set; }
+
     private AgentSpawner _agentSpawner;
 
     /// <summary>

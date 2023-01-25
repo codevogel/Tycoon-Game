@@ -88,10 +88,13 @@ namespace UI
                         if (_selectedTile.Content is Building b && _selectedTile.Content is not ConstructionSite)
                         {
                             _entranceExitButton.gameObject.SetActive(true);
-                            _transportRange.SetActive(true);
-                            _transportRangeSlider.value = b.Range;
-                            OnTransportRangeSliderChange();
-                            _selectedTile.TransportRangeVisual.SetActive(true);
+                            if (b.IsTransporting)
+                            {
+                                _transportRange.SetActive(true);
+                                _transportRangeSlider.value = b.Range;
+                                OnTransportRangeSliderChange();
+                                _selectedTile.TransportRangeVisual.SetActive(true);
+                            }
                         }
                         t.OnSelect();
                     }
@@ -202,6 +205,10 @@ namespace UI
         private static void AppendBuildingResources(StringBuilder output, Building selectedBuilding)
         {
             foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
+            {
+                output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+            }
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Input.Contents)
             {
                 output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
             }
