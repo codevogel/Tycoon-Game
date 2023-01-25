@@ -167,7 +167,8 @@ namespace UI
         {
             if (_selectedAgent.TargetList.Count > 0)
             {
-                output.AppendFormat("Origin: {0}\nTarget: {1}", _selectedAgent.spawnOrigin, _selectedAgent.TargetList[0]);
+                output.AppendFormat("Origin: {0}\nTarget: {1}", 
+                    _selectedAgent.spawnOrigin.transform.parent.parent.name, _selectedAgent.TargetList[0].Tile.name);
             }
         }
 
