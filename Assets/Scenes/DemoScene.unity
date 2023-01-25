@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.26236242, g: 0.12514421, b: 0.059239324, a: 1}
+  m_IndirectSpecularColor: {r: 0.2623626, g: 0.12514442, b: 0.05923947, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1649,7 +1649,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &821603111 stripped
 Transform:
@@ -1738,7 +1738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &933833453
 Transform:
   m_ObjectHideFlags: 0
@@ -2191,10 +2191,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2601625329471980603, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
+      propertyPath: m_text
+      value: "Great job Mayor!\n\nIn the bottom you can find the buildingbar. \nBelow
+        you can see that there's one building you \ncan place. \nThis building is
+        a mine, \nsince its the first building you place as our mayor\nit's on the
+        house. \n\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 2601625329537821644, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
       propertyPath: ControlOrBuildingsUI
       value: 
       objectReference: {fileID: 1257011815}
+    - target: {fileID: 2601625329591460367, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
+      propertyPath: m_text
+      value: "Hello Mayor,\nWelcome to the game.\n\nIn this game you control the
+        last stad\nagainst an alien invasion. \n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601625330046898939, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
+      propertyPath: m_text
+      value: "Try clicking the mine icon and placing it \nsomewhere on the grid.\n\nBut
+        be careful\n after you placed your first mine you have one \nminute to build
+        up your defenses before \nthe aliens start attacking."
+      objectReference: {fileID: 0}
     - target: {fileID: 2601625330221186138, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2227,6 +2245,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2601625330372382879, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
+      propertyPath: EnemySpawner
+      value: 
+      objectReference: {fileID: 933833452}
     - target: {fileID: 2601625330728921794, guid: ab38f7ba30ff25f449a73d3e6fafda7a, type: 3}
       propertyPath: m_Name
       value: Tutorial
@@ -2345,12 +2367,12 @@ RectTransform:
   m_Children:
   - {fileID: 189870870}
   - {fileID: 252327812}
-  m_Father: {fileID: 2019777764}
-  m_RootOrder: 3
+  m_Father: {fileID: 1641604905}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -419.79333, y: 33.126842}
+  m_AnchoredPosition: {x: -420.71335, y: 33.12666}
   m_SizeDelta: {x: 195.40002, y: 199.27399}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1245657141
@@ -2878,14 +2900,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 481741203}
+  m_Children: []
   m_Father: {fileID: 2019777764}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -110.37, y: 32.715}
+  m_AnchoredPosition: {x: -110.37012, y: 32.714966}
   m_SizeDelta: {x: 220.73596, y: 65.42999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1838288547
@@ -3477,7 +3498,7 @@ RectTransform:
   - {fileID: 1641604905}
   - {fileID: 879153580}
   - {fileID: 1257011816}
-  - {fileID: 1245657140}
+  - {fileID: 1838288546}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -78,6 +78,12 @@ namespace PlayerController
             if (Input.GetKey(KeyCode.S)) newPos += (transform.forward * -_movementSpeed * Time.unscaledDeltaTime);
             if (Input.GetKey(KeyCode.D)) newPos += (transform.right * _movementSpeed * Time.unscaledDeltaTime);
 
+            newPos = new Vector3(
+                Mathf.Clamp(newPos.x, 0, 200),
+                 newPos.y,
+                  Mathf.Clamp(newPos.z, 0, 200)
+                );
+
             if (Input.GetKey(KeyCode.Q)) newRotation *= Quaternion.Euler(Vector3.up * rotationAmount * Time.unscaledDeltaTime);
             if (Input.GetKey(KeyCode.E)) newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount * Time.unscaledDeltaTime);
 
@@ -99,21 +105,5 @@ namespace PlayerController
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.unscaledDeltaTime * movementTime);
             cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.unscaledDeltaTime * movementTime);
         }
-
-        //temp make own script
-        //void PauseGame()
-        //{
-
-        //    if (_gamePaused)
-        //    {
-        //        Time.timeScale = 0f;
-        //        pausemenuPopup.SetActive(true);
-        //    }else
-        //    {
-        //        Time.timeScale = 1;
-        //        pausemenuPopup.SetActive(false);
-        //    }
-   
-        //}
     }
 }

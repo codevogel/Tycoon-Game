@@ -8,6 +8,7 @@ public class TutorialScript : MonoBehaviour
 
     [SerializeField] GameObject nextPopup;
     [SerializeField] GameObject ControlOrBuildingsUI;
+    [SerializeField] GameObject EnemySpawner;
 
 
     public void RemovePopup()
@@ -18,6 +19,7 @@ public class TutorialScript : MonoBehaviour
 
         if (nextPopup != null) nextPopup.SetActive(true);
         if (ControlOrBuildingsUI != null) ControlOrBuildingsUI.SetActive(true);
+        if (EnemySpawner != null) EnemySpawner.SetActive(true);
     }
 
     // Update is called once per frame
