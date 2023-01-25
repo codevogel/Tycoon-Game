@@ -89,6 +89,7 @@ namespace Grid
             if (HasContent && Content is Building b)
             {
                 b.BuildingConnectionsRenderer.ShowLines(true);
+                TransportRangeVisual.SetActive(true);
             }
         }
 
@@ -230,6 +231,7 @@ namespace Grid
             UpdateModel(0);
             PickRoadForNeighbours();
             TileCollider.gameObject.layer = LayerMask.NameToLayer("Default");
+            TransportRangeVisual.SetActive(false);
         }
         #endregion
     }

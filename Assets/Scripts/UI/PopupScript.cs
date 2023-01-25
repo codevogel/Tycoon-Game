@@ -93,7 +93,6 @@ namespace UI
                                 _transportRange.SetActive(true);
                                 _transportRangeSlider.value = b.Range;
                                 OnTransportRangeSliderChange();
-                                _selectedTile.TransportRangeVisual.SetActive(true);
                             }
                         }
                         t.OnSelect();
@@ -207,11 +206,11 @@ namespace UI
         {
             foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
             {
-                output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+                output.AppendFormat($"Resource = {kvp.Key} Amount  = {kvp.Value}/{selectedBuilding.Output.Cap}\n");
             }
             foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Input.Contents)
             {
-                output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+                output.AppendFormat($"Resource = {kvp.Key} Amount  = {kvp.Value}/{selectedBuilding.Input.Cap}\n");
             }
         }
 
@@ -239,10 +238,7 @@ namespace UI
         /// </summary>
         public void RemoveObjectAt()
         {
-            if (_selectedTile != null)
-            {
-                _selectedTile.RemoveContent();
-            }
+            if (_selectedTile != null) _selectedTile.RemoveContent();
             if (_selectedAgent != null)
             {
                 _selectedAgent.spawnOrigin.ReleaseAgent(_selectedAgent);

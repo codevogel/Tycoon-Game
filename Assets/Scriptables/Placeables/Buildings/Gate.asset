@@ -16,7 +16,9 @@ MonoBehaviour:
   buildCost: []
   initialStorage: []
   produces: []
-  productionCost: []
-  range: 0
-  productionTime: 0
-  transportTime: 0
+  productionCost:
+  - type: 0
+    amount: 1
+  range: 1
+  productionTime: 50
+  transportTime: 1

@@ -5,6 +5,7 @@ namespace UI
     public class UIPauseScript : MonoBehaviour
     {
 
+
         public void PauseGame()
         {
             Time.timeScale = 0f;

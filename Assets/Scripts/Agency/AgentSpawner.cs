@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Architect.Placeables;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Pool;
 
 namespace Agency
@@ -40,6 +42,7 @@ namespace Agency
         [SerializeField] private TextMeshPro delaytimerText;
 
         private ObjectPool<AgentBehaviour> _agentPool;
+        public UnityEvent onNewWave;
 
 
         /// <summary>
@@ -175,6 +178,7 @@ namespace Agency
             return true;
         }
 
+
         /// <summary>
         /// Spawn multiple enemies
         /// </summary>
@@ -184,6 +188,7 @@ namespace Agency
             if (_agentPool.CountAll < spawnMax)
             {
                 waveCounter++;
+                onNewWave.Invoke();
                 for (var i = 0; i < spawnAmount; i++)
                 {
                     var agent = _agentPool.Get();

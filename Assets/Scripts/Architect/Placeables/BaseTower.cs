@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Agency;
@@ -7,6 +8,7 @@ using Grid;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Architect.Placeables
 {
@@ -21,15 +23,19 @@ namespace Architect.Placeables
         private float cooldown = 1f;
 
         private List<GameObject> _enemyList = new();
-      [SerializeField]  private ParticleSystem bulletParticleSys;
+        [SerializeField] private ParticleSystem bulletParticleSys;
         private Building _building;
         private float _timer;
         private GameObject _currentTarget;
+        public UnityEvent onShoot;
+
+        [SerializeField] private float soundRate = .5f;
+        [SerializeField] private int soundRepeats = 5;
 
 
         private void Awake()
         {
-         //   _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
+            //   _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
             _building = transform.parent.parent.parent.GetComponent<Tile>()
                 .Content as Building; //TODO make this less jank
         }
@@ -81,6 +87,7 @@ namespace Architect.Placeables
             _timer = 0;
             _building.Input.Remove(new Resource(ResourceType.Ammo, 1)); //ammo depletes based on ammo efficiency
             bulletParticleSys.Play(); //play/shoot bullets/particles
+            StartCoroutine(RapidSound());
         }
 
         /// <summary>
@@ -136,6 +143,15 @@ namespace Architect.Placeables
         private void SetText()
         {
             ammoText.text = _building.Input.Get(ResourceType.Ammo).ToString();
+        }
+    
+        private IEnumerator RapidSound()
+        {
+            for (int i = 0; i < soundRepeats; i++)
+            {
+                onShoot.Invoke();
+                yield return new WaitForSeconds(soundRate);
+            }
         }
     }
 }
