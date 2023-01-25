@@ -76,8 +76,9 @@ namespace Architect.Placeables
         {
             Preset = preset;
             LocalPreset = preset;
-            Input = new Storage(preset.initialStorage);
-            Output = new Storage(Array.Empty<Resource>());
+            Input = new Storage(preset.inputStorageCap);
+            Input.Add(preset.initialStorage);
+            Output = new Storage(preset.outputStorageCap);
             ProductionCost = LocalPreset.productionCost;
             Produces = LocalPreset.produces;
             Range = LocalPreset.range;
@@ -277,7 +278,7 @@ namespace Architect.Placeables
         /// </summary>
         protected virtual void Fabricate()
         {
-            bool HasRequiredResources = Input.HasResourcesRequired(ProductionCost);
+            bool HasRequiredResources = Input.HasResourcesRequired(ProductionCost) && Output.HasSpaceFor(Produces);
             OnFabricate?.Invoke(HasRequiredResources);
             if (!HasRequiredResources)
             {
@@ -307,7 +308,7 @@ namespace Architect.Placeables
 
         public void Transport()
         {
-            if (Buildings.BuildingController.Tick % LocalPreset.transportTime == 0)
+            if (BuildingController.Tick % LocalPreset.transportTime == 0)
             {
                 TransportToRecipients();
             }
@@ -319,6 +320,7 @@ namespace Architect.Placeables
             {
                 Building recipient = DequeueRecipient();
                 List<Resource> resourcesToSend = new();
+                int totalAmount = 0;
                 // For each requested resource
                 foreach (Resource requestedResource in recipient.ProductionCost)
                 {
@@ -326,6 +328,7 @@ namespace Architect.Placeables
                     if (Output.HasResourceRequired(requestedResource))
                     {
                         resourcesToSend.Add(requestedResource);
+                        totalAmount += requestedResource.amount;
                     }
                     else
                     {
@@ -345,6 +348,12 @@ namespace Architect.Placeables
                 if (resourcesToSendArray.Length == 0)
                 {
                     InsertAtFrontOfQueue(recipient);
+                    return;
+                }
+
+                if (!recipient.Input.HasSpaceForAmount(totalAmount))
+                {
+                    EnqueueRecipient(recipient);
                     return;
                 }
                 //Check if it can spawn an agent
@@ -386,7 +395,6 @@ namespace Architect.Placeables
             GameObject.Destroy(_agentSpawner);
         }
 
-
         public class BuildingByDistanceComparer : Comparer<(Building val, float dist)>
         {
             public override int Compare((Building val, float dist) a, (Building val, float dist) b)
@@ -402,18 +410,20 @@ namespace Architect.Placeables
         [Serializable]
         public class Storage
         {
-            public Dictionary<ResourceType, int> Contents { get; set; } = new();
+            private Dictionary<ResourceType, int> _contents;
+            private int _cap;
+            private int _totalAmount;
+            public Dictionary<ResourceType, int> Contents => _contents;
+            public int Cap => _cap;
 
             /// <summary>
-            /// Creates a storage, and adds the contents of initialStorage to it.
+            /// Creates a storage, and sets the cap.
             /// </summary>
-            /// <param name="initialStorage">The initial resources in this storage.</param>
-            public Storage(Resource[] initialStorage)
+            public Storage(int cap)
             {
-                foreach (Resource resource in initialStorage)
-                {
-                    Add(resource);
-                }
+                _contents = new Dictionary<ResourceType, int>();
+                _cap = cap;
+                _totalAmount = 0;
             }
 
             /// <summary>
@@ -436,9 +446,9 @@ namespace Architect.Placeables
 
             internal bool HasResourceRequired(Resource resource)
             {
-                if (Contents.ContainsKey(resource.type))
+                if (_contents.ContainsKey(resource.type))
                 {
-                    if (Contents[resource.type] - resource.amount < 0)
+                    if (_contents[resource.type] - resource.amount < 0)
                         return false;
                 }
                 else
@@ -455,13 +465,28 @@ namespace Architect.Placeables
             /// <param name="resource">Adds a resource to the storage.</param>
             public void Add(Resource resource)
             {
-                if (Contents.ContainsKey(resource.type))
+                //int amount = (_totalAmount + resource.amount > _cap) ? _cap - _totalAmount : resource.amount;
+                int amount = resource.amount;
+                _totalAmount += amount;
+                if (_contents.ContainsKey(resource.type))
                 {
-                    Contents[resource.type] += resource.amount;
+                    _contents[resource.type] += amount;
                 }
                 else
                 {
-                    Contents[resource.type] = resource.amount;
+                    _contents[resource.type] = amount;
+                }
+            }
+
+            /// <summary>
+            /// Adds resources to the storage
+            /// </summary>
+            /// <param name="resource">Adds a resource to the storage.</param>
+            public void Add(Resource[] resources)
+            {
+                foreach (Resource resource in resources)
+                {
+                    Add(resource);
                 }
             }
 
@@ -471,17 +496,33 @@ namespace Architect.Placeables
             /// <param name="resource">Removes a resource to the storage.</param>
             public void Remove(Resource resource)
             {
-                Contents[resource.type] -= resource.amount;
+                _contents[resource.type] -= resource.amount;
+                _totalAmount -= resource.amount;
             }
 
             public int Get(ResourceType type)
             {
-                if (Contents.ContainsKey(type))
+                if (_contents.ContainsKey(type))
                 {
-                    return Contents[type];
+                    return _contents[type];
                 }
 
                 return 0;
+            }
+
+            public bool HasSpaceForAmount(int amount)
+            {
+                return _totalAmount + amount <= _cap;
+            }
+
+            public bool HasSpaceFor(Resource[] resources)
+            {
+                int amount = 0;
+                foreach(Resource resource in resources)
+                {
+                    amount += resource.amount;
+                }
+                return HasSpaceForAmount(amount);
             }
         }
     }
