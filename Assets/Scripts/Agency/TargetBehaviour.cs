@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Unity.UI;
 using UnityEngine.UI;
 
 namespace Agency
