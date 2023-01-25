@@ -5095,7 +5095,6 @@ GameObject:
   - component: {fileID: 192600544278756939}
   - component: {fileID: 5359024064008934065}
   - component: {fileID: 6121824190648677051}
-  - component: {fileID: 4540289785831897708}
   m_Layer: 2
   m_Name: Slider
   m_TagString: Untagged
@@ -5150,7 +5149,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5164,7 +5163,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 5156754240251654973}
   m_FillRect: {fileID: 5592844801151627375}
   m_HandleRect: {fileID: 0}
@@ -5188,19 +5187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177ef9657fe5bec428f7566234c0ecfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4540289785831897708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7715246478591882850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af22190dfcf372745aef7c3821df2d79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 5359024064008934065}
 --- !u!1 &8410415056540803412
 GameObject:
   m_ObjectHideFlags: 0
@@ -5336,7 +5322,10 @@ MonoBehaviour:
   baseHealth: 500
   healthBar: {fileID: 5359024064008934065}
   armor: 1
-  onDamage: {fileID: 6100790433802282762}
+  damageParticle: {fileID: 0}
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9010437917106985194
 GameObject:
   m_ObjectHideFlags: 0
