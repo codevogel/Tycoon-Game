@@ -26,3 +26,5 @@ MonoBehaviour:
   range: 3
   productionTime: 100
   transportTime: 100
+  inputStorageCap: 10
+  outputStorageCap: 20
