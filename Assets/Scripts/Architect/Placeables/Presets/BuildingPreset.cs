@@ -12,5 +12,7 @@ namespace Architect.Placeables.Presets
         public int range;
         public int productionTime;
         public int transportTime;
+        public int inputStorageCap;
+        public int outputStorageCap;
     }
 }
