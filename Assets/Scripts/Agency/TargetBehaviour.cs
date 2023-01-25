@@ -21,6 +21,11 @@ namespace Agency
             healthBar.value = (float) health / baseHealth;
         }
 
+        private void Update()
+        {
+            healthBar.value = (float) health / baseHealth;
+        }
+
         private void Destroyed()
         {
             GameManager.Instance.GameOver();
@@ -31,7 +36,6 @@ namespace Agency
         {
             health -= damage;
             onDamage.Invoke();
-            healthBar.value = (float) health / baseHealth;
 
             if (health <= 0)
             {
