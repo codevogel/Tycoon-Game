@@ -2489,7 +2489,7 @@ public class LeanTween : MonoBehaviour {
                 }; break;
             case LeanProp.localX: 
                 d.easeInternal = () => { 
-                    d.trans.LeanSetLocalPosX(LeanSmooth.damp(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.deltaTime)); 
+                    d.trans.LeanSetLocalPosX(LeanSmooth.damp(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.unscaledDeltaTime)); 
                 }; break;
             case LeanProp.localY:
                 d.easeInternal = () => {
@@ -2513,7 +2513,7 @@ public class LeanTween : MonoBehaviour {
                 }; break;
             case LeanProp.scale:
                 d.easeInternal = () => {
-                    d.trans.localScale = LeanSmooth.damp(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime);
+                    d.trans.localScale = LeanSmooth.damp(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime);
                 }; break;
             case LeanProp.color:
                 d.easeInternal = () => {
@@ -2547,46 +2547,46 @@ public class LeanTween : MonoBehaviour {
             case LeanProp.localPosition:
                 d.optional.axis = d.trans.localPosition;
                 d.easeInternal = () => {
-                    d.optional.axis = LeanSmooth.spring(d.optional.axis, d.toTrans.localPosition, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate);
+                    d.optional.axis = LeanSmooth.spring(d.optional.axis, d.toTrans.localPosition, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate);
                     d.trans.localPosition = d.optional.axis + d.toInternal;
                 }; break;
             case LeanProp.position:
                 d.diff = d.trans.position;
                 d.easeInternal = () => {
-                    d.diff = LeanSmooth.spring(d.diff, d.toTrans.position, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate);
+                    d.diff = LeanSmooth.spring(d.diff, d.toTrans.position, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate);
                     d.trans.position = d.diff;// + d.toInternal;
                 }; break;
             case LeanProp.localX:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosX(LeanSmooth.spring(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetLocalPosX(LeanSmooth.spring(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.localY:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosY(LeanSmooth.spring(d.trans.localPosition.y, d.toTrans.localPosition.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetLocalPosY(LeanSmooth.spring(d.trans.localPosition.y, d.toTrans.localPosition.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.localZ:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosZ(LeanSmooth.spring(d.trans.localPosition.z, d.toTrans.localPosition.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetLocalPosZ(LeanSmooth.spring(d.trans.localPosition.z, d.toTrans.localPosition.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.x:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosX(LeanSmooth.spring(d.trans.position.x, d.toTrans.position.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetPosX(LeanSmooth.spring(d.trans.position.x, d.toTrans.position.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.y:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosY(LeanSmooth.spring(d.trans.position.y, d.toTrans.position.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetPosY(LeanSmooth.spring(d.trans.position.y, d.toTrans.position.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.z:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosZ(LeanSmooth.spring(d.trans.position.z, d.toTrans.position.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate));
+                    d.trans.LeanSetPosZ(LeanSmooth.spring(d.trans.position.z, d.toTrans.position.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate));
                 }; break;
             case LeanProp.scale:
                 d.easeInternal = () => {
-                    d.trans.localScale = LeanSmooth.spring(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate);
+                    d.trans.localScale = LeanSmooth.spring(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate);
                 }; break;
             case LeanProp.color:
                 d.easeInternal = () => {
-                    var col = LeanSmooth.spring(d.trans.LeanColor(), d.toTrans.LeanColor(), ref d.optional.color, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate);
+                    var col = LeanSmooth.spring(d.trans.LeanColor(), d.toTrans.LeanColor(), ref d.optional.color, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate);
                     d.trans.GetComponent<Renderer>().material.color = col;
                 }; break;
         }
@@ -2617,45 +2617,45 @@ public class LeanTween : MonoBehaviour {
             case LeanProp.localPosition:
                 d.optional.axis = d.trans.localPosition;
                 d.easeInternal = () => {
-                    d.optional.axis = LeanSmooth.bounceOut(d.optional.axis, d.toTrans.localPosition, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping);
+                    d.optional.axis = LeanSmooth.bounceOut(d.optional.axis, d.toTrans.localPosition, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping);
                     d.trans.localPosition = d.optional.axis + d.toInternal;
                 }; break;
             case LeanProp.position:
                 d.easeInternal = () => {
-                    d.optional.axis = LeanSmooth.bounceOut(d.optional.axis, d.toTrans.position, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping);
+                    d.optional.axis = LeanSmooth.bounceOut(d.optional.axis, d.toTrans.position, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping);
                     d.trans.position = d.optional.axis + d.toInternal;
                 }; break;
             case LeanProp.localX:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosX(LeanSmooth.bounceOut(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetLocalPosX(LeanSmooth.bounceOut(d.trans.localPosition.x, d.toTrans.localPosition.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.localY:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosY(LeanSmooth.bounceOut(d.trans.localPosition.y, d.toTrans.localPosition.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetLocalPosY(LeanSmooth.bounceOut(d.trans.localPosition.y, d.toTrans.localPosition.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.localZ:
                 d.easeInternal = () => {
-                    d.trans.LeanSetLocalPosZ(LeanSmooth.bounceOut(d.trans.localPosition.z, d.toTrans.localPosition.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetLocalPosZ(LeanSmooth.bounceOut(d.trans.localPosition.z, d.toTrans.localPosition.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.x:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosX(LeanSmooth.bounceOut(d.trans.position.x, d.toTrans.position.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetPosX(LeanSmooth.bounceOut(d.trans.position.x, d.toTrans.position.x, ref d.fromInternal.x, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.y:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosY(LeanSmooth.bounceOut(d.trans.position.y, d.toTrans.position.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetPosY(LeanSmooth.bounceOut(d.trans.position.y, d.toTrans.position.y, ref d.fromInternal.y, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.z:
                 d.easeInternal = () => {
-                    d.trans.LeanSetPosZ(LeanSmooth.bounceOut(d.trans.position.z, d.toTrans.position.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping));
+                    d.trans.LeanSetPosZ(LeanSmooth.bounceOut(d.trans.position.z, d.toTrans.position.z, ref d.fromInternal.z, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping));
                 }; break;
             case LeanProp.scale:
                 d.easeInternal = () => {
-                    d.trans.localScale = LeanSmooth.bounceOut(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping);
+                    d.trans.localScale = LeanSmooth.bounceOut(d.trans.localScale, d.toTrans.localScale, ref d.fromInternal, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping);
                 }; break;
             case LeanProp.color:
                 d.easeInternal = () => {
-                    var col = LeanSmooth.bounceOut(d.trans.LeanColor(), d.toTrans.LeanColor(), ref d.optional.color, smoothTime, maxSpeed, Time.deltaTime, friction, accelRate, hitDamping);
+                    var col = LeanSmooth.bounceOut(d.trans.LeanColor(), d.toTrans.LeanColor(), ref d.optional.color, smoothTime, maxSpeed, Time.unscaledDeltaTime, friction, accelRate, hitDamping);
                     d.trans.GetComponent<Renderer>().material.color = col;
                 }; break;
         }
