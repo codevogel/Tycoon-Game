@@ -10,9 +10,9 @@ namespace MenuScripts
     {
         [SerializeField] private string scene;
 
-        public void StartGame()
+        public void StartGame(string sceneName)
         {
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadScene(sceneName);
         }
 
         public void ContinueGame()
