@@ -13,10 +13,16 @@ namespace Agency
         [SerializeField] private Slider healthBar;
         public float armor = 1; //armor stat sets how often a target can be attacked
         public UnityEvent onDamage;
+        public int BaseHealth => baseHealth;
 
         private void Awake()
         {
             health = baseHealth;
+            healthBar.value = (float) health / baseHealth;
+        }
+
+        private void Update()
+        {
             healthBar.value = (float) health / baseHealth;
         }
 
@@ -30,7 +36,6 @@ namespace Agency
         {
             health -= damage;
             onDamage.Invoke();
-            healthBar.value = (float) health / baseHealth;
 
             if (health <= 0)
             {

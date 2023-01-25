@@ -27,9 +27,11 @@ namespace Architect.Placeables
 
         protected override void Fabricate()
         {
-            if (!Input.HasResourcesRequired(ProductionCost))
+            bool HasRequiredResources = Input.HasResourcesRequired(ProductionCost);
+            OnFabricate?.Invoke(HasRequiredResources);
+            if (!HasRequiredResources)
             {
-                Debug.Log("Could not fabricate in Construction Site");
+                //Debug.Log("Did not have enough resources to produce!");
                 return;
             }
             Tile.RemoveContent();
