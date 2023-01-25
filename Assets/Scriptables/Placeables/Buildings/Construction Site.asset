@@ -20,5 +20,7 @@ MonoBehaviour:
   produces: []
   productionCost: []
   range: 100
-  productionTime: 200
+  productionTime: 20
   transportTime: 100
+  inputStorageCap: 100
+  outputStorageCap: 0
