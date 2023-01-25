@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e11bf9e1ea68340bb274174fc7e286, type: 3}
   m_Name: NewWave
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: f618c930886c87f4d8c1049279a26762, type: 3}
   startPitch: 1
-  pitchVariation: 0
+  pitchVariation: 0.11
   volume: 1
   spatialBlend: 1
   loop: 0
