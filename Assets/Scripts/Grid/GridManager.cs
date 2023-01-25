@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Architect.Placeables;
 using Architect.Placeables.Presets;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -115,10 +116,10 @@ namespace Grid
             {
                 if (tile.GridPosition.x == Mathf.Ceil(gridSize.x / 2) &&
                     (tile.GridPosition.y == 0 || tile.GridPosition.y == gridSize.y - 1))
-                    tile.PlaceContent(new Building(gate), 0);
+                    tile.PlaceContent(new Gate(gate), 0);
                 if (tile.GridPosition.y == Mathf.Ceil(gridSize.y / 2) &&
                     (tile.GridPosition.x == 0 || tile.GridPosition.x == gridSize.x - 1))
-                    tile.PlaceContent(new Building(gate), 1);
+                    tile.PlaceContent(new Gate(gate), 1);
             }
         }
 

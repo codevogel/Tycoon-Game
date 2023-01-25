@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Architect.Placeables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
