@@ -85,8 +85,11 @@ namespace UI
                     {
                         // Select the tile
                         _selectedTile = t;
+
                         if (_selectedTile.Content is Building b && _selectedTile.Content is not ConstructionSite)
                         {
+                            if ((_selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Walls") || _selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Gate") && _selectedTile.PlaceableHolder.childCount != null)) return;
+                            
                             _entranceExitButton.gameObject.SetActive(true);
                             if (b.IsTransporting)
                             {
@@ -105,6 +108,7 @@ namespace UI
                 default:
                     break;
             }
+            
             popup.SetActive(SomethingSelected);
         }
 
@@ -237,7 +241,7 @@ namespace UI
         /// Removes the contents at targetTile.
         /// </summary>
         public void RemoveObjectAt()
-        {
+        {if ((_selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Walls") || _selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Gate") && _selectedTile.PlaceableHolder.childCount != null)) return;
             if (_selectedTile != null) _selectedTile.RemoveContent();
             if (_selectedAgent != null)
             {
