@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Agency.Towers
 {
+    /// <summary>
+    /// Checks if enemies have collisions with triggers.
+    /// </summary>
     public class EnemyDetection : MonoBehaviour
     {
         [SerializeField] private BaseTower baseTower;

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Renders the targets for an agent using a LineRenderer.
+/// </summary>
 [RequireComponent(typeof(LineRenderer))]
 public class AgentTargetRenderer : MonoBehaviour
 {

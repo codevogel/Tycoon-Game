@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace Agency
 {
+    /// <summary>
+    /// Defines behaviour of objects that are targettable by enemies.
+    /// </summary>
     public class TargetBehaviour : MonoBehaviour
     {
         public int health;
@@ -31,7 +34,7 @@ namespace Agency
             gameObject.SetActive(false);
         }
 
-        public void DoDamage(int damage)
+        public void TakeDamage(int damage)
         {
             health -= damage;
             onDamage.Invoke();

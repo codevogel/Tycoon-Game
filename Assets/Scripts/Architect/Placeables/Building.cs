@@ -11,6 +11,10 @@ using static Grid.GridManager;
 
 namespace Architect.Placeables
 {
+    /// <summary>
+    /// Base class for Buildings.
+    /// Extends from Placeable.
+    /// </summary>
     [Serializable]
     public class Building : Placeable
     {
@@ -84,30 +88,52 @@ namespace Architect.Placeables
             Range = LocalPreset.range;
         }
 
+        /// <summary>
+        /// Set entrance tile for this building.
+        /// </summary>
+        /// <param name="tile">The new entrance.</param>
+        /// <returns>Whether an entrance could be set.</returns>
         internal bool SetEntrance(Tile tile)
         {
             if (!tile.HasContent || tile.Content is not Road)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Could not set entrance because there is no road there!");
+#endif
                 return false;
             }
             Entrance = tile;
+#if UNITY_EDITOR
             Debug.Log("setting entrance at " + tile);
+#endif
             return true;
         }
 
+        /// <summary>
+        /// Set exit tile for this building.
+        /// </summary>
+        /// <param name="tile">The new exit.</param>
+        /// <returns>Whether an exit could be set.</returns>
         internal bool SetExit(Tile tile)
         {
             if (!tile.HasContent || tile.Content is not Road)
             {
+#if UNITY_EDITOR
                 Debug.LogWarning("Could not set exit because there is no road there!");
+#endif
                 return false;
             }
             Exit = tile;
+#if UNITY_EDITOR
             Debug.Log("setting exit at " + tile);
+#endif
             return true;
         }
 
+        /// <summary>
+        /// Initializes a buildings fields after it has been instantiated.
+        /// </summary>
+        /// <param name="hostingTile">The tile this building is hosted on.</param>
         public virtual void InitializeAfterInstantiation(Tile hostingTile)
         {
             Tile = hostingTile;
@@ -118,6 +144,9 @@ namespace Architect.Placeables
                 Tile.transform.Find("Recipient Lines").GetComponent<BuildingConnectionsRenderer>();
         }
 
+        /// <summary>
+        /// Refreshes the resource recipeints for this building.
+        /// </summary>
         public void RefreshRecipients()
         {
             this.recipients = new();
@@ -148,27 +177,34 @@ namespace Architect.Placeables
             BuildingConnectionsRenderer.SetRecipients(recipientsInRange);
         }
 
-        internal void OnDeselect()
+        /// <summary>
+        /// Adds a building that provides resources to this building.
+        /// </summary>
+        /// <param name="newProvider">the new provider</param>
+        private void AddProvider(Building newProvider)
         {
-            throw new NotImplementedException();
-        }
-
-        private void AddProvider(Building building)
-        {
-            if (!providers.Contains(building))
+            if (!providers.Contains(newProvider))
             {
-                providers.Add(building);
+                providers.Add(newProvider);
             }
 
             BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         }
 
+        /// <summary>
+        /// Remove a provider from this building.
+        /// </summary>
+        /// <param name="newProvider">the provider to remove</param>
         private void RemoveProvider(Building building)
         {
             providers.Remove(building);
             BuildingConnectionsRenderer.SetProviders(providers.ToArray());
         }
 
+        /// <summary>
+        /// Gets the closest building to this building.
+        /// </summary>
+        /// <returns>the closest building to this building</returns>
         private Building GetClosestBuilding()
         {
             Building[] buildings = GetBuildingsInRange();
@@ -193,6 +229,10 @@ namespace Architect.Placeables
             return buildings[maxDistanceIndex];
         }
 
+        /// <summary>
+        /// Gets the buildings that are in range of this building.
+        /// </summary>
+        /// <returns>the buildings that are in range of this building</returns>
         private Building[] GetBuildingsInRange()
         {
             Collider[] overlappedColliders =
@@ -290,6 +330,11 @@ namespace Architect.Placeables
             AddToStorage(Output, Produces);
         }
 
+        /// <summary>
+        /// Adds resources to this buildings' storage
+        /// </summary>
+        /// <param name="storage">the storage to add to</param>
+        /// <param name="resources">the resources to add</param>
         public void AddToStorage(Storage storage, Resource[] resources)
         {
             foreach (Resource resource in resources)
@@ -298,6 +343,11 @@ namespace Architect.Placeables
             }
         }
 
+        /// <summary>
+        /// Removes resources to this buildings' storage
+        /// </summary>
+        /// <param name="storage">the storage to remove from</param>
+        /// <param name="resources">the resources to remove</param>
         public void RemoveFromStorage(Storage storage, Resource[] resources)
         {
             foreach (Resource resource in resources)
@@ -306,6 +356,9 @@ namespace Architect.Placeables
             }
         }
 
+        /// <summary>
+        /// Transport hook for the Building Controller's events.
+        /// </summary>
         public void Transport()
         {
             if (BuildingController.Tick % LocalPreset.transportTime == 0)
@@ -314,6 +367,9 @@ namespace Architect.Placeables
             }
         }
 
+        /// <summary>
+        /// Attempts transporting resources to recipients.
+        /// </summary>
         private void TransportToRecipients()
         {
             if (recipients.Count > 0)
@@ -444,6 +500,11 @@ namespace Architect.Placeables
                 return true;
             }
 
+            /// <summary>
+            /// Does the storage contain the required resource for this production cycle?
+            /// </summary>
+            /// <param name="required">The required resource for this production cycle.</param>
+            /// <returns>Whether the resource is contained in the storage.</returns>
             internal bool HasResourceRequired(Resource resource)
             {
                 if (_contents.ContainsKey(resource.type))
@@ -500,6 +561,11 @@ namespace Architect.Placeables
                 _totalAmount -= resource.amount;
             }
 
+            /// <summary>
+            /// Gets the number of resources of given type.
+            /// </summary>
+            /// <param name="type">the resource type</param>
+            /// <returns>The the number of resources of given type.</returns>
             public int Get(ResourceType type)
             {
                 if (_contents.ContainsKey(type))

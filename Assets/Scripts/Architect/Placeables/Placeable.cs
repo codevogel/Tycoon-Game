@@ -2,6 +2,9 @@ using Architect.Placeables.Presets;
 
 namespace Architect.Placeables
 {
+    /// <summary>
+    /// Abstract class that defines the base class for Placeables
+    /// </summary>
     public abstract class Placeable
     {
         /// <summary>

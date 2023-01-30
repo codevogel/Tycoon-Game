@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Architect.Placeables.Presets
 {
+    /// <summary>
+    /// Scriptable preset for buildings
+    /// </summary>
     [CreateAssetMenu(fileName = "Building", menuName = "ScriptableObjects/Buildings/Base", order = 1)]
     public class BuildingPreset : PlaceablePreset
     {

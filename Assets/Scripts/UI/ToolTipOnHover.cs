@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles behaviour for resource UI tool tips
+    /// </summary>
     public class ToolTipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private GameObject tooltip;

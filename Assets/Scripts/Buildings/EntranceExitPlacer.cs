@@ -9,6 +9,9 @@ using static Grid.GridManager;
 
 namespace UI
 {
+    /// <summary>
+    /// Places entrances and exits for buildings.
+    /// </summary>
     public class EntranceExitPlacer : MonoBehaviour
     {
 
@@ -33,6 +36,10 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Select a building
+        /// </summary>
+        /// <param name="newSelection">the new selection</param>
         public void SelectBuilding(Building newSelection)
         {
             selectedBuilding = newSelection;
@@ -67,6 +74,10 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Set entrance for the selected building.
+        /// </summary>
+        /// <param name="tile">the entrance tile</param>
         private void SetEntrance(Tile tile)
         {
             if (selectedBuilding.SetEntrance(tile))
@@ -75,6 +86,10 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Set exit for the selected building.
+        /// </summary>
+        /// <param name="tile">the exit tile</param>
         private void SetExit(Tile tile)
         {
             if (selectedBuilding.SetExit(tile))

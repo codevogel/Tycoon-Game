@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Audio
 {
+    /// <summary>
+    /// Base class for AudioScriptables.
+    /// </summary>
     [CreateAssetMenu(fileName = "AudioFile", menuName = "ScriptableObjects/AudioScriptableObject", order = 1)]
     public class AudioScriptable : ScriptableObject
     {

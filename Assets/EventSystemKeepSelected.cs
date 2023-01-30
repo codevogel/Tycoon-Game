@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Keeps button in a selected state.
+/// </summary>
 public class EventSystemKeepSelected : MonoBehaviour
 {
     private EventSystem eventSystem;

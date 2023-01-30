@@ -6,6 +6,10 @@ using UnityEngine.AI;
 
 namespace Agency
 {
+    /// <summary>
+    /// Handles all NavMesh behaviour of agents
+    /// is base class for NavMeshAgents.
+    /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentBehaviour : MonoBehaviour
     {

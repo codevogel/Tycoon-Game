@@ -9,6 +9,10 @@ using UnityEngine;
 
 namespace Architect.Placeables
 {
+    /// <summary>
+    /// Defines behaviour for the gates.
+    /// Extends from Building.
+    /// </summary>
     public class Gate : Building
     {
         TargetBehaviour targetBehaviour;
@@ -18,7 +22,10 @@ namespace Architect.Placeables
 
         }
 
-        //TODO: better Building hierarchy to reduce duplicate code
+        /// <summary>
+        /// Initializes a buildings fields after it has been instantiated.
+        /// </summary>
+        /// <param name="hostingTile">The tile this building is hosted on.</param>
         public override void InitializeAfterInstantiation(Tile hostingTile)
         {
             Tile = hostingTile;
@@ -27,6 +34,9 @@ namespace Architect.Placeables
             targetBehaviour = Tile.PlaceableHolder.GetComponentInChildren<TargetBehaviour>();
         }
 
+        /// <summary>
+        /// Handles the BuildingController Produce hook.
+        /// </summary>
         protected override void Fabricate()
         {
             if (targetBehaviour.health > targetBehaviour.BaseHealth - RepairAmount) return;

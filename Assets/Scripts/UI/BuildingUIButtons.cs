@@ -7,6 +7,9 @@ using static Architect.Placeables.Placeable;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles the UI buttons for the different Placeables.
+    /// </summary>
     public class BuildingUIButtons : MonoBehaviour
     {
 

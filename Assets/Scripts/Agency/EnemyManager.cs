@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Agency
 {
+    /// <summary>
+    /// Handles the enemy spawners.
+    /// </summary>
     public class EnemyManager : MonoBehaviour
     {
         [SerializeField] private List<AgentSpawner> enemySpawnerList;

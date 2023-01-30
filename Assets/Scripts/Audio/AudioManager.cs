@@ -4,6 +4,9 @@ using Utils;
 
 namespace Audio
 {
+    /// <summary>
+    /// Singleton behaviour that handles the audio system.
+    /// </summary>
     public class AudioManager : SingletonBehaviour<AudioManager>
     {
         /// <summary> Determines the volume of everything </summary>

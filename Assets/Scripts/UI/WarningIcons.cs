@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles behaviour for UI warning icons.
+    /// </summary>
     public class WarningIcons : MonoBehaviour
     {
         private Tile parentTile;

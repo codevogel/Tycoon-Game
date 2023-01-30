@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Rotates text towards the camera.
+    /// </summary>
     public class BillboardText : MonoBehaviour
     {
         private Camera _camera;

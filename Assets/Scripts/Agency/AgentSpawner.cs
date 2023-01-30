@@ -10,6 +10,9 @@ using UnityEngine.Pool;
 
 namespace Agency
 {
+    /// <summary>
+    /// Handles spawners for agents using an object pool.
+    /// </summary>
     public class AgentSpawner : MonoBehaviour
     {
         public List<AgentBehaviour> agentList;
@@ -22,7 +25,6 @@ namespace Agency
         private int spawnScalar;
 
         [SerializeField] private int spawnMax;
-        private Building _agentTarget;
 
         [SerializeField] private bool useIntervals;
 
@@ -54,12 +56,6 @@ namespace Agency
             _agentPool.Release(agent);
         }
 
-        private void SetAgentTargets(AgentBehaviour agent, Building target)
-        {
-            //agent.targetList.Add(target != null ? target : GameManager.Instance.globalTarget.transform);
-            agent.TargetList.Add(target);
-        }
-
         private void Start()
         {
             CreateAgentPool();
@@ -74,12 +70,6 @@ namespace Agency
                 {
                     StartCoroutine(SpawnMultiple(spawnCount));
                     _spawnTimer += Time.deltaTime;
-
-                    // if (_spawnTimer > interval && useIntervals)
-                    // {
-                    //     _spawnTimer = 0;
-                    //     SpawnMultipleAgents();
-                    // }
                 }
             }
             else
@@ -134,9 +124,6 @@ namespace Agency
         private void OnGet(AgentBehaviour agent)
         {
             agent.gameObject.SetActive(true);
-            //SetAgentTargets(agent, agentTarget);
-            //   if (!agentList.Contains(agent)) return;
-            //  agentList.Add(agent);
         }
 
         /// <summary>

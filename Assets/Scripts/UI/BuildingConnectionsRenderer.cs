@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Renders the connections that a building has (to its providers and recipients)
+    /// </summary>
     public class BuildingConnectionsRenderer : MonoBehaviour
     {
 

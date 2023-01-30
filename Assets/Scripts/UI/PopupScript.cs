@@ -14,6 +14,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles the behaviour for the popup UI element.
+    /// </summary>
     [RequireComponent(typeof(EntranceExitPlacer))]
     public class PopupScript : MonoBehaviour
     {

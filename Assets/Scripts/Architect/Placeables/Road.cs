@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Architect.Placeables
 {
+    /// <summary>
+    /// Defines behaviour for Road Placeables.
+    /// Extends from Placeable.
+    /// </summary>
     public class Road : Placeable
     {
         public override void OnDestroy()

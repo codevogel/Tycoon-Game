@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace Audio
 {
+    /// <summary>
+    /// Used to change settings for the audio system.
+    /// </summary>
     public class ChangeAudioSettings : MonoBehaviour
     {
         /// <summary> Changes the MasterVolume using a slider </summary>
