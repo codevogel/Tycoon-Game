@@ -1,55 +1,59 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
-public class AudioManager : SingletonBehaviour<AudioManager>
+namespace Audio
 {
-    /// <summary> Determines the volume of everything </summary>
-    [Range(0, 1)]
-    private float _masterVolume = .5f;
-    /// <summary> Determines the volume for SFX type sounds </summary>
-    [Range(0, 1)]
-    private float _SFXVolume = 1;
-    /// <summary> Determines the volume for Music type sounds </summary>
-    [Range(0, 1)]
-    private float _musicVolume = 1;
-    public UnityEvent OnVolumeChange = new UnityEvent();
-
-    /// <summary> Determines the volume of everything </summary>
-    public float MasterVolume
+    public class AudioManager : SingletonBehaviour<AudioManager>
     {
-        get { return _masterVolume; }
-        set
+        /// <summary> Determines the volume of everything </summary>
+        [Range(0, 1)]
+        private float _masterVolume = .5f;
+        /// <summary> Determines the volume for SFX type sounds </summary>
+        [Range(0, 1)]
+        private float _sfxVolume = 1;
+        /// <summary> Determines the volume for Music type sounds </summary>
+        [Range(0, 1)]
+        private float _musicVolume = 1;
+        public UnityEvent onVolumeChange = new();
+
+        /// <summary> Determines the volume of everything </summary>
+        public float MasterVolume
         {
-            _masterVolume = Mathf.Clamp01(value);
-            OnVolumeChange.Invoke();
+            get => _masterVolume;
+            set
+            {
+                _masterVolume = Mathf.Clamp01(value);
+                onVolumeChange.Invoke();
+            }
         }
-    }
 
-    /// <summary> Determines the volume for SFX type sounds </summary>
-    public float SFXVolume
-    {
-        get { return _SFXVolume; }
-        set
+        /// <summary> Determines the volume for SFX type sounds </summary>
+        public float SfxVolume
         {
-            _SFXVolume = Mathf.Clamp01(value);
-            OnVolumeChange.Invoke();
+            get => _sfxVolume;
+            set
+            {
+                _sfxVolume = Mathf.Clamp01(value);
+                onVolumeChange.Invoke();
+            }
         }
-    }
 
-    /// <summary> Determines the volume for Music type sounds </summary>
-    public float MusicVolume
-    {
-        get { return _musicVolume; }
-        set
+        /// <summary> Determines the volume for Music type sounds </summary>
+        public float MusicVolume
         {
-            _musicVolume = Mathf.Clamp01(value);
-            OnVolumeChange.Invoke();
+            get => _musicVolume;
+            set
+            {
+                _musicVolume = Mathf.Clamp01(value);
+                onVolumeChange.Invoke();
+            }
         }
-    }
 
-    /// <summary> Clears all the listeners</summary>
-    private void OnDestroy()
-    {
-        OnVolumeChange.RemoveAllListeners();
+        /// <summary> Clears all the listeners</summary>
+        private void OnDestroy()
+        {
+            onVolumeChange.RemoveAllListeners();
+        }
     }
 }

@@ -1,22 +1,23 @@
+using Architect.Placeables.Presets;
 
-using System;
-using UnityEngine;
-
-public abstract class Placeable
+namespace Architect.Placeables
 {
-    /// <summary>
-    /// Preset for this Placeable.
-    /// </summary>
-    public PlaceablePreset Preset { get; internal set; }
-
-    /// <summary>
-    /// Represents the different types of Placeables available.
-    /// </summary>
-    public enum PlaceableType
+    public abstract class Placeable
     {
-        ROAD,
-        BUILDING
-    }
+        /// <summary>
+        /// Preset for this Placeable.
+        /// </summary>
+        public PlaceablePreset Preset { get; internal set; }
 
-    public abstract void OnDestroy();
+        /// <summary>
+        /// Represents the different types of Placeables available.
+        /// </summary>
+        public enum PlaceableType
+        {
+            ROAD,
+            BUILDING
+        }
+
+        public abstract void OnDestroy();
+    }
 }

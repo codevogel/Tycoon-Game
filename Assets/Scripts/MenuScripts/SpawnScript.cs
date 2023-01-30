@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnScript : MonoBehaviour
+namespace MenuScripts
 {
-
-  public GameObject cube;
-  // Update is called once per frame
-  void Update()
+  public class SpawnScript : MonoBehaviour
   {
-    if (Input.GetMouseButton(1))
+
+    public GameObject cube;
+    // Update is called once per frame
+    private void Update()
     {
+      if (Input.GetMouseButton(1))
+      {
 
-      Instantiate(cube, new Vector3(Input.mousePosition.x,Input.mousePosition.y,0f), Quaternion.identity);
-    };
+        Instantiate(cube, new Vector3(Input.mousePosition.x,Input.mousePosition.y,0f), Quaternion.identity);
+      };
 
+    }
   }
 }

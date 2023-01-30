@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Factory
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 1782190089080895598, guid: eed7d2c1f9f1cdd44b3a4604814c392b, type: 3}
-  BuildCost:
-  - Type: 0
-    Amount: 3
-  InitialStorage: []
-  Produces:
-  - Type: 1
-    Amount: 1
-  ProductionCost:
-  - Type: 0
-    Amount: 1
-  range: 100
-  ProductionTime: 100
-  TransportTime: 100
+  buildCost:
+  - type: 0
+    amount: 5
+  initialStorage: []
+  produces:
+  - type: 1
+    amount: 1
+  productionCost:
+  - type: 0
+    amount: 1
+  range: 4
+  productionTime: 100
+  transportTime: 100
+  inputStorageCap: 10
+  outputStorageCap: 20

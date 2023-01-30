@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c6c50c21c141b439c46a738f4e6367, type: 3}
+  m_Name: Gate
+  m_EditorClassIdentifier: 
+  <Prefab>k__BackingField: {fileID: 8410415056540803412, guid: e11e9e51c49b2ca4cabb4be72caa1cca, type: 3}
+  buildCost: []
+  initialStorage: []
+  produces: []
+  productionCost:
+  - type: 0
+    amount: 1
+  range: 1
+  productionTime: 50
+  transportTime: 1
+  inputStorageCap: 10
+  outputStorageCap: 0

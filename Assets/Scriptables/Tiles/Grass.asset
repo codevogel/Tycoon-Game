@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8910f9ad372009e418d42098101b5f5d, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: 3a7c4c897d6b3e548ba25a2a55256ed9, type: 3}
-  Obstacle: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 90254c00768f24243a3d6335f2f11d6b, type: 3}
+  obstacle: {fileID: 0}
   resources: []

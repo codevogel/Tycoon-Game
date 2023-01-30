@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e11bf9e1ea68340bb274174fc7e286, type: 3}
   m_Name: Music
   m_EditorClassIdentifier: 
-  Clip: {fileID: 8300000, guid: ee877cddba71e664e9d43096a5eaedb8, type: 3}
-  StartPitch: 1
-  PitchVariation: 0
-  Volume: 1
-  SpatialBlend: 0
-  Loop: 1
-  Type: 1
+  clip: {fileID: 8300000, guid: b799a40f436e15d408b95acda0e543a6, type: 3}
+  startPitch: 1
+  pitchVariation: 0
+  volume: 0.1
+  spatialBlend: 0
+  loop: 1
+  type: 1

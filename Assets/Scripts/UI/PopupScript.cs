@@ -1,114 +1,263 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using static GridManager;
-using UnityEngine;
 using System.Text;
+using Agency;
+using Architect.Placeables;
+using Buildings;
+using Buildings.Resources;
+using Grid;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PopupScript : MonoBehaviour
+namespace UI
 {
-    #region Popup vars
-    public GameObject popup;
-    public TMP_Text popuptext;
-    private Tile selectedTile;
-    #endregion
-
-    private void Update()
+    [RequireComponent(typeof(EntranceExitPlacer))]
+    public class PopupScript : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            ShowOrHidePopup();
-        }
-        if (popup.activeSelf)
-        {
-            UpdateContents();
-        }
-    }
+        #region Popup vars
+        public GameObject popup;
+        public TMP_Text popuptext;
+        private Tile _selectedTile;
+        private DeliveryAgent _selectedAgent;
+        private EntranceExitPlacer _entranceExitPlacer;
 
-    // Start is called before the first frame update
-    /// <summary>
-    /// doet popup laten zien on right click. 
-    /// popup geeft informatie over de building/road en buttons om te upgraden/destroyen.
-    /// </summary>
-    void ShowOrHidePopup()
-    {
-        Tile clickedOnTile = GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition);
-        // Determine whether popup should be shown
-        popup.SetActive(clickedOnTile != null && clickedOnTile != selectedTile && clickedOnTile.HasContent);
-        // If shown
-        if (popup.activeSelf)
+        [SerializeField] private Button _entranceExitButton;
+        [SerializeField] private GameObject _transportRange;
+        [SerializeField] private Slider _transportRangeSlider;
+
+        private bool SomethingSelected { get => _selectedTile != null || _selectedAgent != null; }
+        #endregion
+
+        private void Awake()
         {
-            // Clear selection if selection exists, then show popup
-            if (selectedTile != null)
+            _entranceExitPlacer = GetComponent<EntranceExitPlacer>();
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                // Attempt raycast on agent Clickbox
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, float.PositiveInfinity, LayerMask.GetMask("Clickbox")))
+                {
+                    ShowOrHidePopup(hit.collider.gameObject.GetComponentInParent<DeliveryAgent>());
+                }
+                else
+                {
+                    // Show popup for hover tile
+                    ShowOrHidePopup(GridManager.Instance.GetTileAt(GridManager.Instance.HoverTile.GridPosition));
+                }
+            }
+            if (popup.activeSelf)
+            {
+                UpdateContents();
+            }
+        }
+
+        /// <summary>
+        /// Shows the popup for newSelection.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to show the popup for.</typeparam>
+        /// <param name="newSelection">The object to show the popup for.</param>
+        private void ShowOrHidePopup<T>(T newSelection)
+        {
+            // If already selected something, clear that selection
+            if (SomethingSelected)
             {
                 ClearSelection();
             }
-            ShowPopup(clickedOnTile);
-            return;
-        }
-        // Clear the selection
-        ClearSelection();
-    }
 
-    /// <summary>
-    /// Show the popup for a tile
-    /// </summary>
-    /// <param name="selection">The tile to show the popup for</param>
-    private void ShowPopup(Tile selection)
-    {
-        selectedTile = selection;
-        // If popup should show a building
-        if (selectedTile.Content is Building b)
-        {
-            // Turn on connection renderer
-            b.BuildingConnectionsRenderer.ShowLines(true);
-        }
-    }
-
-    /// <summary>
-    /// Hides the popup for a tile
-    /// </summary>
-    private void ClearSelection()
-    {
-        // If popup was showing a building
-        if (selectedTile != null && selectedTile.Content is Building b)
-        {
-            // Turn off the connections renderer
-            b.BuildingConnectionsRenderer.ShowLines(false);
-        }
-        selectedTile = null;
-    }
-
-    // Updates the contents for the popup
-    private void UpdateContents()
-    {
-        StringBuilder output = new StringBuilder();
-        if (selectedTile.Content is Building selectedBuilding)
-        {
-            if (selectedBuilding.output.Contents.Count > 0)
+            // Now switch on the new selection
+            switch (newSelection)
             {
-                foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.output.Contents)
+                case Tile t:
+                    // ... if clicked out of grid or tile has no content
+                    if (t == null || !t.HasContent)
+                    {
+                        // Keep selection null
+                        break;
+                    }
+                    else
+                    {
+                        // Select the tile
+                        _selectedTile = t;
+
+                        if (_selectedTile.Content is Building b && _selectedTile.Content is not ConstructionSite)
+                        {
+                            if (_selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Walls") && _selectedTile.PlaceableHolder.childCount != null) return;
+                            
+                            _entranceExitButton.gameObject.SetActive(true);
+                            if (b.IsTransporting)
+                            {
+                                _transportRange.SetActive(true);
+                                _transportRangeSlider.value = b.Range;
+                                OnTransportRangeSliderChange();
+                            }
+                        }
+                        t.OnSelect();
+                    }
+                    break;
+                case DeliveryAgent a:
+                    _selectedAgent = a;
+                    a.OnSelect();
+                    break;
+                default:
+                    break;
+            }
+            
+            popup.SetActive(SomethingSelected);
+        }
+
+        /// <summary>
+        /// Clears the current selection.
+        /// </summary>
+        private void ClearSelection()
+        {
+            // If popup was showing a building
+            if (_selectedTile != null)
+                _selectedTile.OnDeselect();
+            _selectedTile = null;
+
+            if (_selectedAgent != null)
+                _selectedAgent.OnDeselect();
+            _selectedAgent = null;
+
+            _entranceExitPlacer.enabled = false;
+            _entranceExitButton.gameObject.SetActive(false);
+            _transportRange.SetActive(false);
+        }
+
+        /// <summary>
+        /// Updates popup contents according to current selection
+        /// </summary>
+        private void UpdateContents()
+        {
+            StringBuilder output = new StringBuilder();
+
+            // If tile is selected
+            if (_selectedTile != null)
+            {
+                AppendTileContents(output);
+            }
+            else // Agent is selected
+            {
+                AppendAgentContents(output);
+            }
+
+            if (output.Length == 0)
+            {
+                output.Append("No contents");
+            }
+            popuptext.text = output.ToString();
+        }
+
+        public void StartPlacingEntranceAndExit()
+        {
+            _entranceExitPlacer.enabled = true;
+            _entranceExitPlacer.SelectBuilding((Building) _selectedTile.Content);
+        }
+
+
+        /// <summary>
+        /// Append popup info for an agent
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        private void AppendAgentContents(StringBuilder output)
+        {
+            if (_selectedAgent.TargetList.Count > 0)
+            {
+                output.AppendFormat("Origin: {0}\nTarget: {1}", 
+                    _selectedAgent.spawnOrigin.transform.parent.parent.name, _selectedAgent.TargetList[0].Tile.name);
+            }
+        }
+
+        /// <summary>
+        /// Append popup info for a tile
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        private void AppendTileContents(StringBuilder output)
+        {
+            if (_selectedTile.HasContent)
+            {
+                if (_selectedTile.Content is Building b)
                 {
-                    output.AppendFormat("Resource = {0} Amount  = {1}\n", kvp.Key, kvp.Value);
+                    if (b is ConstructionSite c)
+                    {
+                        AppendBuildingProgress(output, c);
+                        return;
+                    }
+                    AppendBuildingResources(output, b);
+                    return;
+                }
+                else
+                {
+                    output.Append("Road");
                 }
             }
         }
-        else
-        {
-            output.Append("No contents");
-        }
-        popuptext.text = output.ToString();
-    }
 
-    /// <summary>
-    /// Removes the contents at targetTile.
-    /// </summary>
-    /// <param name="popupTile">The tile at which to remove the contents.</param>
-    public void RemoveObjectAt()
-    {
-        selectedTile.RemoveContent();
-        popup.SetActive(false);
-        BuildingController.Refresh.Invoke();
+
+        /// <summary>
+        /// Append resources for a building
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        /// <param name="selectedBuilding">The building from which the resources are appended.</param>
+        private static void AppendBuildingResources(StringBuilder output, Building selectedBuilding)
+        {
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Output.Contents)
+            {
+                output.AppendFormat($"Resource = {kvp.Key} Amount  = {kvp.Value}/{selectedBuilding.Output.Cap}\n");
+            }
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedBuilding.Input.Contents)
+            {
+                output.AppendFormat($"Resource = {kvp.Key} Amount  = {kvp.Value}/{selectedBuilding.Input.Cap}\n");
+            }
+        }
+
+        /// <summary>
+        /// Append building progress for a construction site
+        /// </summary>
+        /// <param name="output">The StringBuilder to append to.</param>
+        /// <param name="selectedBuilding">The site from which the progress is appended.</param>
+        private static void AppendBuildingProgress(StringBuilder output, ConstructionSite selectedSite)
+        {
+            var buildCost = selectedSite.PresetToConstruct.buildCost[0];
+            foreach (KeyValuePair<ResourceType, int> kvp in selectedSite.Input.Contents)
+            {
+
+                output.AppendFormat("Build progress: {0}/{1} {2}\n", kvp.Value, buildCost.amount, buildCost.type.ToString());
+            }
+            if (output.Length == 0)
+            {
+                output.AppendFormat("Build Progress: 0/{0} {1}", buildCost.amount, buildCost.type.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Removes the contents at targetTile.
+        /// </summary>
+        public void RemoveObjectAt()
+        {if ((_selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Walls") || _selectedTile.PlaceableHolder.GetChild(0).gameObject.CompareTag("Gate") && _selectedTile.PlaceableHolder.childCount != null)) return;
+            if (_selectedTile != null) _selectedTile.RemoveContent();
+            if (_selectedAgent != null)
+            {
+                _selectedAgent.spawnOrigin.ReleaseAgent(_selectedAgent);
+            }
+            popup.SetActive(false);
+            BuildingController.Instance.Refresh.Invoke();
+            ClearSelection();
+        }
+
+        public void OnTransportRangeSliderChange()
+        {
+            _selectedTile.TransportRangeVisual.transform.localScale = Vector3.one + Vector3.one * _transportRangeSlider.value * 2;
+            Building b = _selectedTile.Content as Building;
+            b.Range = _transportRangeSlider.value;
+            b.RefreshRecipients();
+        }
     }
 }

@@ -1,59 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
+using Architect.Placeables;
 using UnityEngine;
 
-public class BuildingConnectionsRenderer : MonoBehaviour
+namespace UI
 {
-
-    [SerializeField]
-    private Material _recipientMaterial;
-    [SerializeField]
-    private Material _providerMaterial;
-    private LineRenderer providerRenderer;
-    private LineRenderer recipientRenderer;
-
-    private void Start()
+    public class BuildingConnectionsRenderer : MonoBehaviour
     {
-        GameObject recipientGO = new GameObject();
-        GameObject providerGO = new GameObject();
-        recipientGO.name = "Recipient Renderer";
-        providerGO.name = "Provider Renderer";
-        recipientGO.transform.parent = transform;
-        providerGO.transform.parent = transform;
 
-        recipientRenderer = recipientGO.AddComponent<LineRenderer>();
-        providerRenderer = providerGO.AddComponent<LineRenderer>();
-        recipientRenderer.enabled = false;
-        providerRenderer.enabled = false;
-        recipientRenderer.material = _recipientMaterial;
-        providerRenderer.material = _providerMaterial;
-    }
+        [SerializeField]
+        private Material recipientMaterial;
+        [SerializeField]
+        private Material providerMaterial;
+        private LineRenderer _providerRenderer;
+        private LineRenderer _recipientRenderer;
 
-    public void SetRecipients(Building[] recipients)
-    {
-        SetTargets(recipientRenderer, recipients);
-    }
-
-    public void SetProviders(Building[] providers)
-    {
-        SetTargets(providerRenderer, providers);
-    }
-
-    private void SetTargets(LineRenderer currentRenderer, Building[] targets)
-    {
-        currentRenderer.gameObject.SetActive(true);
-        currentRenderer.positionCount = targets.Length * 2;
-        int targetIndex = 0;
-        for (int numPos = 0; numPos < currentRenderer.positionCount; numPos+=2)
+        private void Start()
         {
-            currentRenderer.SetPosition(numPos, transform.position);
-            currentRenderer.SetPosition(numPos + 1, targets[targetIndex++].Tile.transform.position);
-        }
-    }
+            GameObject recipientGo = new GameObject();
+            GameObject providerGo = new GameObject();
+            recipientGo.name = "Recipient Renderer";
+            providerGo.name = "Provider Renderer";
+            recipientGo.transform.parent = transform;
+            providerGo.transform.parent = transform;
 
-    public void ShowLines(bool show)
-    {
-        recipientRenderer.enabled = show;
-        providerRenderer.enabled = show;
+            _recipientRenderer = recipientGo.AddComponent<LineRenderer>();
+            _providerRenderer = providerGo.AddComponent<LineRenderer>();
+            _recipientRenderer.enabled = false;
+            _providerRenderer.enabled = false;
+            _recipientRenderer.material = recipientMaterial;
+            _providerRenderer.material = providerMaterial;
+        }
+
+        public void SetRecipients(Building[] recipients)
+        {
+            SetTargets(_recipientRenderer, recipients);
+        }
+
+        public void SetProviders(Building[] providers)
+        {
+            SetTargets(_providerRenderer, providers);
+        }
+
+        private void SetTargets(LineRenderer currentRenderer, Building[] targets)
+        {
+            currentRenderer.gameObject.SetActive(true);
+            currentRenderer.positionCount = targets.Length * 2;
+
+            int targetIndex = 0;
+            for (int numPos = 0; numPos < currentRenderer.positionCount; numPos+=2)
+            {
+                currentRenderer.SetPosition(numPos, transform.position);
+                currentRenderer.SetPosition(numPos + 1, targets[targetIndex++].Tile.transform.position);
+            }
+        }
+
+        public void ShowLines(bool show)
+        {
+            _recipientRenderer.enabled = show;
+            _providerRenderer.enabled = show;
+        }
     }
 }

@@ -1,43 +1,44 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Grid;
 using UnityEngine;
 
-public class CanBuildOnTile : MonoBehaviour
+namespace UI
 {
-    private Tile oldTile;
+    public class CanBuildOnTile : MonoBehaviour
+    {
+        private Tile _oldTile;
     
-    private void Update()
-    {
-        DisplayBuildableTile();
-    }
-
-    /// <summary>
-    /// This method places a red blocker on a tile that is already populated with an building or road.
-    /// When you move off of a blocked tile the red blocker will be removed
-    /// </summary>
-    void DisplayBuildableTile()
-    {
-        Tile targetTile = GridManager.Instance.HoverTile;
-
-        if (oldTile != null)
+        private void Update()
         {
-            oldTile.AllowContentPlacement.gameObject.SetActive(false);
-            oldTile.BlockContentPlacement.gameObject.SetActive(false);
-            oldTile = null;
+            DisplayBuildableTile();
         }
 
-        if (targetTile == null || targetTile == oldTile) return;
-
-        if (targetTile.HasContent)
+        /// <summary>
+        /// This method places a red blocker on a tile that is already populated with an building or road.
+        /// When you move off of a blocked tile the red blocker will be removed
+        /// </summary>
+        private void DisplayBuildableTile()
         {
-            targetTile.BlockContentPlacement.gameObject.SetActive(true);
-        }
-        else
-        {
-            targetTile.AllowContentPlacement.gameObject.SetActive(true);
-        }
+            Tile targetTile = GridManager.Instance.HoverTile;
 
-        oldTile = targetTile;
+            if (_oldTile != null)
+            {
+                _oldTile.allowContentPlacement.gameObject.SetActive(false);
+                _oldTile.blockContentPlacement.gameObject.SetActive(false);
+                _oldTile = null;
+            }
+
+            if (targetTile == null || targetTile == _oldTile) return;
+
+            if (targetTile.HasContent)
+            {
+                targetTile.blockContentPlacement.gameObject.SetActive(true);
+            }
+            else
+            {
+                targetTile.allowContentPlacement.gameObject.SetActive(true);
+            }
+
+            _oldTile = targetTile;
+        }
     }
 }
