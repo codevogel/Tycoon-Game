@@ -10,6 +10,9 @@ using UnityEngine.Events;
 
 namespace Grid
 {
+    /// <summary>
+    /// base class for Tile behaviour.
+    /// </summary>
     public class Tile : MonoBehaviour
     {
         #region fields

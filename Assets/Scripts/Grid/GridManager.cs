@@ -8,6 +8,9 @@ using Utils;
 
 namespace Grid
 {
+    /// <summary>
+    /// Singleton behaviour that handles the grid of tiles.
+    /// </summary>
     public class GridManager : SingletonBehaviour<GridManager>
     {
         public Tile tilePrefab;
@@ -85,6 +88,9 @@ namespace Grid
             }
         }
 
+        /// <summary>
+        /// Places walls and gates.
+        /// </summary>
         private void PlaceWallsGrid()
         {
             foreach (var tile in _grid)
@@ -110,6 +116,9 @@ namespace Grid
             PlaceGates();
         }
 
+        /// <summary>
+        /// Places gates.
+        /// </summary>
         private void PlaceGates()
         {
             foreach (var tile in _grid)
@@ -126,6 +135,11 @@ namespace Grid
         #endregion
 
         #region Public Getters
+        /// <summary>
+        /// Gets the neighbours for a given tile.
+        /// </summary>
+        /// <param name="tile">the tile to get the neighbours from.</param>
+        /// <returns>the neighbours of said tile</returns>
         public Neighbour[] GetNeighboursFor(Tile tile)
         {
             List<Neighbour> neighbours = new List<Neighbour>();
@@ -136,10 +150,16 @@ namespace Grid
                     neighbours.Add(GetNeighbourInDirection(tile.GridPosition, direction));
                 }
             }
-
             return neighbours.ToArray();
         }
 
+        /// <summary>
+        /// Get neighbour of a tile in a specific direction.
+        /// </summary>
+        /// <param name="indices">the indices of the starting tile.</param>
+        /// <param name="direction">the direction to look in.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         private Neighbour GetNeighbourInDirection(Vector2Int indices, Direction direction)
         {
             switch (direction)
@@ -157,6 +177,13 @@ namespace Grid
             }
         }
 
+        /// <summary>
+        /// Checks whether a neighbouring direction is not outside of the grid.
+        /// </summary>
+        /// <param name="currentIndices">the indices of the starting tile.</param>
+        /// <param name="direction">the direction to look in.</param>
+        /// <returns>whether a neighbouring direction is not outside of the grid</returns>
+        /// <exception cref="ArgumentException"></exception>
         private bool NeighbourDirectionIsAllowed(Vector2Int currentIndices, Direction direction)
         {
             switch (direction)

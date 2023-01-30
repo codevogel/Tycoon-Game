@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles behaviour for play/pause buildings
+    /// </summary>
     public class UIPauseScript : MonoBehaviour
     {
 

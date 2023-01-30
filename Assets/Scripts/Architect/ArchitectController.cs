@@ -10,6 +10,9 @@ using static Architect.Placeables.Placeable;
 
 namespace Architect
 {
+    /// <summary>
+    /// Singleton behaviour that handles the placement of Placeables.
+    /// </summary>
     public class ArchitectController : SingletonBehaviour<ArchitectController>
     {
         /// <summary>
@@ -49,14 +52,11 @@ namespace Architect
         // Update is called once per frame
         private void Update()
         {
-            //DisplayBuildableTile();
-
             if (Input.GetMouseButton(0))
             {
                 AttemptToPlaceObject();
             }
 
-            //alpha key 1 and 2 do not work?
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 IncrementBuildingPlacementRotation();
@@ -78,11 +78,7 @@ namespace Architect
             Tile targetTile = GridManager.Instance.HoverTile;
             if (targetTile != null)
             {
-                if (targetTile.HasContent)
-                {
-                    //Debug.Log("Selected building: " + targetTile.Content.Preset.name);
-                }
-                else
+                if (!targetTile.HasContent)
                 {
                     if (_firstBuildingTile == null || _firstBuildingTile.Content == null)
                     {
@@ -105,9 +101,12 @@ namespace Architect
             targetTile.PlaceContent(GetCurrentPlaceable(), rotation: _currentRotation);
         }
 
+        /// <summary>
+        /// Places a building at the target tile.
+        /// </summary>
+        /// <param name="presetToConstruct">The building to place.</param>
         internal void PlaceBuildingAt(Tile targetTile, BuildingPreset presetToConstruct)
         {
-            //TODO: save rotation ?
             targetTile.PlaceContent(new Building(presetToConstruct), rotation: _currentRotation);
         }
 

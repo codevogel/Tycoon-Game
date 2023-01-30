@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Provides behaviour for build-preview cube.
+    /// </summary>
     public class CanBuildOnTile : MonoBehaviour
     {
         private Tile _oldTile;

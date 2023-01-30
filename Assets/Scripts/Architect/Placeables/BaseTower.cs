@@ -12,6 +12,9 @@ using UnityEngine.Events;
 
 namespace Architect.Placeables
 {
+    /// <summary>
+    /// Defines behaviour for tower placeables.
+    /// </summary>
     public class BaseTower : MonoBehaviour
     {
         [BoxGroup("ammo")] [SerializeField] private TextMeshPro ammoText;
@@ -35,9 +38,8 @@ namespace Architect.Placeables
 
         private void Awake()
         {
-            //   _bulletParticleSys = GetComponentInChildren<ParticleSystem>();
             _building = transform.parent.parent.parent.GetComponent<Tile>()
-                .Content as Building; //TODO make this less jank
+                .Content as Building;
         }
 
         private void Update()
@@ -145,6 +147,9 @@ namespace Architect.Placeables
             ammoText.text = _building.Input.Get(ResourceType.Ammo).ToString();
         }
     
+        /// <summary>
+        /// Rapidly plays sounds of a turret firing.
+        /// </summary>
         private IEnumerator RapidSound()
         {
             for (int i = 0; i < soundRepeats; i++)

@@ -2,12 +2,18 @@ using System;
 
 namespace Buildings.Resources
 {
+    /// <summary>
+    /// Enum for types of resources that exist.
+    /// </summary>
     public enum ResourceType
     {
         Iron,
         Ammo
     }
 
+    /// <summary>
+    /// Base class for a Resource.
+    /// </summary>
     [Serializable]
     public class Resource
     {

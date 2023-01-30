@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Agency.AgentBehaviour" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAiAAAAAAAAAAAAAAQAQgAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Agency\AgentBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.AgentSpawner" Collapsed="true">
+    <Position X="17" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUQAAAAADAhAABEAEAiggDEAQAAIAAIAAQAABFAAAM=</HashCode>
+      <FileName>Assets\Scripts\Agency\AgentSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.BaseEnemy" Collapsed="true">
+    <Position X="17" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAQAAgEggAAAAAAIAIAAAAAAAYDAQAAAAAAABAg=</HashCode>
+      <FileName>Assets\Scripts\Agency\BaseEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.DeliveryAgent" Collapsed="true">
+    <Position X="19.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAgAAIBAAAAAAEAAAABAAAIEAAAACAAAAIEI=</HashCode>
+      <FileName>Assets\Scripts\Agency\DeliveryAgent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.EnemyManager" Collapsed="true">
+    <Position X="22" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCQAAAAAAAAAAAAAgEAAAAQAAAACACAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Agency\EnemyManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.RuntimeNavBaker" Collapsed="true">
+    <Position X="23.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIQAAAAAAAQEA=</HashCode>
+      <FileName>Assets\Scripts\Agency\RuntimeNavBaker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.TargetBehaviour" Collapsed="true">
+    <Position X="22" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAgBAYAMg=</HashCode>
+      <FileName>Assets\Scripts\Agency\TargetBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agency.Towers.EnemyDetection" Collapsed="true">
+    <Position X="23.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAIAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Agency\Towers\EnemyDetection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.ArchitectController" Collapsed="true">
+    <Position X="6.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQgABBMAQEAAAAAAAIAAQCAAAACBQAIBAAAABA=</HashCode>
+      <FileName>Assets\Scripts\Architect\ArchitectController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.BaseTower" Collapsed="true">
+    <Position X="22" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAACUAAAAgkEAAAIACAAGAACAAAAAgAEAEQCAgBEA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\BaseTower.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Building" Collapsed="true">
+    <Position X="7.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BiYBAARgCgAgCAAgCBAIAAQAEEAAgADAJABIECBAIRA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Building.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.ConstructionSite" Collapsed="true">
+    <Position X="6.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAIAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\ConstructionSite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Gate" Collapsed="true">
+    <Position X="8.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAACBAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Gate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Placeable" Collapsed="true">
+    <Position X="8.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Placeable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Road" Collapsed="true">
+    <Position X="10" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Road.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Presets.BuildingPreset" Collapsed="true">
+    <Position X="16.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAIAAAAAAAAACAAAAAAAABQAAAAAAEAAAACABA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Presets\BuildingPreset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Presets.PlaceablePreset" Collapsed="true">
+    <Position X="15.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Presets\PlaceablePreset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Architect.Placeables.Presets.RoadPreset" Collapsed="true">
+    <Position X="14" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Architect\Placeables\Presets\RoadPreset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Audio.AudioManager" Collapsed="true">
+    <Position X="9" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAEAAAAAQAgAAIAAAAAAgAAAAAIAAAAEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Audio\AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Audio.AudioScriptable" Collapsed="true">
+    <Position X="22" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAIAAAACAAAAAAAGAAAAAABAAAkgAAAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\Audio\AudioScriptable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Audio.ChangeAudioSettings" Collapsed="true">
+    <Position X="23.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Audio\ChangeAudioSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buildings.BuildingController" Collapsed="true">
+    <Position X="13.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAgBAAQAAAAAAAAQAAAAEAAAAAAAAAACAQAA=</HashCode>
+      <FileName>Assets\Scripts\Buildings\BuildingController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.EntranceExitPlacer" Collapsed="true">
+    <Position X="23.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAIAAAAEBAAAAAAAAAEgACIAAAAAAAACgA=</HashCode>
+      <FileName>Assets\Scripts\Buildings\EntranceExitPlacer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.BillboardText" Collapsed="true">
+    <Position X="26.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\BillboardText.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.BuildingConnectionsRenderer" Collapsed="true">
+    <Position X="23.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAGAAAAAAAQCEAEQAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\BuildingConnectionsRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.BuildingUIButtons" Collapsed="true">
+    <Position X="26.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAgAAACAAIAAAAAAAAAIDAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\BuildingUIButtons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.CanBuildOnTile" Collapsed="true">
+    <Position X="22" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\UI\CanBuildOnTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.DisplayResource" Collapsed="true">
+    <Position X="28.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCCAAAACAECAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\DisplayResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.PopupScript" Collapsed="true">
+    <Position X="28.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAgBQIAABAAEAAAAAAIADAAAAUAABAAAAAAGCAQkA=</HashCode>
+      <FileName>Assets\Scripts\UI\PopupScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.ShowUI" Collapsed="true">
+    <Position X="26.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgCAACAIoAAAAAAAAAAAACAAAAAAAAAHEAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\ShowUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.ToolTipOnHover" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQAAACA=</HashCode>
+      <FileName>Assets\Scripts\UI\ToolTipOnHover.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UI.UIBuildingDisplay" Collapsed="true">
+    <Position X="26.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAhAAAASAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\UIBuildingDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.UIPauseScript" Collapsed="true">
+    <Position X="28.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAEAAAAACAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\UI\UIPauseScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.WarningIcons" Collapsed="true">
+    <Position X="30.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAQAAAAAAACEAABAABAAEABEA=</HashCode>
+      <FileName>Assets\Scripts\UI\WarningIcons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buildings.Resources.Resource" Collapsed="true">
+    <Position X="26.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAABAAABgAAAAAQgAAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\Buildings\Resources\Resource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buildings.Resources.ResourceUI" Collapsed="true">
+    <Position X="30.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAABABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Buildings\Resources\ResourceUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager" Collapsed="true">
+    <Position X="26.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAABAAAAAAAAAIAAAAAAAAgAAAAAQABAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AgentTargetRenderer" Collapsed="true">
+    <Position X="22" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACAAAAAAAAAAAAAAAAAABAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\AgentTargetRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeepSelected" Collapsed="true">
+    <Position X="26.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\KeepSelected.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UsefulFunctions" Collapsed="true">
+    <Position X="26.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\UsefulFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventSystemKeepSelected" Collapsed="true">
+    <Position X="28.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\EventSystemKeepSelected.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TutorialScript" Collapsed="true">
+    <Position X="30.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAIAAAAAAAQAAAAAAAAAIQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\TutorialScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid.GridManager" Collapsed="true">
+    <Position X="11.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQGEAQAADAEAABAAIgAAgAAAAggAAgISgAkAAABAIg=</HashCode>
+      <FileName>Assets\Scripts\Grid\GridManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid.Tile" Collapsed="true">
+    <Position X="22" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAgQBAAgICgaIAAAQAoAAAAAAAQgAACBAABAABIQQ=</HashCode>
+      <FileName>Assets\Scripts\Grid\Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid.TilePreset" Collapsed="true">
+    <Position X="23.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAABAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Assets\Scripts\Grid\TilePreset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuScripts.MainMenu" Collapsed="true">
+    <Position X="22" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIIAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuScripts\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuScripts.MainMenuCubeMovement" Collapsed="true">
+    <Position X="23.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuScripts\MainMenuCubeMovement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuScripts.MainMenuGameTips" Collapsed="true">
+    <Position X="22" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAJAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuScripts\MainMenuGameTips.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuScripts.PauseMenu" Collapsed="true">
+    <Position X="23.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAhAACAAAAAAAAAAEIAAAAAAAAAAAAAgEAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MenuScripts\PauseMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController.CameraController" Collapsed="true">
+    <Position X="26.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggRQAAeCACAAAAAAAIAAJIFAAAAACAAAAQAAAAAEAAA=</HashCode>
+      <FileName>Assets\Scripts\PlayerController\CameraController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.GeneralEvents" Collapsed="true">
+    <Position X="30.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAQCAAAAAAFAAAAAAAAAAAAAAIYAAEQAAACEA=</HashCode>
+      <FileName>Assets\Scripts\Utils\GeneralEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.SingletonBehaviour&lt;T&gt;" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Utils\SingletonBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="UI.HideDirection" Collapsed="true">
+    <Position X="30.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\UI\ShowUI.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Buildings.Resources.ResourceType" Collapsed="true">
+    <Position X="28.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Buildings\Resources\Resource.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

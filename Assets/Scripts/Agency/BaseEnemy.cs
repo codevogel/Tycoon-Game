@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Agency
 {
+    /// <summary>
+    /// Provides behaviour for base enemies.
+    /// </summary>
     public class BaseEnemy : AgentBehaviour
     {
         public int health;
@@ -26,7 +29,10 @@ namespace Agency
 
         #region logic
 
-        private void CheckForInactive() //checks for inactive object in attackTargets list
+        /// <summary>
+        /// Checks for inactive object in attackTargets list
+        /// </summary>
+        private void CheckForInactive() 
         {
             foreach (var target in attackTargets.Where(target => !target.activeSelf))
             {
@@ -45,7 +51,7 @@ namespace Agency
 
         private void GoToTarget()
         {
-            var target = GetTarget();
+            var target = GetClosestTarget();
 
             if (target == null) return;
 
@@ -59,7 +65,11 @@ namespace Agency
             _timer += Time.deltaTime;
         }
 
-        private GameObject GetTarget()
+        /// <summary>
+        /// Gets closest enemy and sets it as a target
+        /// </summary>
+        /// <returns>The closest enemy.</returns>
+        private GameObject GetClosestTarget()
         {
             GameObject closestTarget = null;
             float mDist = Mathf.Infinity;
@@ -92,7 +102,7 @@ namespace Agency
             if (!(_timer > targetBehaviour.armor)) return;
             if (targetBehaviour.health > 0)
             {
-                targetBehaviour.DoDamage(damage);
+                targetBehaviour.TakeDamage(damage);
                 _timer = 0;
             }
         }

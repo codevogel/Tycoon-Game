@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the tutorial popup behaviour.
+/// </summary>
 public class TutorialScript : MonoBehaviour
 {
     // Start is called before the first frame update

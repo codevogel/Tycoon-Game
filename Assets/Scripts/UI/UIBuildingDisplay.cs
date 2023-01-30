@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles behaviour for building UI tool tips
+    /// </summary>
     public class UIBuildingDisplay : MonoBehaviour
     {
         [SerializeField] [CanBeNull] private BuildingPreset buildingInfo;

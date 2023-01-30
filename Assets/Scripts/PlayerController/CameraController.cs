@@ -7,7 +7,7 @@ namespace PlayerController
     /// Controls the menu 
     /// Does not control UI
     /// </summary>
-    public class InputHandler : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
         #region WASD variables
         [SerializeField] private float movementTime;

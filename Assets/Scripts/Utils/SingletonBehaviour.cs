@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Utils
 {
+    /// <summary>
+    /// Provides a standard Singleton base class for MonoBehaviours.
+    /// </summary>
+    /// <typeparam name="T">The type of class to create a singleton for.</typeparam>
     [DefaultExecutionOrder(-100)]
     public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {

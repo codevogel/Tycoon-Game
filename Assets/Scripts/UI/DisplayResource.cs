@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Shows total resources in a ui element.
+    /// </summary>
     public class DisplayResource : MonoBehaviour
     {
         [SerializeField] private ResourceUI resourceUI;

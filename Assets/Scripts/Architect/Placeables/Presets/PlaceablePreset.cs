@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Architect.Placeables.Presets
 {
+    /// <summary>
+    /// Scriptable preset for placeables
+    /// </summary>
     [CreateAssetMenu(fileName = "Placeable", menuName = "ScriptableObjects/Placeable", order = 1)]
     public class PlaceablePreset : ScriptableObject
     {

@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 namespace Agency
 {
+    /// <summary>
+    /// Provides behaviour for resource delivering agents.
+    /// </summary>
     [RequireComponent(typeof(AgentTargetRenderer))]
     public class DeliveryAgent : AgentBehaviour
     {
@@ -20,12 +23,21 @@ namespace Agency
             targetRenderer = GetComponent<AgentTargetRenderer>();
         }
 
+        /// <summary>
+        /// Sets the resources this agent delivers and the target it delivers it to.
+        /// </summary>
+        /// <param name="toDeliver">the resources this agent delivers</param>
+        /// <param name="target">the target it delivers it to</param>
         public void SetDeliveryTarget(Resource[] toDeliver, Building target)
         {
             storage = toDeliver;
             AddTarget(target);
         }
 
+        /// <summary>
+        /// Ädds a new target for this delivery agent.
+        /// </summary>
+        /// <param name="target">the new target</param>
         public void AddTarget(Building target)
         {
             TargetList.Add(target);

@@ -6,6 +6,10 @@ using Utils;
 
 namespace Buildings
 {
+    /// <summary>
+    /// Singleton behaviour that handles the production cycle for buildings.
+    /// Provides hooks for the buildings to subscribe on.
+    /// </summary>
     public class BuildingController : SingletonBehaviour<BuildingController>
     {
         /// <summary>
@@ -40,6 +44,12 @@ namespace Buildings
             Transport.Invoke();
         }
 
+        /// <summary>
+        /// Subscribes a building to the BuildingController hooks.
+        /// </summary>
+        /// <param name="building">the building</param>
+        /// <param name="produce">this building produces</param>
+        /// <param name="transport">this building transports</param>
         internal void SubscribeBuilding(Building building, bool produce, bool transport)
         {
             _buildings.Add(building);
@@ -55,6 +65,10 @@ namespace Buildings
             }
         }
 
+        /// <summary>
+        /// Unsubscribes a building from the BuildingController hooks.
+        /// </summary>
+        /// <param name="building">the building</param>
         internal void UnsubscribeBuilding(Building building)
         {
             _buildings.Remove(building);
